@@ -4,11 +4,11 @@ permalink: /research/
 author_profile: true
 ---
 
-##Working Papers
+## Working Papers
 
-* Comparing Strategic Voting Incentives in Plurality and IRV. Andrew Eggers and Tobias Nowacki. 2019.
+* **Comparing Strategic Voting Incentives in Plurality and IRV**. Andrew Eggers and Tobias Nowacki. 2019.
   [pdf] [code]
-* Electoral Vulnerability and Parliamentary Dissent. Tobias Nowacki. 2019.
+* **Electoral Vulnerability and Parliamentary Dissent**. Tobias Nowacki. 2019.
   [pdf] [code]
 
 {% if author.googlescholar %}
