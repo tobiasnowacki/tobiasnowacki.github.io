@@ -25,10 +25,6 @@
     padding-right: 1em;
   }
 
-  @include breakpoint($x-large) {
-    max-width: $x-large;
-  }
-
   ol {
     padding: 0;
     list-style: none;
