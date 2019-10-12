@@ -36,8 +36,11 @@ h1 {
 }
 
 h2 {
-  font-size: $type-size-3;
+  font-size: 1.4em;
   font-family:$sans-serif;
+  color: $lighter-gray;
+  background: $dark-gray;
+  padding: 5px;
   font-weight:700;
 }
 
