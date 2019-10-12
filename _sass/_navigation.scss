@@ -13,7 +13,7 @@
   margin-bottom: 0;
   padding-left: 2em;
   padding-right: 2em;
-  font-family: $sans-serif;
+  font-family: "Roboto Condensed";
   -webkit-animation: intro 0.3s both;
           animation: intro 0.3s both;
   -webkit-animation-delay: 0.30s;
@@ -183,6 +183,7 @@
     padding: 0.5rem 0;
     color: $masthead-link-color;
     text-decoration: none;
+    font-family: "Roboto Condensed";
 
     &:hover {
       color: $masthead-link-color-hover;
@@ -324,6 +325,7 @@
     display: block;
     padding: 0.125em 0;
     color: inherit;
+    font-family: "Roboto Condensed";
 
     &:hover {
       text-decoration: underline;
@@ -370,7 +372,7 @@
    ========================================================================== */
 
 .toc {
-  font-family: $sans-serif-narrow;
+  font-family: "Roboto Condensed";
   color: $gray;
   text-transform: uppercase;
   letter-spacing: 1px;
