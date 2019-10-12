@@ -7,10 +7,6 @@
    ========================================================================== */
 
 .breadcrumbs {
-  @include container;
-  @include clearfix;
-  margin-top: 0;
-  margin-bottom: 0;
   padding-left: 2em;
   padding-right: 2em;
   width: 100%;
