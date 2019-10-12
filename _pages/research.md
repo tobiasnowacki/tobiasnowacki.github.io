@@ -4,9 +4,9 @@ permalink: /research/
 author_profile: true
 ---
 
-# Working Papers
+## Working Papers
 
-## Comparing Strategic Voting Incentives in Plurality and IRV.
+### Comparing Strategic Voting Incentives in Plurality and IRV.
 Andrew Eggers and Tobias Nowacki. 2019.
 [pdf] [code]
 
