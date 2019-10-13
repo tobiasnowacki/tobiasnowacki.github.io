@@ -36,11 +36,8 @@ h1 {
 }
 
 h2 {
-  font-size: 1.4em;
+  font-size: 1.5em;
   font-family:$sans-serif;
-  color: $lighter-gray;
-  background: $dark-gray;
-  padding: 5px;
   font-weight:700;
 }
 
@@ -324,4 +321,11 @@ b, i, strong, em, blockquote, p, q, span, figure, img, h1, h2, header, input, a,
 .paper_title{
      font-size: 1.1em;
      font-weight: bold;
+}
+
+.paper_type{
+   padding-left: 40px;
+   padding-right: 40px;
+   background-colour: $dark-gray;
+   color: $lighter-gray;
 }
