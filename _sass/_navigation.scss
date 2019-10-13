@@ -11,6 +11,7 @@
   @include clearfix;
   margin-top: 0;
   margin-bottom: 0;
+  padding-top: 0.4em;
   padding-left: 2em;
   padding-right: 2em;
   width: 100%;
@@ -33,7 +34,8 @@
     list-style: none;
     font-size: $type-size-6;
     max-width: 940px;
-    padding-left:190px;
+    padding-left:10px;
+    padding-inline-start: 0px;
     float: none;
     clear: both;
     margin-left: auto;
