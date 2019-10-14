@@ -23,6 +23,7 @@
           animation-delay: 0.30s;
   max-width: none;
   margin-right: none;
+  float:none;
 
   @include breakpoint($large) {
     padding-left: 1em;
@@ -38,7 +39,7 @@
     float: none;
     clear: both;
     margin-left: auto;
-    margin-right: none;
+    margin-right: auto;
     display:inline-block;
 
     @include breakpoint($large) {
