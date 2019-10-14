@@ -14,6 +14,7 @@
   {% assign crumb_path = site.categories.path %}
 {% endif %}
 
+<div style="background-color:#ffffff;">
 <nav class="breadcrumbs">
   <ol itemscope itemtype="http://schema.org/BreadcrumbList">
     {% assign crumbs = page.url | split: '/' %}
@@ -39,3 +40,4 @@
     {% endfor %}
   </ol>
 </nav>
+</div>
