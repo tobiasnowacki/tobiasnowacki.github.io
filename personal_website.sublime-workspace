@@ -244,10 +244,19 @@
 	},
 	"expanded_folders":
 	[
-		"/Users/tnowacki/github/tobiasnowacki.github.io"
+		"/Users/tnowacki/github/tobiasnowacki.github.io",
+		"/Users/tnowacki/github/tobiasnowacki.github.io/_includes",
+		"/Users/tnowacki/github/tobiasnowacki.github.io/_includes/head",
+		"/Users/tnowacki/github/tobiasnowacki.github.io/_layouts",
+		"/Users/tnowacki/github/tobiasnowacki.github.io/_sass",
+		"/Users/tnowacki/github/tobiasnowacki.github.io/assets",
+		"/Users/tnowacki/github/tobiasnowacki.github.io/assets/css",
+		"/Users/tnowacki/github/tobiasnowacki.github.io/assets/fonts"
 	],
 	"file_history":
 	[
+		"/Users/tnowacki/github/tobiasnowacki.github.io/_sass/_variables.scss",
+		"/Users/tnowacki/github/tobiasnowacki.github.io/_includes/head.html",
 		"/Users/tnowacki/github/strategicvoting/code/utils/functions.r",
 		"/Users/tnowacki/github/strategicvoting/code/iterations_v5.R",
 		"/Users/tnowacki/github/strategicvoting/code/gather_v_vecs_v2.R",
@@ -279,6 +288,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"font"
 		],
 		"highlight": true,
 		"in_selection": false,
