@@ -12,7 +12,7 @@ Andrew Eggers and Tobias Nowacki. 2019.
 
 
 <div class="paper-title" style = "font-size: 1.2em; font-weight: bold;">Electoral Vulnerability and Parliamentary Dissent.</div>
-Andrew Eggers and Tobias Nowacki. 2019.
+Tobias Nowacki. 2019.
 
 [pdf] [code]
 
