@@ -7,9 +7,7 @@ author_profile: true
 ## Lectures / Classes
 
 * PS450X: Programming for Political Scientists, Stanford (Political Science). 2019. 
-{% include button.html button_name="Materials" button_class="outline-primary" url="https://github.com/tobiasnowacki/ps450x" %}
-
-</div>
+{% include button.html button_name="Materials" button_class="outline-primary --small" url="https://github.com/tobiasnowacki/ps450x" %}
 
 ## Teaching Assistant
 
