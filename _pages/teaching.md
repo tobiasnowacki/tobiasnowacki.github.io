@@ -13,6 +13,13 @@ author_profile: true
 
 <div style="background-color: #8C1515; color: #ffffff; padding: 3px; font-size: 0.8em;">
 
+<button name="button" onclick="http://www.google.com">Click me</button>
+
+
+[Click me (CSS)](http://www.google.com){: .btn}
+
+
+
 [Materials](https://github.com/tobiasnowacki/ps450x)
 
 </div>
