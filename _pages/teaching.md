@@ -9,7 +9,7 @@ author_profile: true
 * PS450X: Programming for Political Scientists, Stanford (Political Science). 2019. 
 
 
-{% include button.html button_name="My Button" button_class="primary"  url= "https://github.com/tobiasnowacki/ps450x %}
+{% include button.html button_name="My1 Button" button_class="outline-primary" url="google.com" %}
 
 <div style="background-color: #8C1515; color: #ffffff; padding: 3px; font-size: 0.8em;">
 
