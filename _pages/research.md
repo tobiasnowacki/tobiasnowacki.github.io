@@ -7,7 +7,7 @@ author_profile: true
 
 <div class="paper-title" style = "font-size: 1em; font-weight: bold;">Comparing Strategic Voting Incentives in Plurality and IRV.</div>
 Andrew Eggers and Tobias Nowacki. 2019. 
-[[pdf]](http://andy.egge.rs/papers/EggersNowacki_StrategicVotingIRV_20191029.pdf) [code]
+{% include button.html button_name=".pdf" button_class="outline-primary" url="http://andy.egge.rs/papers/EggersNowacki_StrategicVotingIRV_20191029.pdf" %}
 
 <div class="paper-title" style = "font-size: 1em; font-weight: bold;">Electoral Vulnerability and Parliamentary Dissent.</div>
 Tobias Nowacki. 2019.
