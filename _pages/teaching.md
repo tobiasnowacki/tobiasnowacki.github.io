@@ -8,7 +8,11 @@ author_profile: true
 
 * PS450X: Programming for Political Scientists, Stanford (Political Science). 2019. 
 
-<div style="background-color: #8C1515; color: #ffffff; padding: 3px; font-size: 0.8em;">[Materials](https://github.com/tobiasnowacki/ps450x)</div>
+<div style="background-color: #8C1515; color: #ffffff; padding: 3px; font-size: 0.8em;">
+
+[Materials](https://github.com/tobiasnowacki/ps450x)
+
+</div>
 
 ## Teaching Assistant
 
