@@ -9,4 +9,4 @@ redirect_from:
 
 {% include base_path %}
 
-A copy of my CV can be found [here](https://tobiasnowacki.github.io/files/CV_tobias_nowack).
+A copy of my CV can be found [here](https://tobiasnowacki.github.io/files/CV_tobias_nowacki.pdf).
