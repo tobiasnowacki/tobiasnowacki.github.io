@@ -8,8 +8,6 @@ redirect_from:
   - /about.html
 ---
 
-# Welcome!
-
 I am a PhD Student at Stanford University's Department of Political Science. Broadly speaking, my work focusses on political economy in developed democracies, applying innovative computational and statistical methods. 
 
 More specifically, I am interested in how electoral incentives affect strategic decision-making under aggregate uncertainty: how do voters and politicians change their behaviour when they learn more precise information about the next election, and how do institutions, such as electoral systems, moderate such changes? I am working with Gary Cox, and Andy Hall at Stanford, and Andy Eggers at Oxford.

@@ -7,8 +7,6 @@ redirect_from:
   - /contact
 ---
 
-# Contact
-
 **Tobias Nowacki**
 Department of Political Science
 616 Jane Stanford Way
