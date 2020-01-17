@@ -5,7 +5,7 @@ author_profile: true
 ---
 ## Working Papers
 
-<div class="paper-title" style = "font-size: 1em; font-weight: bold;">Susceptibility to Strategic Voting</div>
+<div class="paper-title" style = "font-size: 1em; font-weight: bold;">Susceptibility to Strategic Voting: A comparison of plurality and instant-runoff elections</div>
 Andrew Eggers and Tobias Nowacki. 2019. <br />
 <i> Under Review.</i> <br />
 {% include button.html button_name=".pdf" button_class="outline-primary --small" url="https://www.dropbox.com/s/2komhumusf8yfr2/strategic_voting_in_AV_v29.pdf?dl=0" %}
