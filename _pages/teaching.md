@@ -12,7 +12,7 @@ author_profile: true
 
 * <b>PS450C: Political Methodology III. Model-based Inference.</b> Stanford (Political Science). 2020. <br /> {% include button.html button_name="Materials" button_class="outline-primary--small" url="https://github.com/justingrimmer" %}
 
-* QS104: Quantitative Methods I, University of Warwick. 2018.
+* <b>QS104: Quantitative Methods I.</b> University of Warwick. 2018.
 
 {% include base_path %}
 
