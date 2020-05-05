@@ -10,7 +10,7 @@
   -webkit-animation-delay: 0.15s;
           animation-delay: 0.15s;
   z-index: 20;
-  background-color: $stanford;
+  background-color: $ffffff;
   color: #ffffff;
 
   &__inner-wrap {
@@ -45,8 +45,10 @@
 
 .masthead__menu-item {
   display: block;
+  float: right;
   list-style-type: none;
   white-space: nowrap;
+  color: $stanford;
 
   &--lg {
     padding-right: 2em;
@@ -56,5 +58,7 @@
 
 .masthead__menu-item--lg{
  font-family: $sans-serif;
+ float: left;
  font-size: $type-size-3;
+ color: $stanford;
 }
