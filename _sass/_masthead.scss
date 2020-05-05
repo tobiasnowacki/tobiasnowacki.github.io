@@ -38,17 +38,20 @@
   ul {
     margin: 0;
     padding: 0;
-    clear: both;
     list-style-type: none;
+    min-width: 960px;
   }
 }
 
 .masthead__menu-item {
   display: block;
-  float: right;
   list-style-type: none;
   white-space: nowrap;
   color: $stanford;
+
+  li {
+    float:right;
+  }
 
   &--lg {
     padding-right: 2em;
