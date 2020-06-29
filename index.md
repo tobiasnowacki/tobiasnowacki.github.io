@@ -2,7 +2,7 @@
 layout: default
 ---
 
-I am a Ph.D. student in Political Science at Stanford University. I am broadly interested in the political economy of elections. In particular, my research investigates how electoral institutions shape legislative behaviour, political party organisation, and accountability towards voters. I work with Gary Cox, Andy Hall, and Andy Eggers.
+I am a Ph.D. candidate in Political Science at Stanford University. I am broadly interested in the political economy of elections. In particular, my research investigates how electoral institutions shape legislative behaviour, political party organisation, and accountability towards voters. I work with Gary Cox, Andy Hall, and Andy Eggers.
 
 Prior to coming to Stanford, I was a DPhil Student at Oxford University (Nuffield College). I hold a BA in Philosophy, Politics, and Economics (PPE) from Warwick University, and a MSc in Politics Research from Oxford University (St. Cross College).
 
