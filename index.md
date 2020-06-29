@@ -11,12 +11,15 @@ You can find my CV [here](./files/cv.pdf).
 ## Research
 
 **Working Papers**
-* Susceptibility to strategic voting: a comparison of plurality and instant-runoff elections (with Andy Eggers). Working Paper
+* [Susceptibility to strategic voting: a comparison of plurality and instant-runoff elections](https://www.dropbox.com/s/2komhumusf8yfr2/strategic_voting_in_AV_v29.pdf?dl=0) (with Andy Eggers). Working Paper
+* [Do Electorally Vulnerable Legislators Dissent More Often? Evidence from Poland and the United Kingdom](https://tobiasnowacki.github.io/files/vuln_paper.pdf)
 
 **In Progress**
-* Measuring Electoral Vulnerability.
-* Do Presidential Systems Impede Growth? Evidence from Local Governments in the United States. (with Dan Thompson and Andy Hall)
-* Party Careers in the United Kingdom (with Gary Cox)
+* Analyzing Voting Games with Aggregate Uncertainty (with Andy Eggers).
+* No Order in the House of Commons? Inferring Legislators' Positions on Brexit from Parliamentary Speech (with Apoorva Lal and Nic Lyon).
+* Do Presidential Systems Impede Growth? Evidence from Local Governments in the United States (with Carl Gustafson, Dan Thompson and Andy Hall).
+* Does Party Control Matter for Fiscal Policy? Evidence from English Local Government.
+* The Rise of Party-centric Voting and Political Careers in Great Britain (with Gary Cox)
 
 ## Teaching
 
