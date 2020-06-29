@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>450c_sec3.utf8.md</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+class: center, middle
+
+# Section V: Random Forests and GAMs
+
+.course[450C]
+
+.institution[__Stanford University__ 
+
+Department of Political Science  
+  
+---  
+
+Toby Nowacki
+
+Zuhad Hai]
+
+---
+
+---
+
+# Overview
+
+1. Overview
+2. Random Forests: Intuition
+3. Random Forests: Implementation
+4. GAMs: Intuition
+5. GAMs: Implementation
+6. Midterm Revision
+
+---
+
+# Random Forests: Intuition
+
+- We want to compute the average `\(\bar{y}\)` for every partition of the data, where the partition is a unique combination of covariates.
+
+- Why is the curse of dimensionality a problem here?
+
+---
+
+# Random Forests: Intuition
+
+- Random Forests give us a way out by searching for the best way to split the multidimensional space
+
+- Within each region, compute the average value of `\(y\)`
+
+- But how to find optimal region?
+
+- Greedy algorithm: tries to find partition that satisfies local minimum of prediction error
+
+- What can go wrong with the greedy algorithm?
+
+---
+
+# Random Forests: Intuition
+
+- To mitigate concern, we introduce random sampling across variables (select `\(z\)` of the `\(J\)` variables)
+
+- When different variables are selected, we will also observe different nodes / trees!
+
+- In general, no good advice on how deep we should grow these trees / how many trees we want
+
+- Tree depth comes at a bias-variance tradeoff: the less data we have in each node, the more do we run the risk of overfitting.
+
+- Can do crossvalidation!
+
+
+---
+
+# Random Forests: Implementation
+
+Let's prepare our data.
+
+
+```r
+library(randomForest)
+library(mlbench)
+library(caret)
+
+data(Sonar)
+df &lt;- Sonar
+x &lt;- df[, 1:50]
+y &lt;- df[, 51]
+```
+
+---
+
+# Random Forests: Implementation
+
+Fit the model.
+
+
+```r
+set.seed(2020)
+control &lt;- trainControl(method = "repeatedcv", 
+                        number = 10, repeats = 3)
+metric &lt;- "Accuracy"
+rf_random &lt;- train(Class ~ ., data = df, method = "rf", 
+  metric = metric, tuneLength = 20, trControl = control)
+```
+
+---
+
+# Random Forests: Implementation
+
+Accuracy by tree length:
+
+
+```r
+plot(rf_random)  
+```
+
+![](450c_sec3_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+---
+
+# Random Forests: Implementation
+
+
+```r
+tg &lt;- expand.grid(.mtry = c(10:20))
+rf_grid &lt;- train(Class ~ ., data = df, method = "rf", 
+  metric = metric, tuneGrid = tg, trControl = control)
+```
+
+---
+
+# Random Forests: Implementation
+
+
+```r
+print(rf_grid)
+```
+
+```
+## Random Forest 
+## 
+## 208 samples
+##  60 predictor
+##   2 classes: 'M', 'R' 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold, repeated 3 times) 
+## Summary of sample sizes: 188, 188, 187, 187, 187, 187, ... 
+## Resampling results across tuning parameters:
+## 
+##   mtry  Accuracy   Kappa    
+##   10    0.8366089  0.6685702
+##   11    0.8368543  0.6695420
+##   12    0.8415296  0.6787108
+##   13    0.8286003  0.6521362
+##   14    0.8287518  0.6527369
+##   15    0.8223160  0.6390713
+##   16    0.8207359  0.6358603
+##   17    0.8173232  0.6290108
+##   18    0.8140765  0.6217789
+##   19    0.8124820  0.6193741
+##   20    0.8206566  0.6353874
+## 
+## Accuracy was used to select the optimal model using the largest value.
+## The final value used for the model was mtry = 12.
+```
+
+---
+
+# Generalised Additive Models: Intuition
+
+* GAMs introduce non-linearity into our classic regression framework:
+
+`$$y_i = \beta_0 + s_1(x_{1i}) + s_2(x_{2i}) + s_3(x_{3i}) + u_i$$`
+
+where the functions `\(s_1\)` etc. are estimated from the data.
+
+* Theory somewhat involved, but the key takeaway is that we rely on partial residuals (the relationship between `\(x_1\)` and `\(y\)` after controlling for the rest)
+
+* GAMs allow us to interpret the relationship between any variable and the outcome in a bivariate plot
+
+* Crucial to remember that the plots show changes in `\(y\)` *relative to its mean*
+
+* Interactions can be modelled with GAMs, but quickly run into the curse of dimensionality problem again.
+
+---
+
+# Generalised Additive Models: Implementation
+
+* Let's compare OLS and GAM results.
+
+* Data and example taken from Peisakhin and Rozenas (2018)
+
+* How does exposure to Russian propaganda media sources affect political behaviour?
+
+
+```r
+d &lt;- read.csv("data.csv")
+d &lt;- na.omit(d)
+
+head(d)
+```
+
+```
+##   precinct  oblast places noplaces type size ukrainian district14par
+## 1   590884 Сумська   СУМИ        1 city    3     77.44           157
+## 2   590885 Сумська   СУМИ        1 city    3     77.44           157
+## 3   590886 Сумська   СУМИ        1 city    3     77.44           157
+## 4   590887 Сумська   СУМИ        1 city    3     77.44           157
+## 5   590888 Сумська   СУМИ        1 city    3     77.44           157
+## 6   590889 Сумська   СУМИ        1 city    3     77.44           157
+##   registered14par voted14parl oppblock14par porosh14par  r14parl turnout14parl
+## 1            1552         844    0.04976303   0.2500000 13.98104     0.5438144
+## 2            2368        1370    0.04087591   0.2503650 11.24088     0.5785473
+## 3            1564         887    0.03720406   0.2559188 11.49944     0.5671355
+## 4            2152        1252    0.05191693   0.2739617 11.50160     0.5817844
+## 5            2396        1386    0.05266955   0.2647908 12.04906     0.5784641
+## 6            2324        1216    0.05098684   0.2557566 14.47368     0.5232358
+##   registered14pres voted14pres turnout14pres  r14pres Poroshenko district
+## 1             1543        1005     0.6513286 9.353234        645      157
+## 2             2318        1593     0.6872304 8.913999        978      157
+## 3             1559        1080     0.6927518 8.888889        669      157
+## 4             2167        1494     0.6894324 7.831325        913      157
+## 5             2369        1618     0.6829886 8.529048       1043      157
+## 6             2313        1450     0.6268915 9.517241        904      157
+##   registered12 voted12 turnout12      r12    roads     rlon     rlat
+## 1         1595     914 0.5730408 29.64989 97.69525 34.80067 50.90821
+## 2         2408    1463 0.6075581 27.54614 82.36148 34.79572 50.90521
+## 3         1588     968 0.6095718 28.51240 72.34944 34.79195 50.90198
+## 4         2200    1310 0.5954545 25.49618 47.23151 34.78464 50.89767
+## 5         2405    1483 0.6166320 27.10722 45.81560 34.78761 50.89615
+## 6         2377    1310 0.5511149 29.61832 42.91423 34.78686 50.89618
+##   quality.ent  quality quality.UKR distrussia Raion dist_regional distkiev
+## 1  0.02517438 36.39331   0.9753137   3.429412  Sums    -1.3383208 5.724252
+## 2  0.02725337 37.30003   0.9713760   3.440718  Sums    -1.0656445 5.722974
+## 3  0.02823821 37.46532   0.9669357   3.452665  Sums    -0.1742394 5.721955
+## 4  0.02645096 36.12863   0.9601300   3.468666  Sums     0.5177626 5.720075
+## 5  0.01220072 25.26203   0.9588459   3.473520  Sums     0.4445882 5.720681
+## 6  0.01424522 27.43475   0.9587282   3.473524  Sums     0.4758348 5.720510
+##    donetsk   qualityq
+## 1 388.1351 0.07279129
+## 2 388.0648 0.07806779
+## 3 387.9252 0.07906660
+## 4 387.8343 0.07131414
+## 5 387.5750 0.03006832
+## 6 387.6083 0.03583325
+```
+
+---
+
+# Generalised Additive Models: Implementation
+
+
+
+
+```r
+form0 &lt;- formula("r14pres ~ qualityq + distrussia + factor(Raion) + ukrainian + r12 + I(100*turnout12) + I(type == 'village') + log(registered14pres) + log(roads + 1)")
+
+m0 &lt;- lm(form0, data = d)
+coeftest(m0, vcovCL(m0, cluster = m0$model[["factor(Raion)"]]))
+```
+
+```
+## 
+## t test of coefficients:
+## 
+##                                Estimate Std. Error t value  Pr(&gt;|t|)    
+## (Intercept)                    4.619296   5.363981  0.8612 0.3892039    
+## qualityq                       6.431126   2.616363  2.4580 0.0140180 *  
+## distrussia                    -2.012976   0.725696 -2.7739 0.0055690 ** 
+## factor(Raion)Balakliis        20.586593   3.044345  6.7622 1.586e-11 ***
+## factor(Raion)Barvinkivs       13.964029   2.717876  5.1378 2.931e-07 ***
+## factor(Raion)Bilopils         -7.047792   1.514835 -4.6525 3.401e-06 ***
+## factor(Raion)Blyzniukivs       7.403772   2.365735  3.1296 0.0017650 ** 
+## factor(Raion)Bobrovyts        -0.717404   0.311357 -2.3041 0.0212743 *  
+## factor(Raion)Bohodukhivs       8.789799   2.669802  3.2923 0.0010036 ** 
+## factor(Raion)Borivs            8.143906   2.761783  2.9488 0.0032114 ** 
+## factor(Raion)Borznians        -0.310447   0.328731 -0.9444 0.3450404    
+## factor(Raion)Buryns           -4.047601   0.919786 -4.4006 1.112e-05 ***
+## factor(Raion)Chernihivs       -2.687138   0.646097 -4.1590 3.273e-05 ***
+## factor(Raion)Chuhu‹vs         20.010818   2.723104  7.3485 2.483e-13 ***
+## factor(Raion)Derhachivs       16.403024   2.501040  6.5585 6.237e-11 ***
+## factor(Raion)Dvorichans       20.521568   3.239889  6.3340 2.693e-10 ***
+## factor(Raion)Hlukhivs         -9.545842   2.799362 -3.4100 0.0006570 ***
+## factor(Raion)Horodnians       -6.996807   1.994603 -3.5079 0.0004574 ***
+## factor(Raion)Iampil           -7.114102   2.725574 -2.6101 0.0090894 ** 
+## factor(Raion)Ichnians          0.961841   0.176717  5.4428 5.606e-08 ***
+## factor(Raion)Iziums            7.175919   2.864840  2.5048 0.0122964 *  
+## factor(Raion)Kehychivs         8.639105   2.049674  4.2149 2.563e-05 ***
+## factor(Raion)Kharkivs         14.106142   1.643218  8.5845 &lt; 2.2e-16 ***
+## factor(Raion)Konotops         -3.216742   0.786300 -4.0910 4.392e-05 ***
+## factor(Raion)Koriukivs       -10.858937   1.883232 -5.7661 8.816e-09 ***
+## factor(Raion)Korops           -5.804931   1.107698 -5.2405 1.696e-07 ***
+## factor(Raion)Kozelets         -1.647017   0.688887 -2.3908 0.0168626 *  
+## factor(Raion)Krasnohrads      15.893540   2.460674  6.4590 1.199e-10 ***
+## factor(Raion)Krasnokuts        0.889309   2.578600  0.3449 0.7302048    
+## factor(Raion)Krasnopil        -4.893028   2.030055 -2.4103 0.0159911 *  
+## factor(Raion)Krolevets        -5.102434   0.982744 -5.1920 2.199e-07 ***
+## factor(Raion)Kulykivs         -2.979315   0.671933 -4.4339 9.537e-06 ***
+## factor(Raion)Kupians          13.035862   2.970974  4.3877 1.179e-05 ***
+## factor(Raion)Lebedyns         -2.676617   0.818120 -3.2717 0.0010795 ** 
+## factor(Raion)Lozivs           15.696282   2.713479  5.7846 7.910e-09 ***
+## factor(Raion)Lypovodolyns     -2.205224   0.461258 -4.7809 1.817e-06 ***
+## factor(Raion)Mens             -1.637285   0.640688 -2.5555 0.0106453 *  
+## factor(Raion)Nedryhailivs     -1.202796   0.486337 -2.4732 0.0134391 *  
+## factor(Raion)Nizhyns          -0.717353   0.258797 -2.7719 0.0056031 ** 
+## factor(Raion)Nosivs           -3.574861   0.602345 -5.9349 3.227e-09 ***
+## factor(Raion)Novhorod-Sivers  -8.084394   2.438226 -3.3157 0.0009235 ***
+## factor(Raion)Novovodolaz      13.203917   2.129028  6.2019 6.232e-10 ***
+## factor(Raion)Okhtyrs          -3.346974   0.987710 -3.3886 0.0007102 ***
+## factor(Raion)Pecheniz          4.035357   2.543501  1.5865 0.1127081    
+## factor(Raion)Pervomais        24.600618   2.768837  8.8848 &lt; 2.2e-16 ***
+## factor(Raion)Pryluts           0.313349   0.287879  1.0885 0.2764613    
+## factor(Raion)Putyvl           -6.173036   2.541799 -2.4286 0.0152070 *  
+## factor(Raion)Ripkyns          -1.746239   1.257224 -1.3890 0.1649321    
+## factor(Raion)Romens            0.147780   0.185267  0.7977 0.4251211    
+## factor(Raion)Sakhnovshchyns   11.789385   1.771491  6.6551 3.275e-11 ***
+## factor(Raion)Semenivs         -2.921789   2.925800 -0.9986 0.3180436    
+## factor(Raion)Seredyno-Buds    -5.582514   3.275345 -1.7044 0.0883944 .  
+## factor(Raion)Shchors          -7.589077   1.920729 -3.9511 7.932e-05 ***
+## factor(Raion)Shevchenkivs     15.853235   2.558006  6.1975 6.405e-10 ***
+## factor(Raion)Shostkins        -5.913201   1.701818 -3.4746 0.0005178 ***
+## factor(Raion)Sosnyts          -0.775788   0.711451 -1.0904 0.2755987    
+## factor(Raion)Sribnians         1.174180   0.246569  4.7621 1.994e-06 ***
+## factor(Raion)Sums             -2.544977   0.923921 -2.7545 0.0059079 ** 
+## factor(Raion)Talala‹vs         0.509429   0.244337  2.0849 0.0371468 *  
+## factor(Raion)Trostianets      -4.898171   1.518898 -3.2248 0.0012721 ** 
+## factor(Raion)Valkivs           6.716272   2.099081  3.1996 0.0013884 ** 
+## factor(Raion)Varvyns           0.061765   0.307699  0.2007 0.8409211    
+## factor(Raion)Velykoburluts    20.693609   3.028171  6.8337 9.724e-12 ***
+## factor(Raion)Velykopysarivs   -0.894269   2.261885 -0.3954 0.6925980    
+## factor(Raion)Vovchans         18.217125   3.148758  5.7855 7.866e-09 ***
+## factor(Raion)Zachepylivs       7.723932   1.658787  4.6564 3.338e-06 ***
+## factor(Raion)Zmiïvs           12.807877   2.632928  4.8645 1.198e-06 ***
+## factor(Raion)Zolochivs        14.873675   3.226450  4.6099 4.172e-06 ***
+## ukrainian                     -0.044281   0.017560 -2.5217 0.0117224 *  
+## r12                            0.435926   0.058783  7.4159 1.509e-13 ***
+## I(100 * turnout12)            -0.027990   0.023820 -1.1751 0.2400489    
+## I(type == "village")TRUE      -0.532686   0.446105 -1.1941 0.2325266    
+## log(registered14pres)          0.765170   0.351965  2.1740 0.0297723 *  
+## log(roads + 1)                -0.469022   0.294222 -1.5941 0.1110023    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+---
+
+# Generalised Additive Models: Implementation
+
+
+```r
+form1 &lt;- formula("r14pres ~ qualityq + s(distrussia) + factor(Raion) + ukrainian + r12 + I(100*turnout12) + I(type == 'village') + log(registered14pres) + log(roads + 1)")
+m1 &lt;- gam(form1, data = d)
+plot(m1)
+```
+
+![](450c_sec3_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+---
+
+# Generalised Additive Models: Implementation
+
+
+```r
+form2 &lt;- formula("r14pres ~ qualityq + s(distrussia) + s(ukrainian) + s(r12) + s(turnout12) + I(type == 'village') + s(registered14pres) + s(roads) + factor(Raion)")
+
+m2 &lt;- gam(form2, data = d)
+plot(m2)
+```
+
+![](450c_sec3_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;![](450c_sec3_files/figure-html/unnamed-chunk-10-2.png)&lt;!-- --&gt;![](450c_sec3_files/figure-html/unnamed-chunk-10-3.png)&lt;!-- --&gt;![](450c_sec3_files/figure-html/unnamed-chunk-10-4.png)&lt;!-- --&gt;![](450c_sec3_files/figure-html/unnamed-chunk-10-5.png)&lt;!-- --&gt;![](450c_sec3_files/figure-html/unnamed-chunk-10-6.png)&lt;!-- --&gt;
+
+---
+
+# Midterm revision
+
+* What have we covered so far?
+    * Maximum Likelihood
+    * Probit and Logit: Estimation and Uncertainty
+    * Principal Components Analysis
+    * Ridge, LASSO and Naive Bayes
+    * Random Forests, Ensemble Methods and GAMs
+
+* You should be comfortable with:
+    * fitting these models to data
+    * interpreting the model output
+    * evaluating the model's fit, strengths and weaknesses
+    * critically applying these techniques to new problems
+
+* We do **not** expect you to:
+    * solve complex algebra or other mathematical problems
+    * develop new code for applications outside of class
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

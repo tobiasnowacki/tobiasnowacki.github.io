@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>450c_sec7.utf8</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.2/header-attrs.js"></script>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+class: center, middle
+
+# Section VII: LDA and Text Scraping
+
+.course[450C]
+
+.institution[__Stanford University__ 
+
+Department of Political Science  
+  
+---  
+
+Toby Nowacki
+
+Zuhad Hai]
+
+---
+
+---
+
+# Overview
+
+1. Overview
+
+2. Midterm Recap
+
+3. Latent Dirichlet Allocation
+
+4. Text Scraping using rvest
+
+---
+
+# Midterm Recap
+
+* Everyone did well!
+
+* Mean of 86
+
+* Median of 88.5
+
+---
+
+# Midterm Recap
+
+* The variance-bias tradeoff is inherent in **any** model that we fit. 
+
+* Whether we prioritise reducing MSE or Bias depends entirely on the task at hand
+
+  * In causal inference, we still care a lot about the bias term.
+  * Model choice will depend on whether we want to infer effect size ( `\(\hat{\beta}\)` ) or make good predictions ( `\(\hat{y}\)` ).
+
+* Machine Learning is *not* a panacea to all of our problems
+
+* Fitting the same model (e.g., LASSO) with slightly different options can give you very different results!
+
+---
+
+# Latent Dirichlet Allocation
+
+* The idea is to build a hierarchical model to predict probabilities of each document belonging to different clusters.
+
+* LDA setup is very notation-heavy. (Notation slightly different from Justin's slides)
+
+  * We have `\(K\)` topics, `\(M\)` documents, `\(1, \ldots, i, \ldots, N\)` words in each document
+
+`$$\begin{align*}
+  \underset{1 \times K}{\alpha} \\
+  \underset{1 \times K}{\theta_m} &amp; \sim \mathrm{Dir}(\underset{1 \times K}{\alpha}) \\
+  \underset{1 \times K}{z_{im}} | \underset{1 \times K}{\theta_m} &amp; \sim \mathrm{Multinomial}(\underset{1 \times K}{\theta_m}) \\
+  \underset{1 \times N}{\beta_k} &amp; \sim \mathrm{Dir}(\mathbf{1}) \\
+  \underset{1 \times 1}{x_{im}} | \underset{1 \times N}{\beta_k}, z_{imk} = 1 &amp; \sim \mathrm{Multinomial}( \underset{1 \times N}{\beta_k} )
+\end{align*}$$`
+
+---
+
+# Latent Dirichlet Allocation (cont'd)
+
+* We can depict the hierarchy using a more intuitive setting:
+
+&lt;img src="lda_intuition.jpeg" width="70%" /&gt;
+
+---
+
+# Latent Dirichlet Allocation (cont'd)
+
+* Let's formalise the process a little bit, using plate notation.
+
+&lt;img src="lda_plate.jpeg" width="70%" /&gt;
+
+---
+
+# Latent Dirichlet Allocation (cont'd)
+
+* `\(\theta_m\)` (what Justin calls `\(\pi_i\)` in his slides) is the vector that describes the probability of a document belonging to each topic.
+
+* `\(\beta_{k}\)` (what Justin calls `\(\theta_k\)` in his slides) is the vector that describes the probability of word `\(i\)` conditional on topic `\(k\)`. 
+
+* We have the theoretical model -- how do we compute these quantities?
+
+  * Joint posterior can be approximated using Gibbs sampling.
+  * `\(\rightarrow\)` far deeper dive into material in 450D (Bayesian statistics)
+
+* The neat feature of LDA is that topics and words are interdependent!
+
+---
+
+# Application: Brexit-related speeches in British Parliament
+
+* To the Code! `\(\rightarrow\)` `EXAMPLE (Brexit LDA)`
+
+---
+
+# How to Get Text (Or Other Data)?
+
+* Scrape from websites
+  * use `beautifulSoup` in Python or `rvest` in `R`
+  * easiest if provided data are accessible
+  * with large datasets, hard to do (timeout and bandwidth problems)
+  * scraping is significantly easier if you can discover regularities in the source data `\(\rightarrow\)` `EXAMPLE (local elections)`
+
+---
+
+# How to Get Text (Or Other Data)? (cont'd)
+
+
+* Example use case for `rvest`:
+
+```
+library(rvest)
+lego_movie &lt;- read_html("http://www.imdb.com/title/tt1490017/")
+
+rating &lt;- lego_movie %&gt;% 
+  html_nodes("strong span") %&gt;%
+  html_text() %&gt;%
+  as.numeric()
+rating
+#&gt; [1] 7.8
+
+cast &lt;- lego_movie %&gt;%
+  html_nodes("#titleCast .primary_photo img") %&gt;%
+  html_attr("alt")
+cast
+#&gt;  [1] "Will Arnett"     "Elizabeth Banks" "Craig Berry"    
+#&gt;  [4] "Alison Brie"     "David Burrows"   "Anthony Daniels"
+#&gt;  [7] "Charlie Day"     "Amanda Farinos"  "Keith Ferguson" 
+#&gt; [10] "Will Ferrell"    "Will Forte"      "Dave Franco"    
+#&gt; [13] "Morgan Freeman"  "Todd Hansen"     "Jonah Hill"
+```
+
+---
+
+# How to Get Text (Or Other Data)? (cont'd)
+
+* Scrape from pdfs
+  * if text is machine-readable, use `pdftools` or `tabula`
+  * if text is not recognised, use OCR software (e.g., `FineReader`)
+
+* Bottom line: Original data easy to get once you're familiar with the tools!
+
+
+
+
+
+
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

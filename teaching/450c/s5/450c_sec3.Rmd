@@ -1,0 +1,236 @@
+---
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+    css: ["style.css"]
+---
+
+class: center, middle
+
+# Section V: Random Forests and GAMs
+
+.course[450C]
+
+.institution[__Stanford University__ 
+
+Department of Political Science  
+  
+---  
+
+Toby Nowacki
+
+Zuhad Hai]
+
+---
+
+---
+
+# Overview
+
+1. Overview
+2. Random Forests: Intuition
+3. Random Forests: Implementation
+4. GAMs: Intuition
+5. GAMs: Implementation
+6. Midterm Revision
+
+---
+
+# Random Forests: Intuition
+
+- We want to compute the average $\bar{y}$ for every partition of the data, where the partition is a unique combination of covariates.
+
+- Why is the curse of dimensionality a problem here?
+
+---
+
+# Random Forests: Intuition
+
+- Random Forests give us a way out by searching for the best way to split the multidimensional space
+
+- Within each region, compute the average value of $y$
+
+- But how to find optimal region?
+
+- Greedy algorithm: tries to find partition that satisfies local minimum of prediction error
+
+- What can go wrong with the greedy algorithm?
+
+---
+
+# Random Forests: Intuition
+
+- To mitigate concern, we introduce random sampling across variables (select $z$ of the $J$ variables)
+
+- When different variables are selected, we will also observe different nodes / trees!
+
+- In general, no good advice on how deep we should grow these trees / how many trees we want
+
+- Tree depth comes at a bias-variance tradeoff: the less data we have in each node, the more do we run the risk of overfitting.
+
+- Can do crossvalidation!
+
+
+---
+
+# Random Forests: Implementation
+
+Let's prepare our data.
+
+```{r, echo = TRUE, results = 'hide', message = FALSE}
+library(randomForest)
+library(mlbench)
+library(caret)
+
+data(Sonar)
+df <- Sonar
+x <- df[, 1:50]
+y <- df[, 51]
+
+```
+
+---
+
+# Random Forests: Implementation
+
+Fit the model.
+
+```{r, cache = TRUE}
+set.seed(2020)
+control <- trainControl(method = "repeatedcv", 
+                        number = 10, repeats = 3)
+metric <- "Accuracy"
+rf_random <- train(Class ~ ., data = df, method = "rf", 
+  metric = metric, tuneLength = 20, trControl = control)
+```
+
+---
+
+# Random Forests: Implementation
+
+Accuracy by tree length:
+
+```{r, fig.width = 5, fig.height = 5}
+plot(rf_random)  
+```
+
+---
+
+# Random Forests: Implementation
+
+```{r, cache = TRUE}
+tg <- expand.grid(.mtry = c(10:20))
+rf_grid <- train(Class ~ ., data = df, method = "rf", 
+  metric = metric, tuneGrid = tg, trControl = control)
+```
+
+---
+
+# Random Forests: Implementation
+
+```{r, fig.width = 5, fig.height = 5}
+print(rf_grid)
+```
+
+---
+
+# Generalised Additive Models: Intuition
+
+* GAMs introduce non-linearity into our classic regression framework:
+
+$$y_i = \beta_0 + s_1(x_{1i}) + s_2(x_{2i}) + s_3(x_{3i}) + u_i$$
+
+where the functions $s_1$ etc. are estimated from the data.
+
+* Theory somewhat involved, but the key takeaway is that we rely on partial residuals (the relationship between $x_1$ and $y$ after controlling for the rest)
+
+* GAMs allow us to interpret the relationship between any variable and the outcome in a bivariate plot
+
+* Crucial to remember that the plots show changes in $y$ *relative to its mean*
+
+* Interactions can be modelled with GAMs, but quickly run into the curse of dimensionality problem again.
+
+---
+
+# Generalised Additive Models: Implementation
+
+* Let's compare OLS and GAM results.
+
+* Data and example taken from Peisakhin and Rozenas (2018)
+
+* How does exposure to Russian propaganda media sources affect political behaviour?
+
+```{r}
+d <- read.csv("data.csv")
+d <- na.omit(d)
+
+head(d)
+
+```
+
+---
+
+# Generalised Additive Models: Implementation
+
+```{r, include = FALSE}
+
+library(sandwich)
+library(lmtest)
+library(mgcv)
+
+```
+
+```{r}
+
+form0 <- formula("r14pres ~ qualityq + distrussia + factor(Raion) + ukrainian + r12 + I(100*turnout12) + I(type == 'village') + log(registered14pres) + log(roads + 1)")
+
+m0 <- lm(form0, data = d)
+coeftest(m0, vcovCL(m0, cluster = m0$model[["factor(Raion)"]]))
+```
+
+---
+
+# Generalised Additive Models: Implementation
+
+```{r, fig.width = 5, fig.height = 5}
+form1 <- formula("r14pres ~ qualityq + s(distrussia) + factor(Raion) + ukrainian + r12 + I(100*turnout12) + I(type == 'village') + log(registered14pres) + log(roads + 1)")
+m1 <- gam(form1, data = d)
+plot(m1)
+```
+
+---
+
+# Generalised Additive Models: Implementation
+
+```{r, fig.width = 5, fig.height = 5}
+form2 <- formula("r14pres ~ qualityq + s(distrussia) + s(ukrainian) + s(r12) + s(turnout12) + I(type == 'village') + s(registered14pres) + s(roads) + factor(Raion)")
+
+m2 <- gam(form2, data = d)
+plot(m2)
+```
+
+---
+
+# Midterm revision
+
+* What have we covered so far?
+    * Maximum Likelihood
+    * Probit and Logit: Estimation and Uncertainty
+    * Principal Components Analysis
+    * Ridge, LASSO and Naive Bayes
+    * Random Forests, Ensemble Methods and GAMs
+
+* You should be comfortable with:
+    * fitting these models to data
+    * interpreting the model output
+    * evaluating the model's fit, strengths and weaknesses
+    * critically applying these techniques to new problems
+
+* We do **not** expect you to:
+    * solve complex algebra or other mathematical problems
+    * develop new code for applications outside of class
+
+
+

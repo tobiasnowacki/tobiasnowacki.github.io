@@ -1,0 +1,281 @@
+---
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+    css: ["style.css"]
+---
+
+class: center, middle
+
+# Section III: Principal Component Analysis
+
+.course[450C]
+
+.institution[__Stanford University__ 
+
+Department of Political Science  
+  
+---  
+
+Toby Nowacki
+
+Zuhad Hai]
+
+---
+
+---
+
+# Overview
+
+1. Overview
+2. Big Picture: Classification
+3. PCA: Intuition
+4. PCA: Mechanics
+5. PCA: Implementation
+
+---
+
+# Big Picture: Classification
+
+* We're leaving the realm of causal inference
+* The goal is to develop tools to accurately label and classify different observations
+
+* Difference between supervised and unsupervised learning
+* **unsupervised**: classify, categorise and cluster data
+    * principal components analysis;
+    * factor analysis;
+    * $k$-means clustering;
+    * scaling
+
+* **supervised**: prediction
+  - regression;
+  - random forests;
+  - LASSO;
+  - support vector machines;
+  - neural networks
+
+---
+
+# PCA: Intuition
+
+* Introduction to **unsupervised** problems
+
+* Useful if our data is stretched across many, many dimensions (covariates)
+
+* Dimensionality reduction technique
+
+* **Examples**
+  * How can we order Democratic congressmen from most liberal to most conservative?
+  * How can we rank vice-presidential candidates on different dimensions?
+  * How can we classify speeches or votes?
+
+---
+
+# PCA: Intuition (cont'd)
+
+* Suppose we have the following two-dimensional data, and want to reduce it to just one dimension:
+
+```{r, include = FALSE}
+library(tidyverse)
+library(mvtnorm)
+library(devtools)
+source_url("https://raw.githubusercontent.com/tobiasnowacki/RTemplates/master/plottheme.R")
+```
+
+```{r, echo = FALSE, fig.width = 5, fig.height = 5}
+mu <- c(1, 1)
+sigma <- matrix(c(1, 0.5, 0.5, 1), 
+                nrow = 2)
+
+obs <- rmvnorm(200, mu, sigma) %>%
+  as.data.frame
+
+ggplot(obs, aes(V1, V2)) +
+  geom_point() +
+  theme_tn() +
+  labs(x = "x1", y = "x2")
+```
+
+---
+
+# PCA: Intuition (cont'd)
+
+**Breakout activity**:
+
+Just by intuition, how would you reduce these points down to one dimension?
+
+---
+
+# PCA: Intuition (cont'd)
+
+Which of these lines would be a better fit?
+
+```{r, echo = FALSE, fig.width = 5, fig.height = 5}
+ggplot(obs, aes(V1, V2)) +
+  geom_point(alpha = 0.5) +
+  geom_abline(
+    slope = 0.5, 
+    colour = "red") +
+  geom_abline(intercept = c(1),
+    slope = -0.5, 
+    colour = "blue") +
+  theme_tn() +
+  labs(x = "x1", y = "x2")
+
+```
+
+---
+
+# PCA: Intuition (cont'd)
+
+**Summary**
+* The idea behind PCA is to pick the vector through the dimensions along which most the variance in the data is represented
+
+* That way, we retain as much information as possible!
+
+* Conversely, we minimise the reconstruction error -- because we maximise the amount of information that we retain.
+
+---
+
+# PCA: Mechanics
+
+* **Setup**
+  * Matrix $\mathbf{X}$ with dimensions $n \times p$.
+  * Objective is to reduce matrix to $K$ dimensions.
+  * PCA dimensions denoted by $\mathbf{w}_k$
+  * Each data point reconstructed by observation-specific weight $z_{ik}$ on dimensions $\mathbf{w}_k$.
+
+$$\hat{\mathbf{x}}_i = \sum_{k = 1}^K z_{ik} \mathbf{w}_k$$
+
+* **Objective**
+  * Pick $\mathbf{w}_k, z_{ik}$ as to minimise avg. reconstruction error:
+
+$$\min_{\mathbf{w}, z_{ik}} \frac{1}{N}\sum_{i = 1}^N ||\mathbf{x}_i - \sum_{k = 1}^K z_{ik}\mathbf{w}_k ||^2$$
+---
+
+# PCA: Mechanics (cont'd)
+
+* Following a lot of algebra, we can show that
+
+$$\mathcal{w}_k^{T} \mathcal{\Sigma} \mathbf{w}_k = \lambda_k$$
+
+such that $\mathbf{w}^*_k$ is equal to the $k$ th eigenvector of $\Sigma$, and $z_{ik}^* = \mathbf{w}_k^{T}\mathbf{x}_i$.
+
+* Why does this work?
+
+* Remember that $\mathbf{A}\mathbf{x} = \lambda \mathbf{x}$?
+  * The eigenvector $\mathbf{x}$ points out the vector in multidimensional space along which most of the variance-covariance matrix ( $\Sigma$ ) can be captured.
+  * Geometrically, we're rotating the co-ordinate system as to remove the correlation between the covariates.
+
+---
+
+# PCA: Mechanics (cont'd)
+
+$$\Sigma = \begin{bmatrix}
+1 & 0.5 \\ 0.5 & 1 
+\end{bmatrix}$$
+
+$$\mathbf{x}_1 = \begin{bmatrix}
+0.707 \\ 0.707
+\end{bmatrix}$$
+
+$$\Sigma\mathbf{x}_1 = \begin{bmatrix}
+1.06 & 1.06
+\end{bmatrix}$$
+
+---
+
+# PCA: Mechanics (cont'd)
+
+```{r, echo = FALSE, fig.width = 5, fig.height = 5}
+pca <- prcomp(obs, scale = FALSE, center = FALSE)
+
+vec_dat <- tibble(V3 = pca$rotation[1, 1], V4 = pca$rotation[2, 1], V1 = 0, V2 = 0)
+vec_dat2 <- tibble(V3 = pca$rotation[1, 2], V4 = pca$rotation[2, 2], V1 = 0, V2 = 0)
+
+ggplot(obs, aes(V1, V2)) +
+  geom_point(alpha = 0.5) +
+  geom_segment(data = vec_dat, 
+               aes(xend = V3, yend = V4),
+               lwd = 2, colour = "red", 
+               arrow = arrow(length = unit(0.03, "npc"))) +
+  geom_segment(data = vec_dat2, 
+               aes(xend = V3, yend = V4),
+               lwd = 2, colour = "blue", 
+               arrow = arrow(length = unit(0.03, "npc"))) +
+  theme_tn() +
+  labs(x = "x1", y = "x2")
+```
+
+---
+
+# PCA: Mechanics (cont'd)
+
+* Singular Value Decomposition to get eigenvectors and eigenvalues
+
+* In `R`, `eigen` implements this
+
+---
+
+# PCA: Implementation
+
+* Canned function `prcomp()` for PCA
+
+```{r}
+pca <- prcomp(obs, scale = FALSE, center = FALSE)
+pca
+
+```
+
+---
+
+# PCA: Implementation (cont'd)
+
+```{r}
+covmat <- cov(as.matrix(obs))
+covmat
+
+eigen_mat <- eigen(covmat)
+eigen_mat
+
+```
+
+---
+
+# PCA: Implementation (cont'd)
+
+* Roll-call example: We know that legislators in parliamentary systems predominantly vote along party lines
+
+* But 2017-2019 UK Parliament was unusual: many, many rebellions with respect to Brexit
+
+* Have a $n \times p$ votes matrix with $n$ MPs and $p$ divisions.
+
+* Code an `Aye` vote as `1`, a `No` vote as `-1`, and an abstention as `0`.
+
+* Use PCA to reduce dimensionality!
+
+---
+
+# PCA: Implementation (cont'd)
+
+```{r, out.width = "80%", out.height = "80%", echo = FALSE}
+knitr::include_graphics("pca_votes.pdf")
+```
+
+---
+
+# Summary
+
+* PCA is a **dimension reduction** technique
+
+* We use a simple trick in linear algebra to summarise a matrix as a vector
+
+* Convenient, but often not ideal:
+  * Interpretation of principal components?
+  * Information loss
+  * No easy way for categorical classification
+
+* Next couple of weeks: more classification methods
+

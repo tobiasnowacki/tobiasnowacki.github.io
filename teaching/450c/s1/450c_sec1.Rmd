@@ -1,0 +1,372 @@
+---
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+    css: ["style.css"]
+---
+
+class: center, middle
+
+# Section I: Maximum Likelihood Estimation
+
+.course[450C]
+
+.institution[__Stanford University__ 
+
+Department of Political Science  
+  
+---  
+
+Toby Nowacki]
+
+---
+
+---
+
+# Overview
+
+1. Overview
+2. Likelihood: An Intuition
+3. Likelihood: A Recipe
+4. Likelihood: An Example
+5. MLE and Uncertainty
+
+---
+
+# Likelihood: An Intuition
+
+* In previous classes, we asked: 
+
+**"What is the effect of X on Y?"**
+
+**"Given the (known) DGP, what is the probability of observing our sample?"**
+
+* In a clean causal inference setting, we know what the data-generating process is because we are in charge of assigning treatment (in an experiment) or assume that it is as-if random.
+
+* But not all questions lend themselves to clean causal inference.
+
+* What if we *don't know* the DGP?
+
+**"How can we best describe the process that generated this data?"**
+
+**"Given our observed sample, what is the DGP?"**
+
+* When we don't know how X and Y are related and want to describe that relationship.
+
+---
+
+# Likelihood: An Intuition (cont'd)
+
+* Previously: given our **model**, how likely are the **results** that we observe?
+
+* Now: given our **results**, how likely is the **model** that we assume?
+
+* This approach yields powerful solutions to some questions
+
+* Some methodological debates yielded dead ends (OLS v logit/probit)
+
+
+
+---
+
+# Likelihood: A Recipe
+
+<ol>
+<li> Set up distribution that we assume has generated the data in question
+$$ Pr(y_i) = f(y_i) $$
+<li> Write down likelihood function
+   -- the joint probability of observing all events under the assumed distribution
+  
+$$ L(\mathbf{\theta} | y_i) = f(y_i | \mathbf{\theta}) $$
+
+$$ L(\theta | \mathbf{y}) = \prod f(\theta | y_i) $$
+
+</ol>
+---
+
+# Likelihood: A Recipe (cont'd)
+
+<ol start=3>
+<li> Refactor so that we can take the logs more easily;
+<li> Take the logs so we have the log-likelihood function:
+$$ \ell(\mathbf{\theta} | \mathbf{y}) = \log(L(\mathbf{\theta} | \mathbf{y})) $$
+<li> Find parameters that maximise log-likelihood:
+$$ \frac{\partial \ell(\mathbf{\theta} | \mathbf{y})}{\partial \theta_1} = 0 \rightarrow \theta_1^* $$
+
+$$ \frac{\partial \ell(\mathbf{\theta} | \mathbf{y})}{\partial \theta_2} = 0 \rightarrow \theta_2^* $$
+<li> Derive Fisher information to calculate variance of MLE estimate:
+
+$$ I_n(\mathbf{\theta}) = - \mathbf{H}(L(\mathbf{\theta^*})) $$
+
+$$ I_n(\theta_1) = -  \frac{\partial^2 L(\mathbf{\theta})}{\partial \theta_1^2}(\theta^*) $$
+
+</ol>
+---
+
+# Likelihood: An Example
+
+* **Motivation:** Suppose that we have $N$ elections with two parties $(A, B)$. 
+
+* A's vote share in the last five elections (`y_samp`) was:
+
+```{r echo = FALSE, include = FALSE}
+library(tidyverse)
+library(plotly)
+library(devtools)
+source_url("https://raw.githubusercontent.com/tobiasnowacki/RTemplates/master/plottheme.R")
+set.seed(2020)
+y_samp <- rnorm(5, 50, 5)
+
+```
+
+```{r, echo = FALSE}
+print(y_samp)
+```
+
+* Can we describe the underlying data-generating process?
+
+* What's our best guess?
+
+---
+
+# Breakout Activity I: Guessing
+
+How might we best model $A$'s vote share? 
+
+What is your best guess for the vote share in the next election?
+
+---
+
+# Normal MLE Estimation
+
+* **Let's assume:** A's vote share is drawn i.i.d. from a normal distribution with (unknown) mean $\mu$ and (unknown) variance $\sigma^2$.
+
+* This gives us enough structure to proceed with MLE.
+
+* If we **knew** mean and variance, we could calculate the probability of observing any value:
+
+$$f(x) = \textrm{pdf}(\mathcal{N}(\mu, \sigma^2))$$
+
+* But we **don't**. So we have to make our best guess.
+
+---
+
+# Normal MLE Estimation (cont'd)
+
+* (Step 2). We ask: what is the likelihood of observing any set combination of parameters ( $\mu, \sigma^2$ ), **given the data that we observe?**
+
+
+$$\begin{align}
+ L(\mu, \sigma^2 | \mathbf{y}) & = \prod f(y_i | \mu, \sigma^2) \\
+ & = \prod \frac{\exp(-\frac{(y_i - \mu)^2}{2 \sigma^2})}{\sqrt{2 \pi \sigma^2}}
+\end{align}$$
+
+* (Step 3). Refactoring.
+
+$$ L(\mu, \sigma^2 | \mathbf{y}) = \frac{\exp(-\sum \frac{(y_i - \mu)^2}{2 \sigma^2})}{(2 \pi)^{n/2} \sigma^{2n/2}} $$
+
+---
+
+# Normal MLE Estimation (cont'd)
+
+* (Step 4). Taking the logs.
+
+$$ \ell(\mu, \sigma^2 | \mathbf{y}) = - \sum \frac{(y_i - \mu)^2}{2\sigma^2} - \frac{n}{2} \log(\sigma^2) + C $$
+
+* Now we can plug in any combination of candidate values for $\mu$ and $\sigma^2$ into this function and we get a score.
+
+* We have a nicely defined function $\rightarrow$ time for some coding!
+
+---
+
+# Normal MLE Estimation (cont'd)
+
+```{r}
+likelihood_normal <- function(dvec, mu, sigma2){
+  - sum((dvec - mu)^2) / (2 * sigma2) - 
+    length(dvec) / 2 * log(sigma2)
+}
+
+# Quick example
+likelihood_normal(y_samp, 43, 2)
+```
+
+---
+
+# Normal MLE Estimation (cont'd)
+
+Let's set up some more code to plot the likelihood for every combination of $\mu$ and $\sigma^2$.
+
+```{r}
+mu_rg <- seq(30, 70, by = 0.5)
+sigma2_rg <- seq(3, 60, by = 0.5)
+
+viz_df <- expand.grid(mu = mu_rg, sigma2 = sigma2_rg) %>%
+  as.data.frame %>%
+  rowwise() %>%
+  mutate(likelihood = likelihood_normal(y_samp, mu, sigma2))
+
+max_row <- which.max(viz_df$likelihood)
+viz_df[max_row, ]  
+```
+
+---
+
+```{r}
+viz_mat <- viz_df %>% 
+  pivot_wider(names_from = mu, values_from = likelihood)  %>% 
+  dplyr::select(-sigma2) %>% as.matrix
+plot_ly(x = mu_rg, y = sigma2_rg, z = viz_mat, 
+  type="surface")
+```
+
+---
+
+# Normal MLE Estimation (cont'd)
+
+* We can also find the parameter combination that optimises the likelihood algebraically.
+
+* Recall from Wednesday's lecture:
+
+$$\begin{align} \mu^* &= \frac{\sigma^2 y_i}{n} = \bar{y} \\
+\sigma^{2*} &= \frac{1}{n} \sum(y_i - \bar{y})^2
+\end{align}$$
+
+* Again, this is something that we can implement in code.
+
+---
+
+# Breakout activity II
+
+Implement the two functions for the MLE of mean and variance in `R` and compute the estimated mean and variance of the MLE normal for `y_samp`.
+
+---
+
+# MLE and uncertainty (cont'd)
+
+* What if I told you that the data were generated with:
+$$\mu = 50, \sigma^2 = 25$$
+
+* Our MLE estimate only takes the "sample" from the DGP. 
+
+* We can't make any assumptions about the parameters in the DGP: that's the thing we're trying to estimate using MLE!
+
+* But because of the convergence in distribution, we can still infer how likely the observed MLE estimate is if we assume a true parameter $\theta_0$.
+
+---
+
+# MLE and uncertainty (cont'd)
+
+* Let's create $M$ samples with size $n$ from our true DGP.
+* For each of these samples, we calculate the MLE estimate and its variance.
+
+```{r}
+get_mean_variance <- function(n){
+  y_samp <- rnorm(n, 50, 5)
+  y_mean <- mean(y_samp)
+  y_sigma <- 1/n * sum((y_samp - y_mean)^2)
+  return(c(y_mean, y_sigma))
+}
+
+n <- 5
+m <- 1000
+
+rep_vec <- 1:m
+names(rep_vec) <- 1:m
+
+samp_df <- map_dfr(rep_vec, ~ get_mean_variance(n)) %>% 
+  t %>%
+  as.data.frame
+```
+
+---
+
+# MLE and uncertainty (cont'd)
+
+```{r, fig.width = 5, fig.height = 5}
+ggplot(samp_df, aes(V1, V2)) +
+  geom_point(alpha = .5) +
+  theme_tn() +
+  labs(x = "mu_hat", y = "sigma2_hat")
+```
+---
+
+# MLE and uncertainty (cont'd)
+
+This is a two-dimensional distribution. We can characterise its (empirical) mean and variance.
+
+```{r}
+map_dfr(samp_df, ~ tibble(sampling_mean = mean(.x), 
+                          sampling_var = var(.x))) %>%
+ mutate(dim = c("mle_mean", "mle_var"))
+```
+
+What do these quantities correspond to?
+
+---
+
+# MLE and uncertainty (cont'd)
+
+What happens if we increase the sample size?
+
+```{r}
+n <- 100
+samp_df <- map_dfr(rep_vec, ~ get_mean_variance(n)) %>% 
+  t %>%
+  as.data.frame
+```
+
+---
+
+# MLE and uncertainty (cont'd)
+
+```{r, fig.width = 5, fig.height = 5}
+ggplot(samp_df, aes(V1, V2)) +
+  geom_point(alpha = .5) +
+  theme_tn() +
+  labs(x = "mu_hat", y = "sigma2_hat")
+```
+
+---
+
+# MLE and uncertainty (cont'd)
+
+```{r}
+map_dfr(samp_df, ~ tibble(sampling_mean = mean(.x), 
+                          sampling_var = var(.x))) %>%
+  mutate(dim = c("mle_mean", "mle_var"))
+```
+
+What do these quantities correspond to?
+
+---
+
+# MLE and uncertainty (cont'd)
+
+Recall the asymptotic property of MLE estimators as $n \rightarrow \infty$:
+
+$$p(\hat{\mu}, \hat{\sigma}^2) \xrightarrow{d} \text{MVN} \Big( (\bar{y}, \frac{1}{n} \sum (y_i - \bar{y})^2), \begin{bmatrix}
+  \frac{\sigma^2}{n} & 0 \\ 
+  0 & \frac{2(\sigma^2)^2}{n}\end{bmatrix} \Big)$$
+
+Since we know the true parameters...
+
+  - We have problems when $n = 5$
+  - Mean ( $\mu = 50$ ) and Variance ( $\sigma^2 = 25$ ) parameters are correctly estimated with $n = 100$
+  - "Sampling" uncertainty of these parameters falls with sample size
+  - Variance of sampling distribution converges to $25/100 = 0.25$ and $(2 * 25^2) / 100 = 12.5$, respectively
+
+---
+
+# Summary
+
+- Generic recipe for a how to think about likelihood.
+  + Decide on model
+  + Write down likelihood f'n: how likely is $\mathbf{\theta}$ given the observed data?
+  + Refactor and take the logs
+  + Maximise w.r.t. $\mathbf{\theta}$ (take first derivative)
+  + Derive second derivative / Hessian for variance
+- Applied to normal distribution (both with algebra and with code)
+- Thinking about uncertainty and inference in the context of MLE

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>450c_sec3.utf8.md</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+class: center, middle
+
+# Section III: Principal Component Analysis
+
+.course[450C]
+
+.institution[__Stanford University__ 
+
+Department of Political Science  
+  
+---  
+
+Toby Nowacki]
+
+---
+
+---
+
+# Overview
+
+1. Overview
+2. Big Picture: Classification
+3. PCA: Intuition
+4. PCA: Mechanics
+5. PCA: Implementation
+
+---
+
+# Big Picture: Classification
+
+* We're leaving the realm of causal inference
+* The goal is to develop tools to accurately label and classify different observations
+
+* Difference between supervised and unsupervised learning
+* **unsupervised**: classify, categorise and cluster data
+    * principal components analysis;
+    * factor analysis;
+    * `\(k\)`-means clustering;
+    * scaling
+
+* **supervised**: prediction
+  - regression;
+  - random forests;
+  - LASSO;
+  - support vector machines;
+  - neural networks
+
+---
+
+# PCA: Intuition
+
+* Introduction to **unsupervised** problems
+
+* Useful if our data is stretched across many, many dimensions (covariates)
+
+* Dimensionality reduction technique
+
+* **Examples**
+  * How can we order Democratic congressmen from most liberal to most conservative?
+  * How can we rank vice-presidential candidates on different dimensions?
+  * How can we classify speeches or votes?
+
+---
+
+# PCA: Intuition (cont'd)
+
+* Suppose we have the following two-dimensional data, and want to reduce it to just one dimension:
+
+
+
+![](450c_sec3_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+
+---
+
+# PCA: Intuition (cont'd)
+
+**Breakout activity**:
+
+Just by intuition, how would you reduce these points down to one dimension?
+
+---
+
+# PCA: Intuition (cont'd)
+
+Which of these lines would be a better fit?
+
+![](450c_sec3_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+---
+
+# PCA: Intuition (cont'd)
+
+**Summary**
+* The idea behind PCA is to pick the vector through the dimensions along which most the variance in the data is represented
+
+* That way, we retain as much information as possible!
+
+* Conversely, we minimise the reconstruction error -- because we maximise the amount of information that we retain.
+
+---
+
+# PCA: Mechanics
+
+* **Setup**
+  * Matrix `\(\mathbf{X}\)` with dimensions `\(n \times p\)`.
+  * Objective is to reduce matrix to `\(K\)` dimensions.
+  * PCA dimensions denoted by `\(\mathbf{w}_k\)`
+  * Each data point reconstructed by observation-specific weight `\(z_{ik}\)` on dimensions `\(\mathbf{w}_k\)`.
+
+`$$\hat{\mathbf{x}}_i = \sum_{k = 1}^K z_{ik} \mathbf{w}_k$$`
+
+* **Objective**
+  * Pick `\(\mathbf{w}_k, z_{ik}\)` as to minimise avg. reconstruction error:
+
+`$$\min_{\mathbf{w}, z_{ik}} \frac{1}{N}\sum_{i = 1}^N ||\mathbf{x}_i - \sum_{k = 1}^K z_{ik}\mathbf{w}_k ||^2$$`
+---
+
+# PCA: Mechanics (cont'd)
+
+* Following a lot of algebra, we can show that
+
+`$$\mathcal{w}_k^{T} \mathcal{\Sigma} \mathbf{w}_k = \lambda_k$$`
+
+such that `\(\mathbf{w}^*_k\)` is equal to the `\(k\)` th eigenvector of `\(\Sigma\)`, and `\(z_{ik}^* = \mathbf{w}_k^{T}\mathbf{x}_i\)`.
+
+* Why does this work?
+
+* Remember that `\(\mathbf{A}\mathbf{x} = \lambda \mathbf{x}\)`?
+  * The eigenvector `\(\mathbf{x}\)` points out the vector in multidimensional space along which most of the variance-covariance matrix ( `\(\Sigma\)` ) can be captured.
+  * Geometrically, we're rotating the co-ordinate system as to remove the correlation between the covariates.
+
+---
+
+# PCA: Mechanics (cont'd)
+
+`$$\Sigma = \begin{bmatrix}
+1 &amp; 0.5 \\ 0.5 &amp; 1 
+\end{bmatrix}$$`
+
+`$$\mathbf{x}_1 = \begin{bmatrix}
+0.707 \\ 0.707
+\end{bmatrix}$$`
+
+`$$\Sigma\mathbf{x}_1 = \begin{bmatrix}
+1.06 &amp; 1.06
+\end{bmatrix}$$`
+
+---
+
+# PCA: Mechanics (cont'd)
+
+![](450c_sec3_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+---
+
+# PCA: Mechanics (cont'd)
+
+* Singular Value Decomposition to get eigenvectors and eigenvalues
+
+* In `R`, `eigen` implements this
+
+---
+
+# PCA: Implementation
+
+* Canned function `prcomp()` for PCA
+
+
+```r
+pca &lt;- prcomp(obs, scale = FALSE, center = FALSE)
+pca
+```
+
+```
+## Standard deviations (1, .., p=2):
+## [1] 1.9327988 0.7419486
+## 
+## Rotation (n x k) = (2 x 2):
+##           PC1        PC2
+## V1 -0.6960578  0.7179858
+## V2 -0.7179858 -0.6960578
+```
+
+---
+
+# PCA: Implementation (cont'd)
+
+
+```r
+covmat &lt;- cov(as.matrix(obs))
+covmat
+```
+
+```
+##           V1        V2
+## V1 1.1037814 0.4993894
+## V2 0.4993894 0.9868873
+```
+
+```r
+eigen_mat &lt;- eigen(covmat)
+eigen_mat
+```
+
+```
+## eigen() decomposition
+## $values
+## [1] 1.5481324 0.5425363
+## 
+## $vectors
+##            [,1]       [,2]
+## [1,] -0.7470755  0.6647392
+## [2,] -0.6647392 -0.7470755
+```
+
+---
+
+# PCA: Implementation (cont'd)
+
+* Roll-call example: We know that legislators in parliamentary systems predominantly vote along party lines
+
+* But 2017-2019 UK Parliament was unusual: many, many rebellions with respect to Brexit
+
+* Have a `\(n \times p\)` votes matrix with `\(n\)` MPs and `\(p\)` divisions.
+
+* Code an `Aye` vote as `1`, a `No` vote as `-1`, and an abstention as `0`.
+
+* Use PCA to reduce dimensionality!
+
+---
+
+# PCA: Implementation (cont'd)
+
+&lt;embed src="pca_votes.pdf" width="80%" height="80%" type="application/pdf" /&gt;
+
+---
+
+# Summary
+
+* PCA is a **dimension reduction** technique
+
+* We use a simple trick in linear algebra to summarise a matrix as a vector
+
+* Convenient, but often not ideal:
+  * Interpretation of principal components?
+  * Information loss
+  * No easy way for categorical classification
+
+* Next couple of weeks: more classification methods
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
