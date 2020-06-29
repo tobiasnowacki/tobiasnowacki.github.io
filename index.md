@@ -28,6 +28,5 @@ You can find my CV [here](./files/CV.pdf).
 **Stanford**
 * 450C: Political Methodology III (450C). Model-based Inference. (2020)
 * 450X: Programming for Political Scientists. (2019/20)
-
 **Warwick**
 * QS104: Quantitative Methods I (2017)
