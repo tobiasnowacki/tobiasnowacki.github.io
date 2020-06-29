@@ -18,6 +18,8 @@ Prior to coming to Stanford, I was a DPhil Student at Oxford University (Nuffiel
 
 ## Teaching
 
+[Teaching Materials](another-page.md)
+
 **Stanford**
 * 450C: Political Methodology III (450C). Model-based Inference. (2020)
 * 450X: Programming for Political Scientists. (2019/20)

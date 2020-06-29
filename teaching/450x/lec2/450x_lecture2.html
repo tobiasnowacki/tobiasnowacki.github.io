@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>450x_lecture2.utf8.md</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+class: center, middle
+
+# Introduction to Tidyverse
+
+.course[450X]
+
+.institution[__Stanford University__ 
+
+Department of Political Science  
+  
+---  
+
+Toby Nowacki]
+
+---
+
+# Overview
+
+1. Advantages of `tidyverse`
+2. Introduction to the `tidyverse` universe
+3. The pipe and other operators
+4. `dplyr`
+5. `tidyr`
+6. `purrr`
+
+---
+
+# Why not Base R?
+
+* Limited amount of functions, often cumbersome
+
+
+```r
+df &lt;- data.frame(A = c(1, 2, 3), B = c("A", "B", "C"), C = c("T", "F", "F"))
+df$D &lt;- c(4, 5, 6)
+df$E &lt;- c(7, 8, 9)
+df$F &lt;- df$D - df$E
+print(df)
+```
+
+```
+##   A B C D E  F
+## 1 1 A T 4 7 -3
+## 2 2 B F 5 8 -3
+## 3 3 C F 6 9 -3
+```
+
+* Looking for a clean, intuitive and readable way to perform multiple operations at once
+* `data.table` provides a great alternative to tidyverse if you prefer more concise (and somewhat more performant) code
+
+---
+
+# The tidyverse Family
+
+* .fn_highlight[dplyr]: functions for data manipulation and aggregation
+	* `mutate()`, `select()`, `filter()`, `summarise()`, `arrange()`
+* .fn_highlight[tidyr]: functions to bring your data into the tidy format
+	* `pivot_longer()`, `pivot_wider()`, `unnest*()`, `separate()`, `unite()`
+* .fn_highlight[ggplot2]: functions for data visualisation ('grammar of graphics') -- separate workshop on that!
+	* `ggplot()`
+* .fn_highlight[purrr]: functions for functional programming and avoiding for-loops
+	* `map()`
+
+---
+
+# Your best friend, the pipe
+
+* `R` comes with a bunch of standard operators: `+`, `-`, etc...
+* `tidyverse` supplies the pipe: `%&gt;%` 
+* allows you to forward the output from one function straight into another.
+* Works with both `tidyverse` and other functions
+
+
+```r
+out &lt;- c("30", "40", "60")
+out2 &lt;- as.numeric(out)
+mean(out2)
+```
+
+```
+## [1] 43.33333
+```
+
+
+```r
+library(tidyverse)
+c("30", "40", "60") %&gt;% as.numeric %&gt;% mean
+```
+
+```
+## [1] 43.33333
+```
+
+---
+
+# Set intersection
+
+* Another useful operator is `%in%`.
+* Returns a logical vector with `TRUE` when element in first object is also contained in second object.
+
+
+```r
+candidates &lt;- c("biden", "warren", "sanders", "buttigieg", "harris")
+senators &lt;- c("warren", "sanders", "romney", "gilibrand", "schumer")
+
+candidates %in% senators
+```
+
+```
+## [1] FALSE  TRUE  TRUE FALSE FALSE
+```
+
+```r
+candidates[which(candidates %in% senators)]
+```
+
+```
+## [1] "warren"  "sanders"
+```
+
+---
+
+
+# A classic data aggregation problem
+
+.challenge[.challenge_title[Challenge #2.1]
+
+Get the mean and standard deviation of flight delays by month
+]
+
+
+
+```r
+library(nycflights13)
+head(flights)
+```
+
+```
+## # A tibble: 6 x 19
+##    year month   day dep_time sched_dep_time dep_delay arr_time
+##   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+## 1  2013     1     1      517            515         2      830
+## 2  2013     1     1      533            529         4      850
+## 3  2013     1     1      542            540         2      923
+## 4  2013     1     1      544            545        -1     1004
+## 5  2013     1     1      554            600        -6      812
+## 6  2013     1     1      554            558        -4      740
+## # … with 12 more variables: sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;,
+## #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
+## #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,
+## #   time_hour &lt;dttm&gt;
+```
+
+---
+
+# Base `R` solution
+
+
+```r
+mean_list &lt;- list()
+sd_list &lt;- list()
+month &lt;- unique(flights$month)
+for(y in month){
+	df_sub &lt;- subset(flights, month == y)
+	mean_list[y] &lt;- mean(df_sub$dep_delay, na.rm = T)
+	sd_list[y] &lt;- sd(df_sub$dep_delay, na.rm = T)
+}
+unlist(mean_list)
+```
+
+```
+##  [1] 10.036665 10.816843 13.227076 13.938038 12.986859 20.846332 21.727787
+##  [8] 12.611040  6.722476  6.243988  5.435362 16.576688
+```
+
+```r
+unlist(sd_list)
+```
+
+```
+##  [1] 36.39031 36.26655 40.13097 42.96626 39.35283 51.45694 51.61608
+##  [8] 37.66692 35.61480 29.67176 27.58836 41.87681
+```
+
+---
+
+# `dplyr` solution
+
+
+```r
+flights %&gt;%
+	group_by(month) %&gt;% 
+	summarise(mean = mean(dep_delay, na.rm = TRUE),
+		sd = sd(dep_delay, na.rm = TRUE))
+```
+
+```
+## # A tibble: 12 x 3
+##    month  mean    sd
+##    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1     1 10.0   36.4
+##  2     2 10.8   36.3
+##  3     3 13.2   40.1
+##  4     4 13.9   43.0
+##  5     5 13.0   39.4
+##  6     6 20.8   51.5
+##  7     7 21.7   51.6
+##  8     8 12.6   37.7
+##  9     9  6.72  35.6
+## 10    10  6.24  29.7
+## 11    11  5.44  27.6
+## 12    12 16.6   41.9
+```
+
+---
+
+# `dplyr` functions
+
+* .fn_highlight[select()] selects given columns from `data.frame` or `tibble`
+* .fn_highlight[mutate()] adds additional columns
+* .fn_highlight[filter()] selects rows that satisfy specified condition
+* .fn_highlight[by_group()] carries out further commands by group
+* .fn_highlight[summarise()] returns the results of aggregate functions
+
+---
+
+# `dplyr` example
+
+.challenge[.challenge_title[Example #2.1]
+
+Are longer-distance flights more delayed?
+]
+
+* Maybe yes, because delays 'rack up' and greater risk of unforeseen emergencies with 
+* Maybe no, because longer flights are run by bigger airlines and are more valuable, so are therefore prioritised
+
+---
+
+# `dplyr` example
+
+Let's only select the variables that we really need:
+
+
+```r
+mini_flights &lt;- flights %&gt;% 
+	dplyr::select(month, dep_delay, distance, dest, carrier)
+mini_flights %&gt;% head
+```
+
+```
+## # A tibble: 6 x 5
+##   month dep_delay distance dest  carrier
+##   &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  
+## 1     1         2     1400 IAH   UA     
+## 2     1         4     1416 IAH   UA     
+## 3     1         2     1089 MIA   AA     
+## 4     1        -1     1576 BQN   B6     
+## 5     1        -6      762 ATL   DL     
+## 6     1        -4      719 ORD   UA
+```
+
+---
+
+# `dplyr` example
+
+Only keep January to March and summarise:
+
+
+```r
+agg_flights &lt;- mini_flights %&gt;% mutate(ln_dist = log(distance)) %&gt;%
+	filter(month %in% 1:3) %&gt;% 
+	group_by(carrier, month) %&gt;% 
+	summarise(mean_del = mean(dep_delay, na.rm = TRUE),
+		mean_dist = mean(ln_dist, na.rm = TRUE))
+agg_flights
+```
+
+```
+## # A tibble: 46 x 4
+## # Groups:   carrier [16]
+##    carrier month mean_del mean_dist
+##    &lt;chr&gt;   &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+##  1 9E          1   16.9        5.93
+##  2 9E          2   16.5        5.91
+##  3 9E          3   13.4        5.95
+##  4 AA          1    6.93       7.08
+##  5 AA          2    8.28       7.08
+##  6 AA          3    8.70       7.08
+##  7 AS          1    7.35       7.78
+##  8 AS          2    0.722      7.78
+##  9 AS          3    8.42       7.78
+## 10 B6          1    9.49       6.71
+## # … with 36 more rows
+```
+
+---
+
+# `dplyr` example
+
+Plot the data points:
+
+```r
+library(ggplot2)
+ggplot(agg_flights, aes(x = mean_dist, y = mean_del)) +
+	geom_point(aes(colour = carrier)) +
+	labs(x = "log(Flight distance)", y = "Delay")
+```
+
+![](450x_lecture2_files/figure-html/Plot-1.png)&lt;!-- --&gt;
+
+---
+
+# `tidyr`
+
+* Remember the tidy data exercise from last class?
+* .fn_highlight[pivot_longer()], .fn_highlight[pivot_wider()] for recasting data frames 
+* Sometimes data manipulation or visualisation is much simpler if you recast your data frame!
+* Can also be combined with `dplyr` calls and pipes
+
+---
+
+# `tidyr` example
+
+
+```r
+data("mtcars")
+mtcars %&gt;% head
+```
+
+```
+##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+```
+
+```r
+mtcars %&gt;% 
+	dplyr::select(mpg, cyl, disp) %&gt;% 
+	mutate(cartype = rownames(.)) %&gt;%
+	pivot_longer(mpg:disp) %&gt;% head(., n = 5)
+```
+
+```
+## # A tibble: 5 x 3
+##   cartype       name  value
+##   &lt;chr&gt;         &lt;chr&gt; &lt;dbl&gt;
+## 1 Mazda RX4     mpg      21
+## 2 Mazda RX4     cyl       6
+## 3 Mazda RX4     disp    160
+## 4 Mazda RX4 Wag mpg      21
+## 5 Mazda RX4 Wag cyl       6
+```
+
+---
+
+# More `tidyverse` things
+
+* `tidyverse` functions refer to variable names directly 
+    * (the dataframe is already piped in)
+    * `\(\rightarrow\)` more on quotations and quasi-quations in [Advanced R](https://adv-r.hadley.nz/)
+* Refer to piped object with .fn_highlight[.]
+* Refer to a range of variables (in order) with colon .fn_highlight[var1:var4]
+
+---
+
+# `purrr`
+
+* writing functions avoids repetition and provides clarity, e.g.,
+
+
+```r
+ols_coefs &lt;- function(x, y){
+	solve(t(x) %*% x) %*% t(x) %*% y
+}
+
+x &lt;- matrix(c(1, 2, 3, 5, 5, 6), nrow = 3, ncol = 2)
+y &lt;- matrix(c(8, 8.5, 0), nrow = 3, ncol = 1)
+ols_coefs(x, y)
+```
+
+```
+##           [,1]
+## [1,] -4.978261
+## [2,]  2.869565
+```
+
+---
+
+# `purrr`
+
+* applying functions to each row or element can be done with a for-loop or apply family
+    * you've probably done that already
+* .fn_highlight[map()] family provides even more convenient functions
+
+
+```r
+no_list &lt;- list(8, 16, 99)
+lapply(no_list, sqrt)
+```
+
+```
+## [[1]]
+## [1] 2.828427
+## 
+## [[2]]
+## [1] 4
+## 
+## [[3]]
+## [1] 9.949874
+```
+
+---
+
+# `purrr`
+
+
+```r
+map(no_list, sqrt)
+```
+
+```
+## [[1]]
+## [1] 2.828427
+## 
+## [[2]]
+## [1] 4
+## 
+## [[3]]
+## [1] 9.949874
+```
+
+* Doesn't seem very useful yet...
+* Range of `map`-type functions in `purrr` that make life a lot easier!
+* Different `map`-type functions return different object classes (e.g., vector, data.frame...)
+
+
+---
+
+# `purrr` example
+
+[Link to GOT Example](https://jennybc.github.io/purrr-tutorial/ls01_map-name-position-shortcuts.html)
+
+---
+
+
+```r
+library(repurrrsive)
+got_chars %&gt;% head
+```
+
+```
+## [[1]]
+## [[1]]$url
+## [1] "https://www.anapioficeandfire.com/api/characters/1022"
+## 
+## [[1]]$id
+## [1] 1022
+## 
+## [[1]]$name
+## [1] "Theon Greyjoy"
+## 
+## [[1]]$gender
+## [1] "Male"
+## 
+## [[1]]$culture
+## [1] "Ironborn"
+## 
+## [[1]]$born
+## [1] "In 278 AC or 279 AC, at Pyke"
+## 
+## [[1]]$died
+## [1] ""
+## 
+## [[1]]$alive
+## [1] TRUE
+## 
+## [[1]]$titles
+## [1] "Prince of Winterfell"                                
+## [2] "Captain of Sea Bitch"                                
+## [3] "Lord of the Iron Islands (by law of the green lands)"
+## 
+## [[1]]$aliases
+## [1] "Prince of Fools" "Theon Turncloak" "Reek"            "Theon Kinslayer"
+## 
+## [[1]]$father
+## [1] ""
+## 
+## [[1]]$mother
+## [1] ""
+## 
+## [[1]]$spouse
+## [1] ""
+## 
+## [[1]]$allegiances
+## [1] "House Greyjoy of Pyke"
+## 
+## [[1]]$books
+## [1] "A Game of Thrones" "A Storm of Swords" "A Feast for Crows"
+## 
+## [[1]]$povBooks
+## [1] "A Clash of Kings"     "A Dance with Dragons"
+## 
+## [[1]]$tvSeries
+## [1] "Season 1" "Season 2" "Season 3" "Season 4" "Season 5" "Season 6"
+## 
+## [[1]]$playedBy
+## [1] "Alfie Allen"
+## 
+## 
+## [[2]]
+## [[2]]$url
+## [1] "https://www.anapioficeandfire.com/api/characters/1052"
+## 
+## [[2]]$id
+## [1] 1052
+## 
+## [[2]]$name
+## [1] "Tyrion Lannister"
+## 
+## [[2]]$gender
+## [1] "Male"
+## 
+## [[2]]$culture
+## [1] ""
+## 
+## [[2]]$born
+## [1] "In 273 AC, at Casterly Rock"
+## 
+## [[2]]$died
+## [1] ""
+## 
+## [[2]]$alive
+## [1] TRUE
+## 
+## [[2]]$titles
+## [1] "Acting Hand of the King (former)" "Master of Coin (former)"         
+## 
+## [[2]]$aliases
+##  [1] "The Imp"            "Halfman"            "The boyman"        
+##  [4] "Giant of Lannister" "Lord Tywin's Doom"  "Lord Tywin's Bane" 
+##  [7] "Yollo"              "Hugor Hill"         "No-Nose"           
+## [10] "Freak"              "Dwarf"             
+## 
+## [[2]]$father
+## [1] ""
+## 
+## [[2]]$mother
+## [1] ""
+## 
+## [[2]]$spouse
+## [1] "https://www.anapioficeandfire.com/api/characters/2044"
+## 
+## [[2]]$allegiances
+## [1] "House Lannister of Casterly Rock"
+## 
+## [[2]]$books
+## [1] "A Feast for Crows"         "The World of Ice and Fire"
+## 
+## [[2]]$povBooks
+## [1] "A Game of Thrones"    "A Clash of Kings"     "A Storm of Swords"   
+## [4] "A Dance with Dragons"
+## 
+## [[2]]$tvSeries
+## [1] "Season 1" "Season 2" "Season 3" "Season 4" "Season 5" "Season 6"
+## 
+## [[2]]$playedBy
+## [1] "Peter Dinklage"
+## 
+## 
+## [[3]]
+## [[3]]$url
+## [1] "https://www.anapioficeandfire.com/api/characters/1074"
+## 
+## [[3]]$id
+## [1] 1074
+## 
+## [[3]]$name
+## [1] "Victarion Greyjoy"
+## 
+## [[3]]$gender
+## [1] "Male"
+## 
+## [[3]]$culture
+## [1] "Ironborn"
+## 
+## [[3]]$born
+## [1] "In 268 AC or before, at Pyke"
+## 
+## [[3]]$died
+## [1] ""
+## 
+## [[3]]$alive
+## [1] TRUE
+## 
+## [[3]]$titles
+## [1] "Lord Captain of the Iron Fleet" "Master of the Iron Victory"    
+## 
+## [[3]]$aliases
+## [1] "The Iron Captain"
+## 
+## [[3]]$father
+## [1] ""
+## 
+## [[3]]$mother
+## [1] ""
+## 
+## [[3]]$spouse
+## [1] ""
+## 
+## [[3]]$allegiances
+## [1] "House Greyjoy of Pyke"
+## 
+## [[3]]$books
+## [1] "A Game of Thrones" "A Clash of Kings"  "A Storm of Swords"
+## 
+## [[3]]$povBooks
+## [1] "A Feast for Crows"    "A Dance with Dragons"
+## 
+## [[3]]$tvSeries
+## [1] ""
+## 
+## [[3]]$playedBy
+## [1] ""
+## 
+## 
+## [[4]]
+## [[4]]$url
+## [1] "https://www.anapioficeandfire.com/api/characters/1109"
+## 
+## [[4]]$id
+## [1] 1109
+## 
+## [[4]]$name
+## [1] "Will"
+## 
+## [[4]]$gender
+## [1] "Male"
+## 
+## [[4]]$culture
+## [1] ""
+## 
+## [[4]]$born
+## [1] ""
+## 
+## [[4]]$died
+## [1] "In 297 AC, at Haunted Forest"
+## 
+## [[4]]$alive
+## [1] FALSE
+## 
+## [[4]]$titles
+## [1] ""
+## 
+## [[4]]$aliases
+## [1] ""
+## 
+## [[4]]$father
+## [1] ""
+## 
+## [[4]]$mother
+## [1] ""
+## 
+## [[4]]$spouse
+## [1] ""
+## 
+## [[4]]$allegiances
+## list()
+## 
+## [[4]]$books
+## [1] "A Clash of Kings"
+## 
+## [[4]]$povBooks
+## [1] "A Game of Thrones"
+## 
+## [[4]]$tvSeries
+## [1] ""
+## 
+## [[4]]$playedBy
+## [1] "Bronson Webb"
+## 
+## 
+## [[5]]
+## [[5]]$url
+## [1] "https://www.anapioficeandfire.com/api/characters/1166"
+## 
+## [[5]]$id
+## [1] 1166
+## 
+## [[5]]$name
+## [1] "Areo Hotah"
+## 
+## [[5]]$gender
+## [1] "Male"
+## 
+## [[5]]$culture
+## [1] "Norvoshi"
+## 
+## [[5]]$born
+## [1] "In 257 AC or before, at Norvos"
+## 
+## [[5]]$died
+## [1] ""
+## 
+## [[5]]$alive
+## [1] TRUE
+## 
+## [[5]]$titles
+## [1] "Captain of the Guard at Sunspear"
+## 
+## [[5]]$aliases
+## [1] ""
+## 
+## [[5]]$father
+## [1] ""
+## 
+## [[5]]$mother
+## [1] ""
+## 
+## [[5]]$spouse
+## [1] ""
+## 
+## [[5]]$allegiances
+## [1] "House Nymeros Martell of Sunspear"
+## 
+## [[5]]$books
+## [1] "A Game of Thrones" "A Clash of Kings"  "A Storm of Swords"
+## 
+## [[5]]$povBooks
+## [1] "A Feast for Crows"    "A Dance with Dragons"
+## 
+## [[5]]$tvSeries
+## [1] "Season 5" "Season 6"
+## 
+## [[5]]$playedBy
+## [1] "DeObia Oparei"
+## 
+## 
+## [[6]]
+## [[6]]$url
+## [1] "https://www.anapioficeandfire.com/api/characters/1267"
+## 
+## [[6]]$id
+## [1] 1267
+## 
+## [[6]]$name
+## [1] "Chett"
+## 
+## [[6]]$gender
+## [1] "Male"
+## 
+## [[6]]$culture
+## [1] ""
+## 
+## [[6]]$born
+## [1] "At Hag's Mire"
+## 
+## [[6]]$died
+## [1] "In 299 AC, at Fist of the First Men"
+## 
+## [[6]]$alive
+## [1] FALSE
+## 
+## [[6]]$titles
+## [1] ""
+## 
+## [[6]]$aliases
+## [1] ""
+## 
+## [[6]]$father
+## [1] ""
+## 
+## [[6]]$mother
+## [1] ""
+## 
+## [[6]]$spouse
+## [1] ""
+## 
+## [[6]]$allegiances
+## list()
+## 
+## [[6]]$books
+## [1] "A Game of Thrones" "A Clash of Kings" 
+## 
+## [[6]]$povBooks
+## [1] "A Storm of Swords"
+## 
+## [[6]]$tvSeries
+## [1] ""
+## 
+## [[6]]$playedBy
+## [1] ""
+```
+
+---
+
+
+```r
+library(repurrrsive)
+got_chars %&gt;% str
+```
+
+```
+## List of 30
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/1022"
+##   ..$ id         : int 1022
+##   ..$ name       : chr "Theon Greyjoy"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr "Ironborn"
+##   ..$ born       : chr "In 278 AC or 279 AC, at Pyke"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr [1:3] "Prince of Winterfell" "Captain of Sea Bitch" "Lord of the Iron Islands (by law of the green lands)"
+##   ..$ aliases    : chr [1:4] "Prince of Fools" "Theon Turncloak" "Reek" "Theon Kinslayer"
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: chr "House Greyjoy of Pyke"
+##   ..$ books      : chr [1:3] "A Game of Thrones" "A Storm of Swords" "A Feast for Crows"
+##   ..$ povBooks   : chr [1:2] "A Clash of Kings" "A Dance with Dragons"
+##   ..$ tvSeries   : chr [1:6] "Season 1" "Season 2" "Season 3" "Season 4" ...
+##   ..$ playedBy   : chr "Alfie Allen"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/1052"
+##   ..$ id         : int 1052
+##   ..$ name       : chr "Tyrion Lannister"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr ""
+##   ..$ born       : chr "In 273 AC, at Casterly Rock"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr [1:2] "Acting Hand of the King (former)" "Master of Coin (former)"
+##   ..$ aliases    : chr [1:11] "The Imp" "Halfman" "The boyman" "Giant of Lannister" ...
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr "https://www.anapioficeandfire.com/api/characters/2044"
+##   ..$ allegiances: chr "House Lannister of Casterly Rock"
+##   ..$ books      : chr [1:2] "A Feast for Crows" "The World of Ice and Fire"
+##   ..$ povBooks   : chr [1:4] "A Game of Thrones" "A Clash of Kings" "A Storm of Swords" "A Dance with Dragons"
+##   ..$ tvSeries   : chr [1:6] "Season 1" "Season 2" "Season 3" "Season 4" ...
+##   ..$ playedBy   : chr "Peter Dinklage"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/1074"
+##   ..$ id         : int 1074
+##   ..$ name       : chr "Victarion Greyjoy"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr "Ironborn"
+##   ..$ born       : chr "In 268 AC or before, at Pyke"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr [1:2] "Lord Captain of the Iron Fleet" "Master of the Iron Victory"
+##   ..$ aliases    : chr "The Iron Captain"
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: chr "House Greyjoy of Pyke"
+##   ..$ books      : chr [1:3] "A Game of Thrones" "A Clash of Kings" "A Storm of Swords"
+##   ..$ povBooks   : chr [1:2] "A Feast for Crows" "A Dance with Dragons"
+##   ..$ tvSeries   : chr ""
+##   ..$ playedBy   : chr ""
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/1109"
+##   ..$ id         : int 1109
+##   ..$ name       : chr "Will"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr ""
+##   ..$ born       : chr ""
+##   ..$ died       : chr "In 297 AC, at Haunted Forest"
+##   ..$ alive      : logi FALSE
+##   ..$ titles     : chr ""
+##   ..$ aliases    : chr ""
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: list()
+##   ..$ books      : chr "A Clash of Kings"
+##   ..$ povBooks   : chr "A Game of Thrones"
+##   ..$ tvSeries   : chr ""
+##   ..$ playedBy   : chr "Bronson Webb"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/1166"
+##   ..$ id         : int 1166
+##   ..$ name       : chr "Areo Hotah"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr "Norvoshi"
+##   ..$ born       : chr "In 257 AC or before, at Norvos"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr "Captain of the Guard at Sunspear"
+##   ..$ aliases    : chr ""
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: chr "House Nymeros Martell of Sunspear"
+##   ..$ books      : chr [1:3] "A Game of Thrones" "A Clash of Kings" "A Storm of Swords"
+##   ..$ povBooks   : chr [1:2] "A Feast for Crows" "A Dance with Dragons"
+##   ..$ tvSeries   : chr [1:2] "Season 5" "Season 6"
+##   ..$ playedBy   : chr "DeObia Oparei"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/1267"
+##   ..$ id         : int 1267
+##   ..$ name       : chr "Chett"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr ""
+##   ..$ born       : chr "At Hag's Mire"
+##   ..$ died       : chr "In 299 AC, at Fist of the First Men"
+##   ..$ alive      : logi FALSE
+##   ..$ titles     : chr ""
+##   ..$ aliases    : chr ""
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: list()
+##   ..$ books      : chr [1:2] "A Game of Thrones" "A Clash of Kings"
+##   ..$ povBooks   : chr "A Storm of Swords"
+##   ..$ tvSeries   : chr ""
+##   ..$ playedBy   : chr ""
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/1295"
+##   ..$ id         : int 1295
+##   ..$ name       : chr "Cressen"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr ""
+##   ..$ born       : chr "In 219 AC or 220 AC"
+##   ..$ died       : chr "In 299 AC, at Dragonstone"
+##   ..$ alive      : logi FALSE
+##   ..$ titles     : chr "Maester"
+##   ..$ aliases    : chr ""
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: list()
+##   ..$ books      : chr [1:2] "A Storm of Swords" "A Feast for Crows"
+##   ..$ povBooks   : chr "A Clash of Kings"
+##   ..$ tvSeries   : chr "Season 2"
+##   ..$ playedBy   : chr "Oliver Ford"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/130"
+##   ..$ id         : int 130
+##   ..$ name       : chr "Arianne Martell"
+##   ..$ gender     : chr "Female"
+##   ..$ culture    : chr "Dornish"
+##   ..$ born       : chr "In 276 AC, at Sunspear"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr "Princess of Dorne"
+##   ..$ aliases    : chr ""
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: chr "House Nymeros Martell of Sunspear"
+##   ..$ books      : chr [1:4] "A Game of Thrones" "A Clash of Kings" "A Storm of Swords" "A Dance with Dragons"
+##   ..$ povBooks   : chr "A Feast for Crows"
+##   ..$ tvSeries   : chr ""
+##   ..$ playedBy   : chr ""
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/1303"
+##   ..$ id         : int 1303
+##   ..$ name       : chr "Daenerys Targaryen"
+##   ..$ gender     : chr "Female"
+##   ..$ culture    : chr "Valyrian"
+##   ..$ born       : chr "In 284 AC, at Dragonstone"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr [1:5] "Queen of the Andals and the Rhoynar and the First Men, Lord of the Seven Kingdoms" "Khaleesi of the Great Grass Sea" "Breaker of Shackles/Chains" "Queen of Meereen" ...
+##   ..$ aliases    : chr [1:11] "Dany" "Daenerys Stormborn" "The Unburnt" "Mother of Dragons" ...
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr "https://www.anapioficeandfire.com/api/characters/1346"
+##   ..$ allegiances: chr "House Targaryen of King's Landing"
+##   ..$ books      : chr "A Feast for Crows"
+##   ..$ povBooks   : chr [1:4] "A Game of Thrones" "A Clash of Kings" "A Storm of Swords" "A Dance with Dragons"
+##   ..$ tvSeries   : chr [1:6] "Season 1" "Season 2" "Season 3" "Season 4" ...
+##   ..$ playedBy   : chr "Emilia Clarke"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/1319"
+##   ..$ id         : int 1319
+##   ..$ name       : chr "Davos Seaworth"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr "Westeros"
+##   ..$ born       : chr "In 260 AC or before, at King's Landing"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr [1:4] "Ser" "Lord of the Rainwood" "Admiral of the Narrow Sea" "Hand of the King"
+##   ..$ aliases    : chr [1:5] "Onion Knight" "Davos Shorthand" "Ser Onions" "Onion Lord" ...
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr "https://www.anapioficeandfire.com/api/characters/1676"
+##   ..$ allegiances: chr [1:2] "House Baratheon of Dragonstone" "House Seaworth of Cape Wrath"
+##   ..$ books      : chr "A Feast for Crows"
+##   ..$ povBooks   : chr [1:3] "A Clash of Kings" "A Storm of Swords" "A Dance with Dragons"
+##   ..$ tvSeries   : chr [1:5] "Season 2" "Season 3" "Season 4" "Season 5" ...
+##   ..$ playedBy   : chr "Liam Cunningham"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/148"
+##   ..$ id         : int 148
+##   ..$ name       : chr "Arya Stark"
+##   ..$ gender     : chr "Female"
+##   ..$ culture    : chr "Northmen"
+##   ..$ born       : chr "In 289 AC, at Winterfell"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr "Princess"
+##   ..$ aliases    : chr [1:16] "Arya Horseface" "Arya Underfoot" "Arry" "Lumpyface" ...
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: chr "House Stark of Winterfell"
+##   ..$ books      : list()
+##   ..$ povBooks   : chr [1:5] "A Game of Thrones" "A Clash of Kings" "A Storm of Swords" "A Feast for Crows" ...
+##   ..$ tvSeries   : chr [1:6] "Season 1" "Season 2" "Season 3" "Season 4" ...
+##   ..$ playedBy   : chr "Maisie Williams"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/149"
+##   ..$ id         : int 149
+##   ..$ name       : chr "Arys Oakheart"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr "Reach"
+##   ..$ born       : chr "At Old Oak"
+##   ..$ died       : chr "In 300 AC, at the Greenblood"
+##   ..$ alive      : logi FALSE
+##   ..$ titles     : chr "Ser"
+##   ..$ aliases    : chr ""
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: chr "House Oakheart of Old Oak"
+##   ..$ books      : chr [1:4] "A Game of Thrones" "A Clash of Kings" "A Storm of Swords" "A Dance with Dragons"
+##   ..$ povBooks   : chr "A Feast for Crows"
+##   ..$ tvSeries   : chr ""
+##   ..$ playedBy   : chr ""
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/150"
+##   ..$ id         : int 150
+##   ..$ name       : chr "Asha Greyjoy"
+##   ..$ gender     : chr "Female"
+##   ..$ culture    : chr "Ironborn"
+##   ..$ born       : chr "In 275 AC or 276 AC, at Pyke"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr [1:3] "Princess" "Captain of the Black Wind" "Conqueror of Deepwood Motte"
+##   ..$ aliases    : chr [1:2] "Esgred" "The Kraken's Daughter"
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr "https://www.anapioficeandfire.com/api/characters/1372"
+##   ..$ allegiances: chr [1:2] "House Greyjoy of Pyke" "House Ironmaker"
+##   ..$ books      : chr [1:2] "A Game of Thrones" "A Clash of Kings"
+##   ..$ povBooks   : chr [1:2] "A Feast for Crows" "A Dance with Dragons"
+##   ..$ tvSeries   : chr [1:3] "Season 2" "Season 3" "Season 4"
+##   ..$ playedBy   : chr "Gemma Whelan"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/168"
+##   ..$ id         : int 168
+##   ..$ name       : chr "Barristan Selmy"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr "Westeros"
+##   ..$ born       : chr "In 237 AC"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr [1:2] "Ser" "Hand of the Queen"
+##   ..$ aliases    : chr [1:5] "Barristan the Bold" "Arstan Whitebeard" "Ser Grandfather" "Barristan the Old" ...
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: chr [1:2] "House Selmy of Harvest Hall" "House Targaryen of King's Landing"
+##   ..$ books      : chr [1:5] "A Game of Thrones" "A Clash of Kings" "A Storm of Swords" "A Feast for Crows" ...
+##   ..$ povBooks   : chr "A Dance with Dragons"
+##   ..$ tvSeries   : chr [1:4] "Season 1" "Season 3" "Season 4" "Season 5"
+##   ..$ playedBy   : chr "Ian McElhinney"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/2066"
+##   ..$ id         : int 2066
+##   ..$ name       : chr "Varamyr"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr "Free Folk"
+##   ..$ born       : chr "At a village Beyond the Wall"
+##   ..$ died       : chr "In 300 AC, at a village Beyond the Wall"
+##   ..$ alive      : logi FALSE
+##   ..$ titles     : chr ""
+##   ..$ aliases    : chr [1:3] "Varamyr Sixskins" "Haggon" "Lump"
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: list()
+##   ..$ books      : chr "A Storm of Swords"
+##   ..$ povBooks   : chr "A Dance with Dragons"
+##   ..$ tvSeries   : chr ""
+##   ..$ playedBy   : chr ""
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/208"
+##   ..$ id         : int 208
+##   ..$ name       : chr "Brandon Stark"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr "Northmen"
+##   ..$ born       : chr "In 290 AC, at Winterfell"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr "Prince of Winterfell"
+##   ..$ aliases    : chr [1:3] "Bran" "Bran the Broken" "The Winged Wolf"
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: chr "House Stark of Winterfell"
+##   ..$ books      : chr "A Feast for Crows"
+##   ..$ povBooks   : chr [1:4] "A Game of Thrones" "A Clash of Kings" "A Storm of Swords" "A Dance with Dragons"
+##   ..$ tvSeries   : chr [1:5] "Season 1" "Season 2" "Season 3" "Season 4" ...
+##   ..$ playedBy   : chr "Isaac Hempstead-Wright"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/216"
+##   ..$ id         : int 216
+##   ..$ name       : chr "Brienne of Tarth"
+##   ..$ gender     : chr "Female"
+##   ..$ culture    : chr ""
+##   ..$ born       : chr "In 280 AC"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr ""
+##   ..$ aliases    : chr [1:3] "The Maid of Tarth" "Brienne the Beauty" "Brienne the Blue"
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: chr [1:3] "House Baratheon of Storm's End" "House Stark of Winterfell" "House Tarth of Evenfall Hall"
+##   ..$ books      : chr [1:3] "A Clash of Kings" "A Storm of Swords" "A Dance with Dragons"
+##   ..$ povBooks   : chr "A Feast for Crows"
+##   ..$ tvSeries   : chr [1:5] "Season 2" "Season 3" "Season 4" "Season 5" ...
+##   ..$ playedBy   : chr "Gwendoline Christie"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/232"
+##   ..$ id         : int 232
+##   ..$ name       : chr "Catelyn Stark"
+##   ..$ gender     : chr "Female"
+##   ..$ culture    : chr "Rivermen"
+##   ..$ born       : chr "In 264 AC, at Riverrun"
+##   ..$ died       : chr "In 299 AC, at the Twins"
+##   ..$ alive      : logi FALSE
+##   ..$ titles     : chr "Lady of Winterfell"
+##   ..$ aliases    : chr [1:5] "Catelyn Tully" "Lady Stoneheart" "The Silent Sistet" "Mother Mercilesr" ...
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr "https://www.anapioficeandfire.com/api/characters/339"
+##   ..$ allegiances: chr [1:2] "House Stark of Winterfell" "House Tully of Riverrun"
+##   ..$ books      : chr [1:2] "A Feast for Crows" "A Dance with Dragons"
+##   ..$ povBooks   : chr [1:3] "A Game of Thrones" "A Clash of Kings" "A Storm of Swords"
+##   ..$ tvSeries   : chr [1:3] "Season 1" "Season 2" "Season 3"
+##   ..$ playedBy   : chr "Michelle Fairley"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/238"
+##   ..$ id         : int 238
+##   ..$ name       : chr "Cersei Lannister"
+##   ..$ gender     : chr "Female"
+##   ..$ culture    : chr "Westerman"
+##   ..$ born       : chr "In 266 AC, at Casterly Rock"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr [1:5] "Light of the West" "Queen Dowager" "Protector of the Realm" "Lady of Casterly Rock" ...
+##   ..$ aliases    : list()
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr "https://www.anapioficeandfire.com/api/characters/901"
+##   ..$ allegiances: chr "House Lannister of Casterly Rock"
+##   ..$ books      : chr [1:3] "A Game of Thrones" "A Clash of Kings" "A Storm of Swords"
+##   ..$ povBooks   : chr [1:2] "A Feast for Crows" "A Dance with Dragons"
+##   ..$ tvSeries   : chr [1:6] "Season 1" "Season 2" "Season 3" "Season 4" ...
+##   ..$ playedBy   : chr "Lena Headey"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/339"
+##   ..$ id         : int 339
+##   ..$ name       : chr "Eddard Stark"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr "Northmen"
+##   ..$ born       : chr "In 263 AC, at Winterfell"
+##   ..$ died       : chr "In 299 AC, at Great Sept of Baelor in King's Landing"
+##   ..$ alive      : logi FALSE
+##   ..$ titles     : chr [1:5] "Lord of Winterfell" "Warden of the North" "Hand of the King" "Protector of the Realm" ...
+##   ..$ aliases    : chr [1:3] "Ned" "The Ned" "The Quiet Wolf"
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr "https://www.anapioficeandfire.com/api/characters/232"
+##   ..$ allegiances: chr "House Stark of Winterfell"
+##   ..$ books      : chr [1:5] "A Clash of Kings" "A Storm of Swords" "A Feast for Crows" "A Dance with Dragons" ...
+##   ..$ povBooks   : chr "A Game of Thrones"
+##   ..$ tvSeries   : chr [1:2] "Season 1" "Season 6"
+##   ..$ playedBy   : chr [1:3] "Sean Bean" "Sebastian Croft" "Robert Aramayo"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/529"
+##   ..$ id         : int 529
+##   ..$ name       : chr "Jaime Lannister"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr "Westerlands"
+##   ..$ born       : chr "In 266 AC, at Casterly Rock"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr [1:3] "Ser" "Lord Commander of the Kingsguard" "Warden of the East (formerly)"
+##   ..$ aliases    : chr [1:4] "The Kingslayer" "The Lion of Lannister" "The Young Lion" "Cripple"
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: chr "House Lannister of Casterly Rock"
+##   ..$ books      : chr [1:2] "A Game of Thrones" "A Clash of Kings"
+##   ..$ povBooks   : chr [1:3] "A Storm of Swords" "A Feast for Crows" "A Dance with Dragons"
+##   ..$ tvSeries   : chr [1:5] "Season 1" "Season 2" "Season 3" "Season 4" ...
+##   ..$ playedBy   : chr "Nikolaj Coster-Waldau"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/576"
+##   ..$ id         : int 576
+##   ..$ name       : chr "Jon Connington"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr "Stormlands"
+##   ..$ born       : chr "In or between 263 AC and 265 AC"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr [1:3] "Lord of Griffin's Roost" "Hand of the King" "Hand of the True King"
+##   ..$ aliases    : chr "Griffthe Mad King's Hand"
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: chr [1:2] "House Connington of Griffin's Roost" "House Targaryen of King's Landing"
+##   ..$ books      : chr [1:3] "A Storm of Swords" "A Feast for Crows" "The World of Ice and Fire"
+##   ..$ povBooks   : chr "A Dance with Dragons"
+##   ..$ tvSeries   : chr ""
+##   ..$ playedBy   : chr ""
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/583"
+##   ..$ id         : int 583
+##   ..$ name       : chr "Jon Snow"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr "Northmen"
+##   ..$ born       : chr "In 283 AC"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr "Lord Commander of the Night's Watch"
+##   ..$ aliases    : chr [1:8] "Lord Snow" "Ned Stark's Bastard" "The Snow of Winterfell" "The Crow-Come-Over" ...
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: chr "House Stark of Winterfell"
+##   ..$ books      : chr "A Feast for Crows"
+##   ..$ povBooks   : chr [1:4] "A Game of Thrones" "A Clash of Kings" "A Storm of Swords" "A Dance with Dragons"
+##   ..$ tvSeries   : chr [1:6] "Season 1" "Season 2" "Season 3" "Season 4" ...
+##   ..$ playedBy   : chr "Kit Harington"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/60"
+##   ..$ id         : int 60
+##   ..$ name       : chr "Aeron Greyjoy"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr "Ironborn"
+##   ..$ born       : chr "In or between 269 AC and 273 AC, at Pyke"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr [1:2] "Priest of the Drowned God" "Captain of the Golden Storm (formerly)"
+##   ..$ aliases    : chr [1:2] "The Damphair" "Aeron Damphair"
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: chr "House Greyjoy of Pyke"
+##   ..$ books      : chr [1:4] "A Game of Thrones" "A Clash of Kings" "A Storm of Swords" "A Dance with Dragons"
+##   ..$ povBooks   : chr "A Feast for Crows"
+##   ..$ tvSeries   : chr "Season 6"
+##   ..$ playedBy   : chr "Michael Feast"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/605"
+##   ..$ id         : int 605
+##   ..$ name       : chr "Kevan Lannister"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr ""
+##   ..$ born       : chr "In 244 AC"
+##   ..$ died       : chr "In 300 AC, at King's Landing"
+##   ..$ alive      : logi FALSE
+##   ..$ titles     : chr [1:4] "Ser" "Master of laws" "Lord Regent" "Protector of the Realm"
+##   ..$ aliases    : chr ""
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr "https://www.anapioficeandfire.com/api/characters/327"
+##   ..$ allegiances: chr "House Lannister of Casterly Rock"
+##   ..$ books      : chr [1:4] "A Game of Thrones" "A Clash of Kings" "A Storm of Swords" "A Feast for Crows"
+##   ..$ povBooks   : chr "A Dance with Dragons"
+##   ..$ tvSeries   : chr [1:4] "Season 1" "Season 2" "Season 5" "Season 6"
+##   ..$ playedBy   : chr "Ian Gelder"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/743"
+##   ..$ id         : int 743
+##   ..$ name       : chr "Melisandre"
+##   ..$ gender     : chr "Female"
+##   ..$ culture    : chr "Asshai"
+##   ..$ born       : chr "At Unknown"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr ""
+##   ..$ aliases    : chr [1:5] "The Red Priestess" "The Red Woman" "The King's Red Shadow" "Lady Red" ...
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: list()
+##   ..$ books      : chr [1:3] "A Clash of Kings" "A Storm of Swords" "A Feast for Crows"
+##   ..$ povBooks   : chr "A Dance with Dragons"
+##   ..$ tvSeries   : chr [1:5] "Season 2" "Season 3" "Season 4" "Season 5" ...
+##   ..$ playedBy   : chr "Carice van Houten"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/751"
+##   ..$ id         : int 751
+##   ..$ name       : chr "Merrett Frey"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr "Rivermen"
+##   ..$ born       : chr "In 262 AC"
+##   ..$ died       : chr "In 300 AC, at Near Oldstones"
+##   ..$ alive      : logi FALSE
+##   ..$ titles     : chr ""
+##   ..$ aliases    : chr "Merrett Muttonhead"
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr "https://www.anapioficeandfire.com/api/characters/712"
+##   ..$ allegiances: chr "House Frey of the Crossing"
+##   ..$ books      : chr [1:4] "A Game of Thrones" "A Clash of Kings" "A Feast for Crows" "A Dance with Dragons"
+##   ..$ povBooks   : chr "A Storm of Swords"
+##   ..$ tvSeries   : chr ""
+##   ..$ playedBy   : chr ""
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/844"
+##   ..$ id         : int 844
+##   ..$ name       : chr "Quentyn Martell"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr "Dornish"
+##   ..$ born       : chr "In 281 AC, at Sunspear, Dorne"
+##   ..$ died       : chr "In 300 AC, at Meereen"
+##   ..$ alive      : logi FALSE
+##   ..$ titles     : chr "Prince"
+##   ..$ aliases    : chr [1:4] "Frog" "Prince Frog" "The prince who came too late" "The Dragonrider"
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: chr "House Nymeros Martell of Sunspear"
+##   ..$ books      : chr [1:4] "A Game of Thrones" "A Clash of Kings" "A Storm of Swords" "A Feast for Crows"
+##   ..$ povBooks   : chr "A Dance with Dragons"
+##   ..$ tvSeries   : chr ""
+##   ..$ playedBy   : chr ""
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/954"
+##   ..$ id         : int 954
+##   ..$ name       : chr "Samwell Tarly"
+##   ..$ gender     : chr "Male"
+##   ..$ culture    : chr "Andal"
+##   ..$ born       : chr "In 283 AC, at Horn Hill"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr ""
+##   ..$ aliases    : chr [1:7] "Sam" "Ser Piggy" "Prince Pork-chop" "Lady Piggy" ...
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr ""
+##   ..$ allegiances: chr "House Tarly of Horn Hill"
+##   ..$ books      : chr [1:3] "A Game of Thrones" "A Clash of Kings" "A Dance with Dragons"
+##   ..$ povBooks   : chr [1:2] "A Storm of Swords" "A Feast for Crows"
+##   ..$ tvSeries   : chr [1:6] "Season 1" "Season 2" "Season 3" "Season 4" ...
+##   ..$ playedBy   : chr "John Bradley-West"
+##  $ :List of 18
+##   ..$ url        : chr "https://www.anapioficeandfire.com/api/characters/957"
+##   ..$ id         : int 957
+##   ..$ name       : chr "Sansa Stark"
+##   ..$ gender     : chr "Female"
+##   ..$ culture    : chr "Northmen"
+##   ..$ born       : chr "In 286 AC, at Winterfell"
+##   ..$ died       : chr ""
+##   ..$ alive      : logi TRUE
+##   ..$ titles     : chr "Princess"
+##   ..$ aliases    : chr [1:3] "Little bird" "Alayne Stone" "Jonquil"
+##   ..$ father     : chr ""
+##   ..$ mother     : chr ""
+##   ..$ spouse     : chr "https://www.anapioficeandfire.com/api/characters/1052"
+##   ..$ allegiances: chr [1:2] "House Baelish of Harrenhal" "House Stark of Winterfell"
+##   ..$ books      : chr "A Dance with Dragons"
+##   ..$ povBooks   : chr [1:4] "A Game of Thrones" "A Clash of Kings" "A Storm of Swords" "A Feast for Crows"
+##   ..$ tvSeries   : chr [1:6] "Season 1" "Season 2" "Season 3" "Season 4" ...
+##   ..$ playedBy   : chr "Sophie Turner"
+```
+
+---
+
+.challenge[.challenge_title[Challenge #2.2]
+
+Get the names of all characters in the dataframe.
+]
+
+---
+
+.challenge[.challenge_title[Challenge #2.2]
+
+Get the names of all characters in the dataframe.
+]
+
+
+```r
+got_chars %&gt;% map("name")
+```
+
+```
+## [[1]]
+## [1] "Theon Greyjoy"
+## 
+## [[2]]
+## [1] "Tyrion Lannister"
+## 
+## [[3]]
+## [1] "Victarion Greyjoy"
+## 
+## [[4]]
+## [1] "Will"
+## 
+## [[5]]
+## [1] "Areo Hotah"
+## 
+## [[6]]
+## [1] "Chett"
+## 
+## [[7]]
+## [1] "Cressen"
+## 
+## [[8]]
+## [1] "Arianne Martell"
+## 
+## [[9]]
+## [1] "Daenerys Targaryen"
+## 
+## [[10]]
+## [1] "Davos Seaworth"
+## 
+## [[11]]
+## [1] "Arya Stark"
+## 
+## [[12]]
+## [1] "Arys Oakheart"
+## 
+## [[13]]
+## [1] "Asha Greyjoy"
+## 
+## [[14]]
+## [1] "Barristan Selmy"
+## 
+## [[15]]
+## [1] "Varamyr"
+## 
+## [[16]]
+## [1] "Brandon Stark"
+## 
+## [[17]]
+## [1] "Brienne of Tarth"
+## 
+## [[18]]
+## [1] "Catelyn Stark"
+## 
+## [[19]]
+## [1] "Cersei Lannister"
+## 
+## [[20]]
+## [1] "Eddard Stark"
+## 
+## [[21]]
+## [1] "Jaime Lannister"
+## 
+## [[22]]
+## [1] "Jon Connington"
+## 
+## [[23]]
+## [1] "Jon Snow"
+## 
+## [[24]]
+## [1] "Aeron Greyjoy"
+## 
+## [[25]]
+## [1] "Kevan Lannister"
+## 
+## [[26]]
+## [1] "Melisandre"
+## 
+## [[27]]
+## [1] "Merrett Frey"
+## 
+## [[28]]
+## [1] "Quentyn Martell"
+## 
+## [[29]]
+## [1] "Samwell Tarly"
+## 
+## [[30]]
+## [1] "Sansa Stark"
+```
+
+---
+
+.challenge[.challenge_title[Challenge #2.2]
+
+Get the names of all characters in the dataframe.
+]
+
+
+```r
+got_chars %&gt;% map_chr("name")
+```
+
+```
+##  [1] "Theon Greyjoy"      "Tyrion Lannister"   "Victarion Greyjoy" 
+##  [4] "Will"               "Areo Hotah"         "Chett"             
+##  [7] "Cressen"            "Arianne Martell"    "Daenerys Targaryen"
+## [10] "Davos Seaworth"     "Arya Stark"         "Arys Oakheart"     
+## [13] "Asha Greyjoy"       "Barristan Selmy"    "Varamyr"           
+## [16] "Brandon Stark"      "Brienne of Tarth"   "Catelyn Stark"     
+## [19] "Cersei Lannister"   "Eddard Stark"       "Jaime Lannister"   
+## [22] "Jon Connington"     "Jon Snow"           "Aeron Greyjoy"     
+## [25] "Kevan Lannister"    "Melisandre"         "Merrett Frey"      
+## [28] "Quentyn Martell"    "Samwell Tarly"      "Sansa Stark"
+```
+
+---
+
+.challenge[.challenge_title[Challenge #2.3]
+
+Assemble a dataframe with all the key information.
+]
+
+---
+
+.challenge[.challenge_title[Challenge #2.3]
+
+Assemble a dataframe with all the key information.
+]
+
+
+```r
+library(magrittr)
+got_chars %&gt;%
+	map_dfr(extract, c("name", "culture", "gender", "born", "alive"))
+```
+
+```
+## # A tibble: 30 x 5
+##    name              culture gender born                              alive
+##    &lt;chr&gt;             &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;                             &lt;lgl&gt;
+##  1 Theon Greyjoy     Ironbo… Male   In 278 AC or 279 AC, at Pyke      TRUE 
+##  2 Tyrion Lannister  ""      Male   In 273 AC, at Casterly Rock       TRUE 
+##  3 Victarion Greyjoy Ironbo… Male   In 268 AC or before, at Pyke      TRUE 
+##  4 Will              ""      Male   ""                                FALSE
+##  5 Areo Hotah        Norvos… Male   In 257 AC or before, at Norvos    TRUE 
+##  6 Chett             ""      Male   At Hag's Mire                     FALSE
+##  7 Cressen           ""      Male   In 219 AC or 220 AC               FALSE
+##  8 Arianne Martell   Dornish Female In 276 AC, at Sunspear            TRUE 
+##  9 Daenerys Targary… Valyri… Female In 284 AC, at Dragonstone         TRUE 
+## 10 Davos Seaworth    Wester… Male   In 260 AC or before, at King's L… TRUE 
+## # … with 20 more rows
+```
+
+
+---
+
+# Conclusion
+
+* Base R is *sufficient*, but often not very comfortable.
+* `tidyverse` provides a useful array of functions to help us out.
+* The pipe, `%&gt;%`, allows for combining multiple data wrangling operations into one workflow.
+* As always, pick whatever method works best for your specific problem: `tidyverse` might not always be the best!
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,389 @@
+---
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+    css: ["style.css"]
+---
+
+class: center, middle
+
+# Functional programming
+
+.course[450X]
+
+.institution[__Stanford University__ 
+
+Department of Political Science  
+  
+---  
+
+Toby Nowacki]
+
+---
+
+---
+
+# Overview
+
+1. Why functions?
+2. Common pitfalls
+2. Functionals
+3. Function factories
+4. Recursion
+
+---
+
+# Why functions?
+
+* A function is a mapping from some inputs `\(\mathbf{X}\)` to some outputs `\(\mathbf{Y}\)`.
+* Whenever we carry out the same process more than once, a function is strongly recommended
+* Much more convenient for both tractability and debugging
+* Allow for decomposition of complex problems into smaller pieces
+
+---
+
+# Basic function architecture
+
+```{r}
+foo <- function(x, y){
+	return(x + y)
+}
+```
+
+---
+
+# Common pitfalls (1)
+
+Can you spot the problem?
+
+```{r}
+foo <- function(x, y){
+	return(x + y)
+}
+
+item1 <- 3
+item2 <- "five"
+```
+
+```
+foo(item1, item2)
+```
+---
+
+# Solution (1)
+
+```{r}
+foo <- function(x, y){
+	stopifnot(is.numeric(x), is.numeric(y))
+	return(x + y)
+}
+```
+
+```
+foo(item1, item2)
+# Error in foo(item1, item2) : is.numeric(y) is not TRUE
+# Calls: <Anonymous> ... withCallingHandlers -> withVisible -> eval -> eval -> # foo -> stopifnot
+```
+
+* An alternative is using `tryCatch()`.
+
+---
+
+# Common pitfall (2)
+
+What's wrong here?
+
+```{r}
+bar <- function(x, y, z){
+	out <- x + y
+	return(out)
+	out_two <- out + z
+	return(out_two)
+}
+
+```
+
+---
+
+# Common pitfall (2)
+
+What's wrong here?
+
+```{r}
+bar <- function(x, y, z){
+	out <- x + y
+	return(out)
+	out_two <- out + z
+	return(out_two)
+}
+
+bar(2, 4, 6)
+```
+
+---
+
+# Solution (2)
+
+```{r}
+bar <- function(x, y, z){
+	out <- x + y
+	cat(paste0("Intermediate output: ", out))
+	out_two <- out + z
+	return(out_two)
+}
+
+bar(2, 4, 6)
+```
+
+---
+
+# Functionals
+
+* Functions can take *other functions* as arguments!
+* we've seen this before in the form of `lapply` or `map`:
+
+```{r include = FALSE, }
+library(tidyverse)
+```
+
+```{r}
+vec <- 2:6
+map_dbl(vec, sqrt)
+```
+
+* Other functions that rely on functionals are, for example, .fn_highlight[apply], .fn_highlight[optimize], .fn_highlight[integrate]
+
+---
+
+# Functionals (cont'd)
+
+* You can write your own functions with functionals:
+
+```{r}
+print_summary <- function(data, fn){
+	out <- fn(data)
+	return(paste0("Statistic: ", out))
+}
+print_summary(c(2, 4, 4), mean)
+print_summary(c(2, 4, 4), max)
+```
+
+---
+
+# Functionals (cont'd)
+
+* But what about this?
+
+```{r}
+blob <- c(2, 4, 4, NA)
+print_summary(blob, mean)
+```
+
+* Can't pass additional arguments to `mean`:
+```
+print_summary(blob, mean(na.rm = FALSE))
+```
+
+---
+
+# Functionals (cont'd)
+
+* Fortunately, there is a shortcut!
+* .fn_highlight[...] lets us pass on whatever else is specified as an input argument.
+
+```{r}
+print_summary <- function(x, f, ...){
+	return(f(x, ...))
+}
+print_summary(blob, mean, na.rm = TRUE)
+```
+
+---
+
+# Functionals (cont'd)
+
+* Selecting columns in dataframes is a little bit trickier.
+
+```{r}
+
+df <- tibble(name = c("A", "B", "C"),
+			value = c(30, 16, 45))
+
+col_summary <- function(dataframe, col_name, f, ...){
+	get_col <- dataframe %>% dplyr::select(col_name)
+	return(f(get_col, ...))
+}
+```
+
+```
+col_summary(df, value, mean)
+# Error in .f(.x[[i]], ...) : object 'value' not found
+```
+
+---
+
+# Functionals (cont'd)
+
+* Have to rely on something called .fn_highlight[tidyeval] 
+* Look up quotations and quasi-quotations!
+
+```{r}
+col_summary <- function(dataframe, col_name, f, ...){
+	col_name <- enquo(col_name)
+	get_col <- dataframe %>%
+		summarise(out = f(!!col_name, ...))
+	return(get_col)
+}
+col_summary(df, value, mean, na.rm = TRUE)
+```
+
+---
+
+# Function factories
+
+* Functions can also produce *other* functions as output!
+* These things are sometimes called .fn_highlight[function factories].
+
+```{r}
+factory <- function(x, y){
+	fm <- paste0(y, " ~ ", x)
+	function(d){
+		lm(formula = fm, data = d)$coef
+	}
+}
+```
+
+---
+
+# Function factories (cont'd)
+
+```{r}
+car_reg <- factory("mpg", "hp")
+car_reg(mtcars)
+
+```
+
+---
+
+# Function factories (cont'd)
+
+```{r}
+car_reg2 <- factory("cyl", "wt")
+car_reg2(mtcars)
+
+```
+
+---
+
+# Function factories (cont'd)
+
+* Will be very useful when doing bootstrapping or MLE estimation
+
+---
+
+# Recursion
+
+* Factorial example:
+
+$n! = n * (n - 1) * (n - 2) * ... * 1$
+
+* Use the property of recursion to make the function to refer to itself.
+---
+
+# Recursion (cont'd)
+
+* What's wrong with the definition as below?
+
+```{r}
+factorial_fn <- function(n){
+	return(n * factorial_fn(n-1))
+}
+
+```
+
+---
+
+# Recursion (cont'd)
+
+* Let's fix it.
+
+```{r}
+factorial_fn <- function(n){
+	if(n <= 1){
+		return(1)
+	}
+	else{
+		return(n * factorial_fn(n-1))
+	}
+}
+
+```
+
+---
+
+# Recursion (cont'd)
+
+```{r}
+
+factorial_fn(5)
+factorial_fn(4)
+
+```
+
+
+---
+
+# Problems with recursion
+
+* Not always the most efficient implementation...
+
+```{r, echo = FALSE, fig.width = 4, fig.height = 4}
+library(tidyverse)
+factorial_fn <- function(n){
+	if(n <= 1){
+		return(1)
+	}
+	else{
+		Sys.sleep(0.1)
+		return(n * factorial_fn(n-1))
+	}
+}
+
+input <- c(1, 10, 20, 50)
+times <- map_dbl(input, ~ system.time(a <- factorial_fn(.x))[3])
+
+df <- tibble(x = input, y = times)
+
+ggplot(df, aes(x, y)) +
+	geom_line() +
+	labs(x = "Factorial", y = "Seconds") +
+	theme_linedraw()
+
+```
+
+---
+
+# Further applications
+
+* Fibonacci sequence 
+$x_n = x_{n-1} + x_{n+2}$
+* Collatz conjecture (Syracuse Problem)
+* Sorting, searching, merging algorithms...
+
+---
+
+# Conclusion
+
+* More hands-on programming: what are the most efficient ways to solve a problem?
+* Functions are the bread-and-butter of intermediate and advanced programming
+* Highly recommended for replicability, tractability, and time saving.
+* Still, much more out there... (e.g., basic search algorithms)
+
+---
+
+# Next week
+
+* Parallel programming
+* Server-side scripts and working on the cluster
