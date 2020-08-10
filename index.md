@@ -14,12 +14,13 @@ You can find my CV [here](./files/CV.pdf).
 
 **Working Papers**
 * [Susceptibility to strategic voting: a comparison of plurality and instant-runoff elections](https://www.dropbox.com/s/2komhumusf8yfr2/strategic_voting_in_AV_v29.pdf?dl=0) (with Andy Eggers). Working Paper
-* [Do Electorally Vulnerable Legislators Dissent More Often? Evidence from Poland and the United Kingdom](https://tobiasnowacki.github.io/files/vuln_paper.pdf)
+* [How Does Expanding Absentee Voting Affect Participation During COVID-19? Quasi-Experimental Evidence from Texas](https://www.dropbox.com/s/r81l2jr8sn7ciq2/absentee.pdf?dl=0) (with with Jesse Yoder, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, Jennifer A. Wu, Chenoa Yorgason, and Andrew B. Hall). Working Paper.
+
 
 **In Progress**
-* Analyzing Voting Games with Aggregate Uncertainty (with Andy Eggers).
+* Do Electorally Vulnerable Legislators Dissent More Often? Evidence from Poland and the United Kingdom.
 * No Order in the House of Commons? Inferring Legislators' Positions on Brexit from Parliamentary Speech (with Apoorva Lal and Nic Lyon).
-* Do Presidential Systems Impede Growth? Evidence from Local Governments in the United States (with Carl Gustafson, Dan Thompson and Andy Hall).
+* Do Presidential Systems Impede Growth? Evidence from Local Governments in the United States (with Carl Gustafson, Dan Thompson and Andrew B. Hall).
 * Does Party Control Matter for Fiscal Policy? Evidence from English Local Government.
 * The Rise of Party-centric Voting and Political Careers in Great Britain (with Gary Cox)
 
@@ -28,8 +29,9 @@ You can find my CV [here](./files/CV.pdf).
 [Teaching Materials](another-page.md)
 
 **Stanford**
+* Stanford PoliSci Math Camp (2020).
 * 450C: Political Methodology III (450C). Model-based Inference. (2020)
-* 450X: Programming for Political Scientists. (2019/20)
+* 450X: Programming for Political Scientists (2019/20).
 
 **Warwick**
-* QS104: Quantitative Methods I (2017)
+* QS104: Quantitative Methods I (2017).
