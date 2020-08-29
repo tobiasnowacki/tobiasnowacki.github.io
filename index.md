@@ -13,8 +13,8 @@ You can find my CV [here](./files/CV.pdf).
 ## Research
 
 **Working Papers**
-* [Susceptibility to strategic voting: a comparison of plurality and instant-runoff elections](https://www.dropbox.com/s/2komhumusf8yfr2/strategic_voting_in_AV_v29.pdf?dl=0) (with Andy Eggers). Working Paper
-* [How Does Expanding Absentee Voting Affect Participation During COVID-19? Quasi-Experimental Evidence from Texas](https://www.dropbox.com/s/r81l2jr8sn7ciq2/absentee.pdf?dl=0) (with with Jesse Yoder, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, Jennifer A. Wu, Chenoa Yorgason, and Andrew B. Hall). Working Paper.
+* [Susceptibility to strategic voting: a comparison of plurality and instant-runoff elections](https://www.dropbox.com/s/2komhumusf8yfr2/strategic_voting_in_AV_v29.pdf?dl=0) (with Andy Eggers). Working Paper. *Under Review*.
+* [How Does Expanding Absentee Voting Affect Participation During COVID-19? Quasi-Experimental Evidence from Texas](https://www.dropbox.com/s/r81l2jr8sn7ciq2/absentee.pdf?dl=0) (with with Jesse Yoder, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, Jennifer A. Wu, Chenoa Yorgason, and Andrew B. Hall). Working Paper. *Under Review*.
 
 
 **In Progress**
@@ -29,9 +29,11 @@ You can find my CV [here](./files/CV.pdf).
 [Teaching Materials](another-page.md)
 
 **Stanford**
-* Stanford PoliSci Math Camp (2020).
-* 450C: Political Methodology III (450C). Model-based Inference. (2020)
-* 450X: Programming for Political Scientists (2019/20).
+* 450B: Political Methodology II: Causal Inference. (2020-21)
+* 450A: Political Methodology I: Regression. (2020-21)
+* Stanford PoliSci Math Camp (2020-21).
+* 450C: Political Methodology III: Model-based Inference. (2019-20)
+* 450X: Programming for Political Scientists (2019-20).
 
 **Warwick**
 * QS104: Quantitative Methods I (2017).
