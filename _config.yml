@@ -1,10 +1,10 @@
-# <<<<<<< HEAD
-# title: Tobias Nowacki
-# logo: /assets/img/logo.png
-# description: Tobias Nowacki, PhD Candidate @ Stanford
-# show_downloads: true
-# google_analytics:
-# =======
+<<<<<<< HEAD
+title: Tobias Nowacki
+logo: /assets/img/logo.png
+description: Tobias Nowacki, PhD Candidate @ Stanford
+show_downloads: true
+google_analytics:
+=======
 # Welcome to Jekyll!
 #
 # This config file is meant for settings that affect your entire site, values
@@ -314,5 +314,5 @@ compress_html:
   ignore:
     envs: development
 
->>>>>>> c0620e69fe179d5430851c7eadaf44808e7e31ae
+
 theme: jekyll-theme-minimal
