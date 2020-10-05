@@ -314,5 +314,5 @@ compress_html:
   ignore:
     envs: development
 
-# >>>>>>> c0620e69fe179d5430851c7eadaf44808e7e31ae
+>>>>>>> c0620e69fe179d5430851c7eadaf44808e7e31ae
 theme: jekyll-theme-minimal
