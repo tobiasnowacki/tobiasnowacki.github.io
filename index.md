@@ -12,21 +12,18 @@ You can find my CV [here](./files/CV.pdf).
 
 ## Research
 
-###Working Papers
+### Working Papers
 
-* [Susceptibility to strategic voting: a comparison of plurality and instant-runoff elections](https://www.dropbox.com/s/2komhumusf8yfr2/strategic_voting_in_AV_v29.pdf?dl=0) 
-
+* [Susceptibility to strategic voting: a comparison of plurality and instant-runoff elections](https://www.dropbox.com/s/2komhumusf8yfr2/strategic_voting_in_AV_v29.pdf?dl=0) <br/>
 with Andy Eggers. Working Paper. *Under Review*.
-* [How Much Do Elections Increase Police Responsiveness? Evidence From Elected Police Commissioners.](https://tobiasnowacki.github.io/files/commissioners.pdf) 
 
+* [How Much Do Elections Increase Police Responsiveness? Evidence From Elected Police Commissioners.](https://tobiasnowacki.github.io/files/commissioners.pdf) <br/>
 with Daniel M. Thompson. Working Paper. *Under Review*.
 
-* [How Does Expanding Absentee Voting Affect Participation During COVID-19? Quasi-Experimental Evidence from Texas](https://www.dropbox.com/s/r81l2jr8sn7ciq2/absentee.pdf?dl=0) 
-
+* [How Does Expanding Absentee Voting Affect Participation During COVID-19? Quasi-Experimental Evidence from Texas](https://www.dropbox.com/s/r81l2jr8sn7ciq2/absentee.pdf?dl=0) <br/>
 with Jesse Yoder, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, Jennifer A. Wu, Chenoa Yorgason, and Andrew B. Hall. Working Paper.
 
-* [Are Dead People Voting By Mail? Evidence From Washington State Administrative Records.](http://stanford.edu/~yoderj/Wu_et_al_Dead_Voting.pdf) 
-
+* [Are Dead People Voting By Mail? Evidence From Washington State Administrative Records.](http://stanford.edu/~yoderj/Wu_et_al_Dead_Voting.pdf) <br/>
 with Jennifer A. Wu, Chenoa Yorgason, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, and Andrew B. Hall. Working Paper.
 
 
