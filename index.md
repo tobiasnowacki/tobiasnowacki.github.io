@@ -26,6 +26,9 @@ with Jesse Yoder, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, Jenn
 [Are Dead People Voting By Mail? Evidence From Washington State Administrative Records.](http://stanford.edu/~yoderj/Wu_et_al_Dead_Voting.pdf) <br/>
 with Jennifer A. Wu, Chenoa Yorgason, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, and Andrew B. Hall. *Under Review*.
 
+[The Emergence of Party-Based Political Careers in the UK, 1802-1918](https://tobiasnowacki.github.io/files/careers.pdf)  <br />
+with Gary Cox
+
 
 ### In Progress
 
@@ -33,9 +36,11 @@ No Order in the House of Commons? Inferring Legislators' Positions on Brexit fro
 
 Do Presidential Systems Impede Growth? Evidence from Local Governments in the United States (with Carl Gustafson, Dan Thompson and Andrew B. Hall).
 
+The Gender Gap in Political Careers: Evidence from Proportional Representation.
+
 Does Party Control Matter for Fiscal Policy? Evidence from English Local Government.
 
-The Rise of Party-centric Voting and Political Careers in Great Britain (with Gary Cox)
+
 
 ## Teaching
 
