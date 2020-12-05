@@ -14,20 +14,20 @@ You can find my CV [here](./files/CV.pdf).
 
 ### Working Papers
 
-[Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://www.dropbox.com/s/2komhumusf8yfr2/strategic_voting_in_AV_v29.pdf?dl=0) <br/>
-with Andy Eggers. *Under Review*.
-
 [How Much Do Elections Increase Police Responsiveness? Evidence From Elected Police Commissioners.](https://tobiasnowacki.github.io/files/commissioners.pdf) <br/>
-with Daniel M. Thompson. *Under Review*.
+with Daniel M. Thompson. *Invited to Revise and Resubmit at the American Political Science Review*.
+
+[Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://www.dropbox.com/s/2komhumusf8yfr2/strategic_voting_in_AV_v29.pdf?dl=0) <br/>
+with Andy Eggers. 
 
 [How Does Expanding Absentee Voting Affect Participation During COVID-19? Quasi-Experimental Evidence from Texas.](https://www.dropbox.com/s/r81l2jr8sn7ciq2/absentee.pdf?dl=0) <br/>
 with Jesse Yoder, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, Jennifer A. Wu, Chenoa Yorgason, and Andrew B. Hall. 
 
 [Are Dead People Voting By Mail? Evidence From Washington State Administrative Records.](http://stanford.edu/~yoderj/Wu_et_al_Dead_Voting.pdf) <br/>
-with Jennifer A. Wu, Chenoa Yorgason, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, and Andrew B. Hall. *Under Review*.
+with Jennifer A. Wu, Chenoa Yorgason, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, and Andrew B. Hall. 
 
-[The Emergence of Party-Based Political Careers in the UK, 1802-1918](https://tobiasnowacki.github.io/files/careers.pdf)  <br />
-with Gary Cox
+[The Emergence of Party-Based Political Careers in the UK, 1801-1918](https://tobiasnowacki.github.io/files/careers.pdf)  <br />
+with Gary Cox.
 
 
 ### In Progress
@@ -36,7 +36,7 @@ No Order in the House of Commons? Inferring Legislators' Positions on Brexit fro
 
 Do Presidential Systems Impede Growth? Evidence from Local Governments in the United States (with Carl Gustafson, Dan Thompson and Andrew B. Hall).
 
-The Gender Gap in Political Careers: Evidence from Proportional Representation.
+The Gender Gap in Political Careers: Evidence from Proportional Representation Systems.
 
 Does Party Control Matter for Fiscal Policy? Evidence from English Local Government.
 
