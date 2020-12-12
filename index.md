@@ -15,7 +15,8 @@ You can find my CV [here](./files/CV.pdf).
 ### Working Papers
 
 [How Much Do Elections Increase Police Responsiveness? Evidence From Elected Police Commissioners.](https://tobiasnowacki.github.io/files/commissioners.pdf) <br/>
-with Daniel M. Thompson. *Invited to Revise and Resubmit at the American Political Science Review*.
+with Daniel M. Thompson. <br />
+*Revise and Resubmit, American Political Science Review*.
 
 [Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://www.dropbox.com/s/2komhumusf8yfr2/strategic_voting_in_AV_v29.pdf?dl=0) <br/>
 with Andy Eggers. 
@@ -39,7 +40,6 @@ Do Presidential Systems Impede Growth? Evidence from Local Governments in the Un
 The Gender Gap in Political Careers: Evidence from Proportional Representation Systems.
 
 Does Party Control Matter for Fiscal Policy? Evidence from English Local Government.
-
 
 
 ## Teaching
