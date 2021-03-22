@@ -2,7 +2,7 @@
 layout: default
 ---
 
-I am a PhD candidate in [Political Science](https://politicalscience.stanford.edu/academics/graduate-program) at Stanford University. I am broadly interested in the political economy of elections. In particular, my research investigates how electoral institutions shape legislative behaviour, political party organisation, and accountability towards voters. I work with [Gary Cox](https://gwcox.sites.stanford.edu/), [Andy Hall](andrewbenjaminhall.com), and [Andy Eggers](http://andy.egge.rs).
+I am a PhD candidate in [Political Science](https://politicalscience.stanford.edu/academics/graduate-program) at Stanford University. I am broadly interested in the political economy of elections. In particular, my research investigates how electoral institutions shape legislative behaviour, political party organisation, and accountability towards voters. I work with [Gary Cox](https://gwcox.sites.stanford.edu/), [Jens Hainmueller](https://web.stanford.edu/~jhain/), [Andy Hall](andrewbenjaminhall.com), and [Andy Eggers](http://andy.egge.rs).
 
 I am a Graduate Student Affiliate at the [Democracy and Polarization Lab](https://stanforddpl.org/).
 
