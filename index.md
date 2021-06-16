@@ -19,7 +19,8 @@ with Daniel M. Thompson. <br />
 *Revised and Resubmitted, American Political Science Review*.
 
 [Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://www.dropbox.com/s/2komhumusf8yfr2/strategic_voting_in_AV_v29.pdf?dl=0) <br/>
-with Andy Eggers. 
+with Andy Eggers. <br />
+*Invited to Revise and Resubmit, Journal of Politics*. 
 
 [How Did Absentee Voting Affect the 2020 U.S. Election?](https://siepr.stanford.edu/sites/default/files/publications/21-011.pdf) <br/>
 with Jesse Yoder, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, Jennifer A. Wu, Chenoa Yorgason, and Andrew B. Hall. 
