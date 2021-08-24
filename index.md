@@ -14,10 +14,6 @@ You can find my CV [here](./files/CV.pdf).
 
 ### Working Papers
 
-[How Much Do Elections Increase Police Responsiveness? Evidence From Elected Police Commissioners.](https://dthompson.scholar.ss.ucla.edu/wp-content/uploads/sites/19/2021/02/Nowacki_Thompson_Commissioners.pdf) <br/>
-with Daniel M. Thompson. <br />
-*Revised and Resubmitted, American Political Science Review*.
-
 [Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://www.dropbox.com/s/2komhumusf8yfr2/strategic_voting_in_AV_v29.pdf?dl=0) <br/>
 with Andy Eggers. <br />
 *Invited to Revise and Resubmit, Journal of Politics*. 
@@ -28,6 +24,9 @@ with Gary Cox. <br />
 
 [How Did Absentee Voting Affect the 2020 U.S. Election?](https://siepr.stanford.edu/sites/default/files/publications/21-011.pdf) <br/>
 with Jesse Yoder, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, Jennifer A. Wu, Chenoa Yorgason, and Andrew B. Hall. 
+
+[How Much Do Elections Increase Police Responsiveness? Evidence From Elected Police Commissioners.](https://dthompson.scholar.ss.ucla.edu/wp-content/uploads/sites/19/2021/02/Nowacki_Thompson_Commissioners.pdf) <br/>
+with Daniel M. Thompson. <br />
 
 [Are Dead People Voting By Mail? Evidence From Washington State Administrative Records.](http://stanford.edu/~yoderj/Wu_et_al_Dead_Voting.pdf) <br/>
 with Jennifer A. Wu, Chenoa Yorgason, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, and Andrew B. Hall. 
