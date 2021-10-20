@@ -24,6 +24,7 @@ with Gary Cox. <br />
 
 [How Did Absentee Voting Affect the 2020 U.S. Election?](https://siepr.stanford.edu/sites/default/files/publications/21-011.pdf) <br/>
 with Jesse Yoder, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, Jennifer A. Wu, Chenoa Yorgason, and Andrew B. Hall. 
+*Invited to Revise and Resubmit, Science Advances*. 
 
 [How Much Do Elections Increase Police Responsiveness? Evidence From Elected Police Commissioners.](https://dthompson.scholar.ss.ucla.edu/wp-content/uploads/sites/19/2021/02/Nowacki_Thompson_Commissioners.pdf) <br/>
 with Daniel M. Thompson. <br />
