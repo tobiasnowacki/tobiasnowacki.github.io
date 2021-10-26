@@ -14,35 +14,35 @@ You can find my CV [here](./files/CV.pdf).
 
 ### Peer-Reviewed Publications
 
-[The Emergence of Party-Based Political Careers in the UK, 1801-1918](https://tobiasnowacki.github.io/files/careers.pdf)  <br />
+1. [The Emergence of Party-Based Political Careers in the UK, 1801-1918](https://tobiasnowacki.github.io/files/careers.pdf)  <br />
 <span style="font-size:12px"> with Gary Cox. <br />
 *Conditionally Accepted, Journal of Politics*. </span>
 
 ### Working Papers
 
-[Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://www.dropbox.com/s/2komhumusf8yfr2/strategic_voting_in_AV_v29.pdf?dl=0) <br/>
+2. [Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://www.dropbox.com/s/2komhumusf8yfr2/strategic_voting_in_AV_v29.pdf?dl=0) <br/>
 <span style="font-size:12px"> with Andy Eggers. <br />
 *Invited to Revise and Resubmit, Journal of Politics*. </span>
 
-[How Did Absentee Voting Affect the 2020 U.S. Election?](https://siepr.stanford.edu/sites/default/files/publications/21-011.pdf) <br/>
+3. [How Did Absentee Voting Affect the 2020 U.S. Election?](https://siepr.stanford.edu/sites/default/files/publications/21-011.pdf) <br/>
 <span style="font-size:12px"> with Jesse Yoder, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, Jennifer A. Wu, Chenoa Yorgason, and Andrew B. Hall. <br /> 
 *Invited to Revise and Resubmit, Science Advances*. </span>
 
-[How Much Do Elections Increase Police Responsiveness? Evidence From Elected Police Commissioners.](https://dthompson.scholar.ss.ucla.edu/wp-content/uploads/sites/19/2021/02/Nowacki_Thompson_Commissioners.pdf) <br/>
+4. [How Much Do Elections Increase Police Responsiveness? Evidence From Elected Police Commissioners.](https://dthompson.scholar.ss.ucla.edu/wp-content/uploads/sites/19/2021/02/Nowacki_Thompson_Commissioners.pdf) <br/>
 <span style="font-size:12px"> with Daniel M. Thompson. <br /> </span>
 
-[Are Dead People Voting By Mail? Evidence From Washington State Administrative Records.](http://stanford.edu/~yoderj/Wu_et_al_Dead_Voting.pdf) <br/>
+5. [Are Dead People Voting By Mail? Evidence From Washington State Administrative Records.](http://stanford.edu/~yoderj/Wu_et_al_Dead_Voting.pdf) <br/>
 <span style="font-size:12px"> with Jennifer A. Wu, Chenoa Yorgason, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, and Andrew B. Hall. </span>
 
-[The Gender Gap in Political Careers Under Proportional Representation.](https://tobiasnowacki.github.io/files/gendergap.pdf)
+6. [The Gender Gap in Political Careers Under Proportional Representation.](https://tobiasnowacki.github.io/files/gendergap.pdf)
 
 ### In Progress
 
-Do Presidential Systems Impede Growth? Evidence from Local Governments in the United States <span style="color:grey; font-size :12px">(with Carl Gustafson, Dan Thompson and Andrew B. Hall)</span>.
+* Do Presidential Systems Impede Growth? Evidence from Local Governments in the United States <span style="color:grey; font-size :12px">(with Carl Gustafson, Dan Thompson and Andrew B. Hall)</span>.
 
-Effect Heterogeneity and Causal Attribution in Regression Discontinuty Designs: Introducing the Moderation-in-Discontinuities Framework <span style="color:grey; font-size:12px">(with Kirk Bansak)</span>
+* Effect Heterogeneity and Causal Attribution in Regression Discontinuty Designs: Introducing the Moderation-in-Discontinuities Framework <span style="color:grey; font-size:12px">(with Kirk Bansak)</span>
 
-The Appeal of Non-Partisans In Local Government: Evidence From Poland.
+* The Appeal of Non-Partisans In Local Government: Evidence From Poland.
 
 ## Teaching
 
