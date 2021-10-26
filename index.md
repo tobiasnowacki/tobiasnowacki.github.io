@@ -18,8 +18,9 @@ You can find my CV [here](./files/CV.pdf).
     <span style="font-size:12px"> with Gary Cox. <br />
     *Conditionally Accepted, Journal of Politics*. </span>
 
-    ### Working Papers
+### Working Papers
 
+{:start="2"}
 2. [Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://www.dropbox.com/s/2komhumusf8yfr2/strategic_voting_in_AV_v29.pdf?dl=0) <br/>
     <span style="font-size:12px"> with Andy Eggers. <br />
     *Invited to Revise and Resubmit, Journal of Politics*. </span>
