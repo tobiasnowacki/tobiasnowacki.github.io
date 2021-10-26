@@ -15,8 +15,8 @@ You can find my CV [here](./files/CV.pdf).
 ### Peer-Reviewed Publications
 
 [The Emergence of Party-Based Political Careers in the UK, 1801-1918](https://tobiasnowacki.github.io/files/careers.pdf)  <br />
-with Gary Cox. <br />
-*Conditionally Accepted, Journal of Politics*.
+<span style="font-size:12px"> with Gary Cox. <br />
+*Conditionally Accepted, Journal of Politics*. </span>
 
 ### Working Papers
 
