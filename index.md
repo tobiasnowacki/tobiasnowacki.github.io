@@ -12,15 +12,17 @@ You can find my CV [here](./files/CV.pdf).
 
 ## Research
 
+### Peer-Reviewed Publications
+
+[The Emergence of Party-Based Political Careers in the UK, 1801-1918](https://tobiasnowacki.github.io/files/careers.pdf)  <br />
+with Gary Cox. <br />
+*Conditionally Accepted, Journal of Politics*.
+
 ### Working Papers
 
 [Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://www.dropbox.com/s/2komhumusf8yfr2/strategic_voting_in_AV_v29.pdf?dl=0) <br/>
 with Andy Eggers. <br />
 *Invited to Revise and Resubmit, Journal of Politics*. 
-
-[The Emergence of Party-Based Political Careers in the UK, 1801-1918](https://tobiasnowacki.github.io/files/careers.pdf)  <br />
-with Gary Cox. <br />
-*Invited to Revise and Resubmit, Journal of Politics*.
 
 [How Did Absentee Voting Affect the 2020 U.S. Election?](https://siepr.stanford.edu/sites/default/files/publications/21-011.pdf) <br/>
 with Jesse Yoder, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, Jennifer A. Wu, Chenoa Yorgason, and Andrew B. Hall. 
@@ -32,28 +34,32 @@ with Daniel M. Thompson. <br />
 [Are Dead People Voting By Mail? Evidence From Washington State Administrative Records.](http://stanford.edu/~yoderj/Wu_et_al_Dead_Voting.pdf) <br/>
 with Jennifer A. Wu, Chenoa Yorgason, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, and Andrew B. Hall. 
 
+[The Gender Gap in Political Careers Under Proportional Representation.](https://tobiasnowacki.github.io/files/gendergap.pdf)
 
 ### In Progress
 
-No Order in the House of Commons? Inferring Legislators' Positions on Brexit from Parliamentary Speech <span style="color:grey">(with Apoorva Lal and Nic Lyon)</span>.
+Do Presidential Systems Impede Growth? Evidence from Local Governments in the United States <span style="color:grey">(with Carl Gustafson, Dan Thompson and Andrew B. Hall)</span>.
 
-Do Presidential Systems Impede Growth? Evidence from Local Governments in the United States (with Carl Gustafson, Dan Thompson and Andrew B. Hall).
+Effect Heterogeneity and Causal Attribution in Regression Discontinuty Designs: Introducing the Moderation-in-Discontinuities Framework <span style="color:grey">(with Kirk Bansak)</span>
 
-The Gender Gap in Political Careers: Evidence from Proportional Representation Systems.
-
-Does Party Control Matter for Fiscal Policy? Evidence from English Local Government.
-
+The Appeal of Non-Partisans In Local Government: Evidence From Poland.
 
 ## Teaching
 
 [Teaching Materials](another-page.md)
 
-**Stanford**
+**Stanford (TA for Graduate Classes)**
+
+* Stanford PoliSci Math Camp (2020-21, 2021-22).
+* 450A: Political Methodology I: Regression. (2020-21, 2021-22)
 * 450B: Political Methodology II: Causal Inference. (2020-21)
-* 450A: Political Methodology I: Regression. (2020-21)
-* Stanford PoliSci Math Camp (2020-21).
 * 450C: Political Methodology III: Model-based Inference. (2019-20)
 * 450X: Programming for Political Scientists (2019-20).
 
+**Stanford (TA for Undergraduate Classes)**
+
+* 141A: Immigration and Multiculturalism (2021-22)
+
 **Warwick**
+
 * QS104: Quantitative Methods I (2017).
