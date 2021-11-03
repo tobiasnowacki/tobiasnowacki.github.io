@@ -18,16 +18,17 @@ You can find my CV [here](./files/CV.pdf).
     <span style="font-size:11px"> with Gary Cox. <br />
     *Conditionally Accepted, Journal of Politics*. </span>
 
+2. [How Did Absentee Voting Affect the 2020 U.S. Election?](https://siepr.stanford.edu/sites/default/files/publications/21-011.pdf) <br/>
+    <span style="font-size:10.5px"> with Jesse Yoder, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, Jennifer A. Wu, Chenoa Yorgason, and Andrew B. Hall. <br /> 
+    *Accepted, Science Advances*. </span>
+
+
 ### Working Papers
 
-{:start="2"}
-2. [Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://www.dropbox.com/s/2komhumusf8yfr2/strategic_voting_in_AV_v29.pdf?dl=0) <br/>
+{:start="3"}
+3. [Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://www.dropbox.com/s/2komhumusf8yfr2/strategic_voting_in_AV_v29.pdf?dl=0) <br/>
     <span style="font-size:10.5px"> with Andy Eggers. <br />
     *Invited to Revise and Resubmit, Journal of Politics*. </span>
-
-3. [How Did Absentee Voting Affect the 2020 U.S. Election?](https://siepr.stanford.edu/sites/default/files/publications/21-011.pdf) <br/>
-    <span style="font-size:10.5px"> with Jesse Yoder, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, Jennifer A. Wu, Chenoa Yorgason, and Andrew B. Hall. <br /> 
-    *Invited to Revise and Resubmit, Science Advances*. </span>
 
 4. [How Much Do Elections Increase Police Responsiveness? Evidence From Elected Police Commissioners.](https://dthompson.scholar.ss.ucla.edu/wp-content/uploads/sites/19/2021/02/Nowacki_Thompson_Commissioners.pdf) <br/>
     <span style="font-size:10.5px"> with Daniel M. Thompson. <br /> </span>
