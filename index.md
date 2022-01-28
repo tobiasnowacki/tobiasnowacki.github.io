@@ -30,7 +30,7 @@ You can find my CV [here](./files/CV.pdf).
 
 4. [Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://tobiasnowacki.github.io/files/strategicvoting.pdf) <br/>
     <span style="font-size:10.5px"> with Andy Eggers. <br />
-    *Invited to Revise and Resubmit, Journal of Politics*. </span>
+    *Revised and Resubmitted, Journal of Politics*. </span>
 
 5. [How Much Do Elections Increase Police Responsiveness? Evidence From Elected Police Commissioners.](https://tobiasnowacki.com/files/commissioners.pdf) <br/>
     <span style="font-size:10.5px"> with Daniel M. Thompson. <br /> </span>
