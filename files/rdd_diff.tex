@@ -1,0 +1,1014 @@
+\documentclass[12pt]{article}
+%\documentclass[sts]{imsart}
+%\usepackage[ngerman,english,british]{babel}
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{lscape}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{eurosym}
+\usepackage[sort]{natbib}
+\usepackage{url}
+\urlstyle{tt}
+\usepackage[colorlinks=true, citecolor=gray]{hyperref}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage{subcaption}
+\usepackage{arydshln}
+\usepackage{threeparttable}
+\usepackage{adjustbox}
+\usepackage{rotating}
+%\usepackage{floatflt}
+\usepackage{pdflscape}
+\usepackage{multirow}
+\usepackage[hang,flushmargin]{footmisc}
+\usepackage{bm}
+
+\usepackage{xcolor}
+
+\special{papersize=8.5in,11in}
+
+%\addtolength{\oddsidemargin}{-.75in}
+%\addtolength{\evensidemargin}{-.75in}
+%\addtolength{\textwidth}{1.5in}
+%
+%\addtolength{\topmargin}{-.75in}
+%\addtolength{\textheight}{1.2in}
+
+\usepackage[margin=1in]{geometry}
+
+\makeatletter
+\def\@sect#1#2#3#4#5#6[#7]#8{\ifnum #2>\c@secnumdepth
+     \let\@svsec\@empty\else
+     \refstepcounter{#1}\edef\@svsec{\csname the#1\endcsname. \hskip 0.4em}\fi
+     \@tempskipa #5\relax
+      \ifdim \@tempskipa>\z@
+        \begingroup #6\relax
+          \@hangfrom{\hskip #3\relax\@svsec}{\interlinepenalty \@M #8\par}%
+        \endgroup
+       \csname #1mark\endcsname{#7}\addcontentsline
+         {toc}{#1}{\ifnum #2>\c@secnumdepth \else
+                      \protect\numberline{\csname the#1\endcsname}\fi
+                    #7}\else
+        \def\@svsechd{#6\hskip #3\relax  %% \relax added 2 May 90
+                   \@svsec #8\csname #1mark\endcsname
+                      {#7}\addcontentsline
+                           {toc}{#1}{\ifnum #2>\c@secnumdepth \else
+                             \protect\numberline{\csname the#1\endcsname}\fi
+                       #7}}\fi
+     \@xsect{#5}}
+\makeatother
+
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}{-\baselineskip}{0.7\baselineskip}{\centering\normalfont\normalsize\bf}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}{-\baselineskip}{0.25\baselineskip}{\raggedright\normalfont\normalsize\bf}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}{-\baselineskip}{0.25\baselineskip}{\raggedright\normalfont\small\bf}}
+\def\@begintheorem#1#2{\trivlist \item[\hskip \labelsep{\bf #1\ #2:}]\it}
+\makeatother
+
+\newcommand{\ind}{1\hspace{-2.3}{1}}
+
+\makeatletter
+\def\monthname{\ifcase\month\or
+January\or February\or March\or April\or May\or June\or
+July\or August\or September\or October\or November\or December\fi}
+\makeatother
+
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+
+\renewenvironment{abstract}
+ {\begin{center}\normalsize\textsc{Abstract}%
+ \end{center}\begin{quote}\normalsize}
+ {\end{quote}}
+
+
+\renewcommand{\appendix}{\footnotesize\parindent 0cm\setlength{\parskip}{\medskipamount}\setcounter{equation}{0}%
+\renewcommand{\theequation}{A.\arabic{equation}}}
+
+\newtheorem{theorem}{\small\sc Theorem}
+\newtheorem{proposition}{\small\sc Proposition}
+\newtheorem{assumption}{\small\sc Assumption}
+\newtheorem{lemma}{\small\sc Lemma}
+\newtheorem{corollary}{\small\sc Corollary}
+\newtheorem{definition}{\small\sc Definition}
+
+%\DeclareMathOperator*{\lim}{lim}
+
+%\newtheorem{theorem}{\small\sc Theorem}[section]
+%\newtheorem{proposition}{\small\sc Proposition}[section]
+%\newtheorem{assumption}{\small\sc Assumption}[section]
+%\newtheorem{lemma}{\small\sc Lemma}[section]
+%\newtheorem{corollary}{\small\sc Corollary}[section]
+
+\newcommand{\indep}{\perp\!\!\!\!\perp}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{}
+%\chead{\footnotesize AUTHORS \: -- \: SMALL TITLE}
+\rhead{}
+\renewcommand{\headrulewidth}{0pt}
+
+\renewcommand{\today}{\ifcase \month \or January\or February\or March\or %
+April\or May \or June\or July\or August\or September\or October\or November\or %
+December\fi \ \number \year} 
+
+\begin{document}
+
+\setcounter{page}{0}
+
+\title{Effect Heterogeneity and Causal Attribution in Regression Discontinuty Designs: Introducing the Moderation-in-Discontinuities Framework \footnote{Acknowledgments: We thank Dan Thompson and participants at the 2021 Stanford Causal Science Center Conference for helpful feedback.}}
+
+\author{
+	Kirk Bansak\thanks{Assistant Professor, Department of Political Science, University of California San Diego, 9500 Gilman Drive, La Jolla, CA 92093, United States. E-mail: \href{mailto:kbansak@ucsd.edu}{kbansak@ucsd.edu}}
+	\and
+Tobias Nowacki\thanks{PhD Candidate, Department of Political Science, Stanford University, 616 Jane Stanford Way, Stanford, CA 94305, United States. E-mail: \href{mailto:tnowacki@stanford.edu}{tnowacki@stanford.edu}}
+      \and 
+%      Daniel M. Thompson \thanks{Assistant Professor, Department of Political Science, University of California Los Angeles, .... E-mail: \href{mailto:....edu}{....edu}}
+%      \and
+    }
+
+\maketitle
+\thispagestyle{empty}
+
+
+%  \begin{center}%
+%    {\Large
+%
+%RDD Diff (Need a good title!)
+%
+%%Constraints and Enablers for  
+%
+% \sc \par}%
+%       \vskip 3em%
+%    {\large
+%     \lineskip .75em%
+%      \begin{tabular}[t]{c}%
+%      Kirk Bansak$^{\dagger}$, Tobias Nowacki, Daniel M. Thompson \\
+%     \end{tabular}\par}%
+%    \vskip 1.5em%
+%    {\small %First version: June 2016\\
+%           % This version:
+%            \monthname \ \number\year \par}%
+%      \vskip 1.0em%
+%
+%%For comments and questions, \\ please e-mail: \texttt{}
+%
+%  \end{center}\par
+
+\vspace{0.25cm}
+
+\begin{abstract}
+
+\noindent 
+% Abstract
+Research investigating subgroup differences in treatment effects, recovered using regression discontinuity (RD) designs has become increasingly popular. For instance, 'difference-in-discontinuity' designs assess whether incumbency effects on candidate persistence or winning again vary by candidate characteristics (e.g., gender) or local context. Under what conditions can we interpret this subgroup difference in treatment effects as a causal effect of the moderating characteristic? In this paper, we explicitly explore the difference between RD effect conditionality that is simply associated with versus causally driven by other variables. We introduce a method for the estimation of causal moderation effects in RD settings and  formally define an alternative `moderation-in-discontinuity' estimand with a causal interpretation. Next, we introduce estimators under selection-on-observable-type identification assumptions. We apply our framework to three recent studies that investigate differences in conditional RD treatment effects and offer 'best practice' advice for applied researchers, highlighting the importance of carefully interpreting the research design's quantity of interest.  Our paper contributes to the literature on conditional RD treatment effects and offers a new estimation strategy suited towards answering important questions about causal moderation effects in electoral settings and beyond.
+
+\end{abstract}
+\vspace*{0.5cm}
+Keywords: regression discontinuity, conditional treatment effect, moderation effect, political methodology
+%\vspace*{0.35cm}
+%\vfill
+% \footnoterule
+%    {\footnotesize
+%    
+%  
+%\noindent $^{\dagger}$Assistant Professor, Department of Political Science, University of California, San Diego. \\
+%\noindent Acknowledgments... \vspace*{0cm}
+%\noindent\footnotesize }
+
+
+
+
+
+
+\newpage
+\setcounter{page}{1} \addtolength{\baselineskip}{0.3\baselineskip}
+
+\section{INTRODUCTION}
+
+Originally proposed by \cite{thistlethwaite1960regression}, the regression discontinuity (RD) design has in recent years become one of the most popular, established methods used by social scientists for investigating causal effects. Often described as a form of ``natural experiment" \citep{dunning2012natural, titiunik2021natural}, the RD design takes advantage of situations in which the delivery/receipt of an intervention or treatment depends upon whether a unit is above or below a predetermined (and often arbitrary) threshold on an observed covariate. Such situations exist across a wide variety of domains in human society, where decisions must often be made on the basis of administrative thresholds with respect to continuous variables, such as age, vote percentages, group or population sizes, etc.). Under certain conditions, the causal effect of the intervention or treatment can then be reliably estimated by comparing the trends of units close to and on either side of the threshold. In addition to the prevalence of situations that fit into the RD framework, the RD design's popularity has also been aided by evidence of its high internal validity, recovering estimates close to benchmarks from randomized experiments \citep[e.g.][]{cook2008empirical, chaplin2018internal}.
+
+In political science, the RD design has in particular been used in electoral scholarship, as winning an election depends on whether or not a candidate's or party's vote share exceeds a predetermined threshold. This has allowed for political scientists to estimate the causal effects of candidate or party incumbency on reelection and a range of other downstream outcomes \citep{eggers2015validity}. The RD design has also been used by political scientists to study various other phenomena as well \citep{pettersson-lidbom2008a, gerber2011, fujiwara2011a, eggers2015, anagol2016, kaplan2019, abou-chadi2020, dunaiski2021, yoder2021a}.
+
+As usage of the RD design has become more pervasive across the social sciences, with researchers often iterating in greater nuance and detail on topics investigated by prior scholarship, the analysis of heterogeneity in RD-based causal effects has also become increasingly popular. \citep{anderson2014, hansen2015, card2016, barrow2020, jenkins2016head}
+Such investigations, often presented under the label ``difference-in-discontinuities",\footnote{Though note that the term ``difference-in-discontinuities" has been used by different scholars to describe several slightly different designs, a point that will be revisited later.} consider whether RD-based causal effects vary as a function of other characteristics or across different subsets of their populations of interest. This strand of research mirrors a similar focus that has expanded in experimental research on conditional average treatment effects and treatment effect heterogeneity \citep[see e.g.][]{gerbergreen2012, imairatkovic2013, ratkovic2017sparse, wager2018estimation, ratkovic2021subgroup}.
+
+Along these lines in political science, a number of electoral RD studies have investigated how the effect of incumbency varies conditional upon the characteristics of the candidate, party, or local context \citep{eggers2017, lopes2017, nunez2018, de2018, wasserman2018, bernhard2021, olson2020, wasserman2021}. For instance, \citet{wasserman2018} finds a stark gender gap in candidates' persistence after losing an election at the local level in California: losing an election decreases the chance of running again by 50\% for women than it does for men, although the gender gap may attenuate in more senior electoral settings \citep{wasserman2021,bernhard2021}. Similarly, \citet{brown2019} offer evidence that women are less likely to rise through the ranks of the office pipeline: the effect of being elected to the state legislature on their probability of ever winning a seat in Congress is far smaller than the equivalent for men.
+
+However, once there is evidence of conditionality of the RD effect, interpreting the nature of that conditionality is a separate matter. Specifically, the question is whether one can attribute any RD effect differences across subgroups to the causal influence of the conditioning variables themselves. For instance, in the case of different incumbency effects across gender, what is the actual \emph{causal} role of gender? Is the difference in the RD effect simply associated with gender, or it is causally due to gender (or voters' perceptions of gender)? This is a distinction that is important from both policy and theoretical perspectives. For instance, the causal source of the incumbency effect gender gap (and whether or not it is due to gender itself) has implications for  how widely it would manifest across different contexts. Indeed, while \citet{wasserman2018} finds a gender gap in candidates' post-loss persistence at the local level, both \citet{bernhard2021} and \citet{wasserman2021} find gender parity in the effect of losing at the level of statewide offices. These divergent results provide suggestive evidence that any difference in conditional effects across gender may be due not to gender alone, but also the election context and correlated candidate attributes (e.g., experience); \citet{wasserman2021} suggests that her statewide and local results are different because candidates at the state level have more experience. However, rigorous assessment of this possibility would require specialized analysis.
+
+Unfortunately, studies that investigate patterns of conditionality in RD effects are often unclear on (a) whether or not their underlying claim is that the conditionality is actually causally driven by the conditioning variable, and (b) whether or not the research design and estimation procedures employed can actually provide reliable evidence to that effect. It appears that a key barrier in this regard is not simply the conceptual complexity of distinguishing between the different types of conditionality, but also the challenges of knowing how to formalize and estimate each type and under what conditions that can (or cannot) be done. As a result, the nature of the conditionality of RD effects is often discussed and analyzed by applied scholars in ways that are confusing and/or not sufficiently explicit, making it difficult to know what final conclusions can be drawn. In some studies, the theoretical role of the conditioning variable may not be explicitly discussed at all, leaving the reader to wonder what the precise quantity or phenomenon of interest is. In other studies, the theoretical motivation for investigating a particular moderator variable involves a specific mechanism or more general process that implies a causal influence of that moderator variable, but the empirical analyses are undertaken in such a way that suggests otherwise, leading to a confusing mismatch between theory and empirics. In yet other studies, the authors may be clear about their quantity of interest, and they may theoretically motivate their empirical strategy, but insufficient formalization is provided to convincingly establish that the research design and estimation procedures do indeed map onto their quantity of interest. In sum, the norms and practices currently employed when researchers discuss and investigate RD effect conditionality are prone to confusion.
+
+This paper seeks to help address these issues, allowing applied scholars investigating conditional RD effects to be more explicit in their quantities of interest, more intentional in their empirical analyses, and more precise in the interpretation of their results and the resulting theoretical and/or policy implications. We explicitly explore the difference between RD effect conditionality that is simply associated with vs. causally driven by other variables. To make this distinction explicit and formal, we define two alternative estimands that capture this difference within the potential outcomes framework. The first, which we term the \emph{Heterogeneity-in-Discontinuities}, refers to the difference in RD effects across observed levels of some other variable. The second, which we term \emph{Moderation-in-Discontinuities}, refers to the difference in RD effects that is actually caused by (in a counterfactual sense) the the other variable. We lay out different sets of identification assumptions that are required for each estimand, along with corresponding estimation procedures. In doing so, we emphasize the additional challenges involved in both identification and estimation of the Moderation-in-Discontinuities estimand, highlighting the carefulness and caution that applied researchers must take in interpreting evidence of RD effect conditionality. As part of this, we discuss key considerations and present diagnostics for considering the plausibility of the identification assumptions behind the Moderation-in-Discontinuities estimand. To illustrate the methods and further highlight the challenges involved, we present X applications with varying degrees of plausibility that Moderation-in-Discontinuities is identified. We conclude that it is possible to generate reasonable evidence of Moderation-in-Discontinuities in some contexts, but that in other contexts there is little to no plausibility of doing so, and applied researchers need to be more careful in their analysis and interpretation of RD effect conditionality.
+
+
+\section{MOTIVATION AND RELATED WORK}
+
+\subsection{Motivating Examples}
+
+% Focus on particular applications, such as gender. Describe the motivation, theory, and practical/policy relevance for wanting to investigate difference in discontinuities. 
+
+Both the Heterogeneity-in-Discontinuities and the Moderation-in-Discontinuities estimand can be important and policy-relevant quantities -- depending on the research question and theorized mechanism at hand. Yet, researchers are, unfortunately, often imprecise in distinguishing between the two estimands in their interpretation of results. In other cases, even where practitioners are more careful, we might care about a more robust causal interpretation of the conditioning variable, as it pertains to the policy-relevant question. In this section, we provide (two) motivating examples that highlight why we consider this distinction critical.
+
+% Then segue to how, with such evidence, it is still unclear how to interpret results.
+
+% The first is gender differences in the effect of winning on running again. Different mechanisms for why there is a difference include things like (a) the women who run/win happen to be different on other characteristics, like age (they are older), and hence they don't run again for those reasons, and (b) women who win end up having personal problems like marital issues \citep{folke2020}, and that prevents them eventually from running again. 
+% % Or because voter bias restricts the incumbency advantage for women (cf Ashworth, Berry and de Mesquita)
+% These different mechanisms vary in terms of how central gender is per se. For instance, for the former mechanism, it may actually be age that is driving the difference rather than gender (though one may still wonder whether there is something about societal perspectives on gender that makes it such that women who win are older). In contrast, for the latter mechanism, the explanation is very gender specific: it is for reasons of traditional gender roles (i.e. expectation that the wife is playing a more active at-home role in a marriage/family than the husband) that a female candidate who wins (and hence becomes busy with the subsequent work) is more like to have marital problems than a male winning politician. The Heterogeneity-in-Discontinuities estimand only captures the difference in the effect across gender, not what actually accounts for that difference or how deeply gender itself is involved. For this, the Moderation-in-Discontinuities estimand is needed, which can help to adjudicate between different mechanisms.
+
+First, consider the role of gender in conditioning the effect of losing on candidates' decision to run again \citep{wasserman2018, cipullo2021}. We want to understand whether women are differentially less likely to run again if they lose an election -- any such gender difference might contribute to the persistent underrepresentation of women in politics. Multiple mechanisms can account for a differentially greater attrition among women -- not all of which are causally derived from gender. Women might be less likely to run again due to voter bias, or more negative experiences during their first campaign. In these cases, politicians' gender is the causal moderator of the difference in persistence. Equally plausibly, however, women might be less likely to run again if, on average, they are older, or if they have more precarious careers (from which they can afford less time off). In such cases, the causal mechanism originates from sources correlated with, but distinct from gender, even though women running again less frequently is an observable consequence.
+
+Understanding the root cause of the gender differential is crucial for policy implications: if being a women has a true, \emph{causal} effect on candidate persistence, policymakers may want to address this issue by explicitly promoting more women as candidates (or maybe this would imply that gender quotas are more effective). If, on the other hand, the true conditioning effect results from a variable that is simply correlated with gender -- for example, age or prior experience -- policymakers may want to consider alternative ways of addressing the problem. That said, the descriptive difference in RD effects may still be interesting and important (e.g., to evaluate downstream consequences of diminished female representation). In sum, we may have reason to care about both the descriptive heterogeneity in effects as well as the causally interpretable moderation in effects. Crucially, the two quantities are important for different reasons, and so we need to be careful in distinguishing them.
+
+Another application of Heterogeneity-in-Discontinuities studies how the timing and nature of elections affect the magnitude of incumbency advantages: we want to understand whether particular electoral environments can diminish electoral accountability.We might infer from the difference in incumbency advantages across parties \citep{eggers2015}, election cycles \citep{de2018} or primary regimes \citep{olson2020} that some elected officeholders enjoy greater electoral safety once elected (implying potentially diminished accountability, or allowing legislators to extend their time horizon).  Here, too, the distinction between the two quantities of interest is critical for our understanding of why this difference persists, and informs possible implications for policymakers: If reformers wished to address this discrepancy, we need to know whether the difference in effects is \emph{caused} by the highlighted characteristic, or merely a correlational byproduct of some other mechanism -- for example, certain parties or off-cycle elections attracting lower-quality candidates. 
+
+In most empirical work to date, this important distinction between the two quantities of interest is not as clearly made as it can (and should) be. Unsurprisingly, there is wide heterogeneity in how carefully researchers distinguish between the descriptive difference in effects between subgroups, and a causal interpretation of said difference. Often, while authors refrain from direct causal claims, the explication is ambiguous or omits the distinction. Consider, for example \citet{bohlken2018}:
+
+\begin{quote}
+  Table 3 examines whether the occurrence of co-partisan elite targeting after a state election depends on whether the MP belongs to the state ruling party (i.e., the party of her state's chief minister). 
+ \end{quote}
+
+Here, the interpretation of results doest not explicitly attribute a causal role to the moderator (MP belongs to the state ruling party), but the use of `depends' also implies a role for the moderator beyond heterogeneous treatment effects. Such ambiguity is, unfortunately, common, and aggravated by the lack of a unified formal framework to discuss RD effect conditionality.
+
+Even where scholars diligently stress that the conditioning variable of interest may be correlated with other factors, they do not offer a formalization for the identification assumptions necessary to recover a causal interpretation. Consider, for example, the following two quotes from \citet{de2018} and \citet{wasserman2018}, respectively:
+
+%% UNSURE IF THE BROWN ET AL VS MCCRAIN CONTRAST WOULD BE BETTER...
+
+\begin{quote}
+  However, these results are only a descriptive difference between those elections that are on-cycle and those that are off-cycle, and subject to some degree of selection bias. For instance, cities that have on-cycle elections might also just elect worse-quality incumbents than cities with off-cycle elections. These incumbents might then perform worse in their subsequent elections. Additionally, cities that have on-cycle elections might have different features than those cities with off-cycle elections. Some cities even determine their own election timing, and the factors influencing this decision might be the cause of these differences in the incumbency advantage. Identifying the true effect of £election timing on the incumbency advantage requires circumventing this selection problem.
+\end{quote}
+
+\begin{quote}
+  Although RD relies on the continuity of candidate covariates throughout the threshold for winning, the identifying assumption does not ensure covariate continuity across subgroups. This means that among close losing candidates, male and female candidates may have different characteristics that can potentially contribute to their divergent responses.
+\end{quote}
+
+These examples illustrate the importance of carefully distinguishing between Heterogeneity-in-Discontinuities and Moderation-in-Discontinuities estimands. Heterogeneity-in-discontinuiies designs are widely used and easily specified. In the remainder of the paper, we offer a new framework for identifying and estimating Moderation-in-Discontinuities designs.
+
+
+% Present estimates of the extend=t to which RD-based causal effects vary as a function of other characteristics or across different subsets of their populations of interest.
+% ... but don't always clearly explicate why those causal effects may vary, and even more rarely formalize things
+
+% Here, perhaps also consider highlighting the specific language previous studies have used in describing results, and how explicit that language has been in interpreting the results as a purely observational/associational difference vs. a difference caused by the subgroup variable of in interest (e.g. gender).
+
+
+% TO DO: SELECT QUOTES FROM STUDIES USING CROSS-SECTIONAL DIFF-IN-DISC THAT INDICATE HOW THEY ARE INTERPRETING THE DIFF-IN-DISC EFFECT (EXPLICITLY AND PURELY OBSERVATIONAL VS. AMBIGUOUSLY WITH NO REAL CLARITY VS. OBSERVATIONAL BUT WITH A SUGGESTION OF CAUSAL MODERATION VS. EXPLICITLY CLAIMING CAUSAL MODERATION, I.E. MODERATION-IN-DISCONTINUITIES)
+
+% Quote from \citet{de2018}: 
+
+
+
+% Quote from \citet{wasserman2018}:
+
+
+
+% Quote from \citet{bohlken2019}:
+
+
+
+% Quote from \citet{olson2020}:
+
+% \begin{quote}
+%   [...] I split my sample into the years with and without direct primary usage, and estimate the incumbency advantage separately for these two samples using local linear regression [...]. This produces separate estimates of the incumbency advantage before and after direct primary adoption. I then take the difference between these estimates to produce an estimate of the \emph{impact} of the direct primary on the incumbency advantge
+% \end{quote}
+
+% Quote from \citet{bernhard2021}:
+
+% \begin{quote}
+%   The central question motivating this paper, however, is not the overall effect of losing an election on future electoral entry, but whether candidates exhibit gendered responses to loss. To assess this question, we conduct the same analyses—again using the RDD framework—but separately for men and women.
+% \end{quote}
+
+% Two gender-based electoral RD examples to lay out. 
+
+
+
+% Even more to the point, consider the example of gender differences in the effect of winning on winning again (or vote share in next election). Here, the explanations for the gender gap focus specifically on gender-based mechanisms. In particular, the idea here is that normal heuristics like name recognition that drive the positive incumbency effect on winning are weakened for women because of gender bias among voters, such as the tendency to judge the performance of women more harshly. In other words, in this setting, it is not heterogeneity in and of itself that is of theoretical interest; instead, what is of theoretical interest is the role played specifically by gender. And while the Heterogeneity-in-Discontinuities design may provide tentative or suggestive evidence, from a strictly rigorous perspective, it does not recover the quantity of interest. The estimand to which it pertains captures only heterogeneity, but it is the Moderation-in-Discontinuities estimand that pertains to the theoretical question of central interest.
+
+% E.g. Hsu and Shen, 2019 (Journal of Econometrics)
+%      Hsu and Shen, 2021 (Journal of Applied Econometrics)
+
+\subsection{``Difference-in-Discontinuities" and its Variants}
+
+%For this section, see Grembi et al.'s lit review contains lots of relevant cites: 
+%type 1: Our econometric strategy also relates to evaluation designs that exploit the comparison between different discontinuities across space, such as in different U.S. states (see Dickert-Conlin and Elder, 2010) or for politicians facing different term limits (see Gagliarducci and Nannicini, 2013).
+%type 2: For examples of diff-in-disc designs [like Grembi et al.'s, where taking diff in RD across two periods], see Lalive (2008), Campa (2011), Leonardi and Pica (2013) and Casas-Arce and Saiz (2015)
+%type 3: fixed-effect RD estimator in Pettersson-Lidbom (2012), the first-difference RD estimator in Lemieux and Milligan (2008), or the dynamic RD design in Cellini, Ferreira, and Rothstein (2011)
+
+The term ``difference-in-discontinuities'' has often been employed by researchers investigating RD effect conditionality. However, usage of this term has been highly variable---an example of the inconsistent norms and practices in this area. The term has alternatively been used to describe either an estimand or an estimation strategy/approach, with studies often not being explicit or clear about this distinction. Even more confusingly, the term has been used to refer to entirely different underlying estimands of interest. The following provides a lengthy discussion of the term difference-in-discontinuities, characterizes (and distinguishes between) the different ways in which the term has been used, and makes explicit how the variants of the difference-in-discontinuities relate to the quantities of interest in this study.
+
+The first way in which the term difference-in-discontinuities has been used deals with the investigation of the difference in RD effects across two (or more) subsets of the data or population of interest. This relates directly to the investigation of treatment effect heterogeneity or conditional average treatment effects in regression discontinuity designs \citep[e.g.][]{hsu2019testing, becker2013absorptive}; it is essentially comparing multiple, separate conditional RD effects. Most frequently, this looks at the difference in RD effects across subsets of the population as defined by particular background characteristics \citep[e.g.][]{lalive2007unemployment,card2016,micozzi2019,desai2021}. Additionally, this framework has also been used to investigate the difference in RD effects across different contexts (e.g. to help unpack compound treatments) \citep{card2016}. This usage of the term corresponds to the Heterogeneity-in-Discontinuities estimand presented and formalized in the present study.
+%To distinguish this from other uses of the term, it may be instructive to label this the ``cross-sectional" difference-in-discontinuities.
+
+A second way in which the term difference-in-discontinuities has been used builds on the first, but uses time as the conditioning variable. That is, some studies have estimated a change in an RD effect of interest across two time periods \citep{grembi2016fiscal, chicoine2017, debenedetto2019, kantorowicz2019, koppl-turyna2020},
+where those time periods are associated with some other change/policy intervention. 
+(These studies rely on estimating the effect at the discontinuity in two different time periods, because in $t = 0$, observations on either side of the threshold may still have a baseline difference in $Y_0$ if things other than the intended treatment change at the discontinuity. )
+At first appearances, this is in principle the same as in the first case, as the only difference is the specific variable that is being used as the conditioner. However, it is worthwhile to distinguish this from the first because, when doing this, such studies have different motivations than simply seeking heterogeneity of the RD effect across time. Instead, some studies applying this approach have sought to imply that that change/policy actually has a causal influence on the RD effect (cites). This, of course, would only be the case if the only thing that changed over the two time periods was the policy, so such claims are not necessarily immediately plausible. In other cases, however, while the estimator may be this variant of a ``difference-in-discontinuities," the estimand may be something entirely different. For instance, this approach has been paired with additional assumptions such that the estimator instead identifies a causal effect of the policy variable itself that is changing over the two periods \citep{grembi2016fiscal}.
+
+Finally, a third way in which the term difference-in-discontinuities has been used refers to attempts to incorporate a more extensive panel data structure, along the lines of generalized difference-in-differences methods, into the regression discontinuity design. The motivation behind leveraging time more richly in this manner is precisely to attempt to estimate a causal effect of some other variable on the RD effect. However, in practice, the ways in which this has been done has lacked standardization and formal clarity, with the difference-in-differences elements layered into the RD specification being motivated more by intuition and heuristic rather than a solidly rigorous formalization. This is not entirely surprising. For one, as will be shown below, there are important subtleties in formalizing the causal effect of some variable on an RD effect even in the absence of a panel structure---and in the absence of needing to make parallel trends of other difference-in-differences-type assumptions. Second, generalized difference-in-differences and panel event modeling is an area of research that is currently active, fast-changing, and (as recent papers have shown) sufficiently complicated on its own without being further integrated with another identification strategy like RD.
+
+This paper will distinguish between two fundamentally different types of RD effect conditionality, focusing its attention specifically on quantities of interest that do not build around or rely on a panel data structure. In doing so, we will be attentive to rigorously defining these different estimands and distinguishing those estimands from estimation approaches. 
+First, the term Heterogeneity-in-Discontinuities will refer to an estimand that captures a difference in RD effects that manifests across values of a conditioning variable, but where there is no presumed causal influence of the conditioning variable on the RD effect. (This is along the lines of the first way described above in which the term difference-in-discontinuities has been used.)
+Second, this paper will present an alternative estimand termed Moderation-in-Discontinuities that specifically focuses on the causal influence of the conditioning variable on the RD effect---i.e. allowing for heterogeneity in an RD effect across a conditioning variable to be causally attributed to that conditioning variable. As mentioned above, both estimands will be defined explicitly outside of the panel context, though note that this does not completely preclude the use of time as a variable in the identification strategies and estimation procedures. Specifically, time may be considered as either the primary conditioning variable or as part of a covariate adjustment strategy. However, this paper does not focus on using time to take advantage of panel-data features and assumptions, such as parallel trends, as in the third variant of ``difference-in-discontinuities" described in the previous paragraph.
+
+
+\subsection{Other Related Work}
+
+The present study also relates to other methodological and applied research using the RD design. As has already been alluded to, and as will be formalized later, the quantities of interest in this study entail the use of covariates, in addition to the forcing variable. Hence, there are links to previous methodological research on the inclusion of covariates in RD designs \citep{calonico2019regression, frolich2019including}. However, these studies focus on the inclusion of covariates for the purposes of increasing the statistical precision of the the RD effect estimator, as well as to aid in achieving identification in the RD design (e.g. to control for discontinuities in the potential outcomes or the covariate distribution at the cutoff). The use of covariates proposed and formalized in these studies contrasts with the present purposes. Here, it is assumed that conditions are met such that the aggregate RD effect of interest itself is identified (and estimable) without covariate adjustment, and the inclusion of covariates is not motivated by considerations of statistical precision. Instead, covariates are employed to investigate, identify, and estimate different forms of RD effect conditionality, as will be explained in greater formality in the next section. 
+
+Another related line of research has investigated the use of the RD design to specifically identify and estimate the effects of other variables (i.e. variables other than the treatment defined by the running variable). This has been particularly popular in election RD studies, with the strategy of leveraging close elections to estimate at the cutpoint the causal effects of race, partisan affiliation, and other characteristics of winning candidates on various downstream outcomes \cite[for an overview, see][]{marshall2019}. However, the validity of this strategy has been called into question by \citet{marshall2019}, who highlights the inferential and estimation challenges of isolating the causal effect of a variable at the cutpoint, especially when that variable can affect the running variable. While the underlying quantity of interest in that line of research is different from the focus here, the Moderation-in-Discontinuities estimand that will be presented is defined in such a way that implicitly interfaces with and takes into account the issues articulated by \cite{marshall2019}. Specifically, the estimand will formally allow for the conditioning variable of interest to have an effect on the running variable.
+
+%Compare Moderation-in-Discontinuities to use of RDD to identify effects of other (non-running-variable) variables, as discussed by \cite{marshall2019}. All of this all very much implies that this does not identify the effect of $S$ itself on the outcome at the cutpoint, since the estimand is defined with respect to $X(s)$ and so you can't just rearrange things. This relates to \cite{marshall2019}.
+
+In another relevant piece of research, \cite{feigenbaum2017majority} propose a clever approach using a multidimensional regression discontinuity design with an eye toward identification and estimation of the causal effect of a conditioning variable (majority-party status) on an RD effect (incumbency advantage). Hence, their theoretical quantity of interest relates closely in spirit with the Moderation-in-Discontinuities estimand that will be defined here. However, the links are much less close from the perspective of formalization, and the approach they propose appears to be highly specific to the context of studying majority-party control, rather than serving as a more general framework.
+
+In another relevant piece of research, \cite{jenkins2016head} combine propensity scores with a design focused on RD effect heterogeneity. As they explain, the ``PS weights induce comparability between Head Start and OK pre-K children [(i.e. units across each level of the conditioning covariate)], allowing us to make a statistical comparison of the two treatment effects in the same RD model." On the one hand, this strategy is strongly suggestive of an interest in the causal influence of the conditioning variable on the RD effect. On the other hand, however, while the econometric specification is explicated, the precise estimand of interest is less clear and never formalized. Nonetheless, the estimation strategy appears to very much be in the spirit of what we call Moderation-in-Discontinuities below, as will be developed and further explained in detail later.
+
+
+\section{NOTATION AND SETUP}
+
+As in previous formalizations of the regression discontinuity design \citep[e.g.][]{imbens2008regression}, this study employs the potential outcomes framework of \cite{neyman1923applications} and \cite{rubin1974estimating} to define causal effects. The previous scholarship has focused on potential outcomes defined with respect to a treatment, specifically $Y_i(t)$, with $t \in \{0,1\}$ representing possible values of the treatment. In contrast, here we posit for each unit $i$ the existence of $Y_i(t,s) \in \mathbb{R}$ for $t \in \{0,1\}$ and $s \in \mathcal{S}$, where $s$ represents the possible values of a third (pre-treatment) variable, which is the primary conditioning variable of interest and which we will call the moderator. $\mathcal{S}$ denotes its support. The potential outcome $Y_i(t,s)$ denotes the outcome unit $i$ would experience if that unit had treatment status $t$ and moderator value $s$. For simplicity, let $\mathcal{S} \equiv \{0,1\}$, yielding potential outcomes $Y_i(0,0) ,Y_i(1,0),Y_i(0,1),Y_i(1,1)$.
+
+Further, for each unit let $Y_i \in \mathbb{R}$ denote the observed outcome, where the relationship between the observed outcome and potential outcomes is governed by $Y_i = Y_i(T_i, S_i)$. As in the standard sharp regression discontinuity context, the observed treatment $T_i \in \{ 0, 1\}$ is assigned on the basis of a particular pre-treatment covariate (i.e. the running or forcing variable) denoted here by $X_i \in \mathbb{R}$, such that $T_i = \bm{1}(\{ X_i > c \})$ for some cutoff $c \in \mathbb{R}$. In addition, $\bm{W}_i \in \bm{\mathcal{W}}$ denotes a vector of other observed pre-treatment covariates, which we will refer to as the ``control set." Further, $S_i \in \{ 0,1\}$ denotes the observed value of another pre-treatment covariate of focal interest, termed the moderator as described already above, which is believed to have some relationship with the causal effect of the treatment on the outcome.
+
+Finally, precision in this formalization also requires considering the relationship between $S$ and $X$. Investigations of RD effect conditionality typically proceed upon the (often implicit) premise that the conditioning variable is prior to or not otherwise affected by the running variable---such analyses would otherwise imply conditioning on a post-treatment variable. We will also follow this practice and rule out the possibility of a causal effect of $X$ on $S$. However, applied research is often ambiguous about whether or not $S$ affects $X$, which can lead to confusion and difficulty in interpreting results \cite[for a similar argument, see][]{marshall2019}. Here, we will explicitly allow for the possibility that the moderator $S$ has a causal effect on the running variable $X$. Formally, this implies the existence of $X_i(s) \in \mathbb{R}$ for $s \in \{ 0,1\}$. Similar to the case of the potential outcomes $Y_i(t,s)$, the relationship between the observed $X_i$ and the counterfactual $X_i(s)$ is governed by $X_i = X_i(S_i)$. Note that this setup also nests the special case where there is no causal relationship between $S$ and $X$, in which case $X_i(0) = X_i(1) = X_i \:\: \forall \:\: i$.
+
+With these definitions in place, we posit a data-generating distribution on the tuples $( Y_i(0,0) ,Y_i(1,0),Y_i(0,1),Y_i(1,1),X_i(0),X_i(1),S_i, \bm{W}_i)$. Now, suppose we observe $i = 1, ..., N$ independent and identically distributed samples of the form $(Y_i, X_i, S_i, \bm{W}_i)$. For each unit $i$, a tuple is drawn from the aforementioned distribution. As described above, for any unit $i$, $T_i = \bm{1}(\{ X_i > c \})$, and the observed $Y_i$ and $X_i$ are determined by $Y_i(T_i, S_i)$ and $X_i(S_i)$, respectively.
+
+%Note: these are counterfactuals keeping $X_i$ fixed at their observed values. Equivalent to allowing for $X_i(s)$ and defining $X_i = X_i(S_i)$
+
+
+\section{HETEROGENEITY-IN-DISCONTINUITIES}
+
+\subsection{Estimand}
+
+Using the notation above, the first estimand that we define is what we call the Heterogeneity-in-Discontinuities:
+\begin{definition}[Heterogeneity-in-Discontinuities]
+$$E[Y_i(1,S_i) - Y_i(0,S_i) | X(S_i)=c, S_i = 1] - E[Y_i(1,S_i) - Y_i(0,S_i) | X(S_i)=c, S_i = 0]$$
+$$= E[Y_i(1,1) - Y_i(0,1) | X=c, S_i = 1] - E[Y_i(1,0) - Y_i(0,0) | X=c, S_i = 0]$$
+\end{definition}
+Since the potential outcomes in this estimand employ only the observed values $S_i$ for $s$, this estimand could equivalently be accommodated by the traditional RD design notation in which potential outcomes are defined only with respect to the treatment as $Y_i(t)$. In that case, this ``reduced form" version of the estimand would be $E[Y_i(1) - Y_i(0) | X=c, S_i = 1] - E[Y_i(1) - Y_i(0) | X=c, S_i = 0]$. (The reason the definition is not presented exclusively in this reduced form, however, is to explicitly highlight the role that $S$ does (and does not play) and to draw a more direct comparison with the Moderation-in-Discontinuities estimand that will be presented later.)
+
+The Heterogeneity-in-Discontinuities estimand falls directly under the umbrella of what has been discussed as treatment effect heterogeneity or conditional average treatment effects in regression discontinuity designs \citep{hsu2019testing}. For applied researchers conducting analysis of conditional RD effects by estimating separate RD effects across different subsets, the most common route for analyzing RD effect conditionality in applied work, this analysis maps onto the Heterogeneity-in-Discontinuities---whether the researcher knows/intends this or not.
+
+\subsection{Identification and Estimation}
+
+Identification of the Heterogeneity-in-Discontinuities can proceed from the standard RD formulation attributed to \cite{hahn2001identification} \citep[see also][]{imbens2008regression}, which rests on the assumption of continuous conditional expectation functions through the cutpoint. Adapted to the present context, the necessary assumption is as follows:
+
+\begin{assumption}[Subset Continuity of Conditional Expectation Functions] \label{assump:subset_cont}
+$$E[Y_i(t,S_i) | X_i = x, S_i = s]$$
+are continuous in $x$ for all $t \in \{ 0, 1\}$ and $s \in \{ 0, 1\}$.
+\end{assumption}
+As can be seen, this continuity assumption proceeds by conditioning on $S$ and is limited to continuity in the expectation of potential outcomes only for the observed values of $S$ upon which the conditioning takes place. As such, it is analogous to the continuity assumption applied in the standard RD design, but simply applying that assumption to two separate subsets 
+(defined by observable values of $S$).
+
+Under this assumption, for any $s \in \{ 0,1 \}$:
+$$E[Y_i(1,S_i) | X_i = c, S_i = s] = \lim_{x \downarrow c} E[Y_i(1,s) | X_i = x, S_i = s] = \lim_{x \downarrow c} E[Y_i | X_i = x, S_i = s]$$
+And similarly, again for any $s \in \{ 0,1 \}$:
+$$E[Y_i(0,S_i) | X_i = c, S_i = s] = \lim_{x \uparrow c} E[Y_i | X_i = x, S_i = s]$$
+Hence, the Heterogeneity-in-Discontinuities estimand is identified as such:
+\begin{eqnarray}
+& & E[Y_i(1,S_i) - Y_i(0,S_i) | X=c, S_i = 1]  -  E[Y_i(1,S_i) - Y_i(0,S_i) | X=c, S_i = 0] \nonumber \\
+& = & \left( \lim_{x \downarrow c} E[Y_i | X_i = x, S_i = 1] - \lim_{x \uparrow c} E[Y_i | X_i = x, S_i = 1] \right) \nonumber  \\
+& - & \left( \lim_{x \downarrow c} E[Y_i | X_i = x, S_i = 0] - \lim_{x \uparrow c} E[Y_i | X_i = x, S_i = 0] \right) \label{rdd_diff_ideqn}
+\end{eqnarray}
+This is tantamount to identifying two separate RDD-treatment effects---one for units with $S_i = 1$ and one for units with $S_i = 0$---and then taking their difference.
+
+Similarly, estimating the Heterogeneity-in-Discontinuities estimand can proceed following normal RD estimation strategies, but applied separately for each subset $S_i=0$ and $S_i=1$. For instance, a regression model can be employed, and the estimand can in fact be recovered by a single regression model for $E[Y_i | S_i, X_i]$. Working within the predominant RD estimation framework employed by applied researchers, adapting standard approaches to specifically recover the Heterogeneity-in-Discontinuities quantity leads to the following model, where the expected relationship between the outcome and running variable is allowed to vary on each side of the cutoff according to best practices in RD modeling more generally:
+\begin{eqnarray}
+E[Y_i | S_i, X_i] & = & \alpha_0 + \alpha_1 \tilde{X}_i + \alpha_2 S_i + \alpha_3 \tilde{X}_i \cdot S_i + \nonumber \\
+& & \beta_0 T_i  + \beta_1 T_i \cdot \tilde{X}_i + \beta_2 T_i \cdot S_i + \beta_3 T_i \cdot \tilde{X}_i \cdot S_i  \nonumber
+\end{eqnarray}
+where $\tilde{X}_i = X_i - c$. This model can then be estimated using a local linear regression (e.g. fitting this regression for data within a certain bandwidth of $X$, if using a local linear regression with a rectangular kernel). Under this model, $\beta_2$ identifies the Heterogeneity-in-Discontinuities estimand of interest. Note that this is mathematically equivalent to specifying two analogous standard RD regression models separately for each subset $S_i=0$ and $S_i=1$, and then taking the difference between their RD effects.
+
+\section{MODERATION-IN-DISCONTINUITIES}
+
+In contrast to the Heterogeneity-in-Discontinuities estimand's focus on differences in the RD effect (of the treatment on the outcome) across observed values of the moderator, one might instead want to know the difference in RD effects that might result by counterfactual intervention upon $S_i$. In other words, rather than knowing whether a difference in RD effects simply manifests observationally across values of $S_i$, the question is whether $S_i$ itself causes a difference in RD effects. And whereas there is a reduced form version of the Heterogeneity-in-Discontinuities estimand that makes use of the simple potential outcomes defined only with respect to $t$, the expanded potential outcomes defined with respect to both $t$ and $s$ are critical for understanding and formalizing this alternative phenomenon, which we term the Moderation-in-Discontinuities. As will be seen throughout this section, there are substantial additional complications involved in both identifying and estimating the Moderation-in-Discontinuities, relative to the Heterogeneity-in-Discontinuities. 
+
+\subsection{Estimand}
+
+The Moderation-in-Discontinuities is defined as follows:
+\begin{definition}[Moderation-in-Discontinuities]
+%$$E[Y_i(1,1) - Y_i(0,1) | X=c] - E[Y_i(1,0) - Y_i(0,0) | X=c]$$
+%or
+$$E[Y_i(1,1) - Y_i(0,1) | X(1)=c] - E[Y_i(1,0) - Y_i(0,0) | X(0)=c]$$
+\end{definition}
+For the Moderation-in-Discontinuities to be a relevant and interesting estimand, it must be that the moderator of interest is itself mutable at the level of individual observations. This is in contrast to the Heterogeneity-in-Discontinuities estimand, and it should be one of the first considerations for applied researchers when deciding on their target estimand. It is also important to consider that the mutability of a particular variable or characteristic also depends upon how an observation is defined. For example, it may be argued that racial identity is a characteristic that is not sufficiently open to mutability, thereby hindering analysis of the causal dynamics of race from a counterfactual perspective. This may be the case if each unit of observation is a particular individual person. However, racial identity is clearly mutable for other units of observation---such as individual résumés, as in audit experiments, or individual electoral contests, where it is no strain on one imagination to consider a counterfactual election with a candidate that was similar in all ways except of a different race.
+
+As already noted above, this setup allows for the possibility that $S$ affects $X$, which is why the expressions condition on $X(1)$ and $X(0)$. This estimand captures how the effect of the treatment on the outcome \emph{at the cutpoint $c$} would change if all units took moderator value $S=1$ vs. $S=0$. Of course, in the case where $S$ affects $X$, because different counterfactual values of the moderator also imply different values of $X$, the units that have a value of $X$ within any specified distance from $c$ will not necessarily be the same under different counterfactual values of $S$. Hence, it important to interpret the Moderation-in-Discontinuities as a moderation to the effect at the cutpoint (i.e. the discontinuous jump in the CEFs), not the moderation of an effect for any individual particular observation.\footnote{
+This also relates to the observations made by \cite{marshall2019}, who highlights the challenges of identifying the causal effect of $S$ itself on the outcome at the cutpoint if $S$ also has a causal effect on the running variable. The formalization of the Moderation-in-Discontinuities estimand presented here hence implicitly echoes  \citeauthor{marshall2019}'s concerns.%All of this all very much implies that this does not identify the effect of $S$ itself on the outcome at the cutpoint, since the estimand is defined with respect to $X(s)$ and so you can't just rearrange things. This relates to \cite{marshall2019}.
+} While this may at first impression seem odd, note that in the case of the more intuitive Heterogeneity-in-Discontinuities estimand, the effect of the treatment on the outcome is being compared for entirely different sets of units altogether. Further, this is a natural extension of the localness of a normal RD effect---that is, it captures the effect of the treatment on the outcome \emph{at the cutpoint} $c$, which is not the effect for any particular observation and would not necessarily be the same under some other value of the cutpoint.\footnote{To further consider the implications as in a normal RDD, and whether or one can extrapolate any findings beyond the cutpoint $c$, one must consider how different are the slopes of the potential outcomes in expectation on the left and right for each moderator value.}
+
+In addition, note that the definition also covers the special case where there is no causal relationship between $S$ and $X$. In that case, the estimand simplifies to $E[Y_i(1,1) - Y_i(0,1) | X=c] - E[Y_i(1,0) - Y_i(0,0) | X=c]$.
+
+%then that means an individual's potential outcomes aren't necessarily going to stack vertically on one another. That's OK, as long as we think about/conceptualize the moderation in discontinuities as moderating the structural trend/effect, not moderating the effect for any individual particular observation. This is in keeping with the localized perspective of a regular RD however, anyway, since in a regular RD, it's not as though we think of the treatment affecting any one particular person (or even people on average). 
+
+%\subsection{Scope Conditions}
+%
+%As should already be clear, this study focuses on the sharp RD case, where a unit's value on the forcing variable relative to the threshold is completely determinative of its treatment status. 
+%
+%S must be manipulable
+%distinguish gender in electoral case vs. other cases.
+%
+%S must be pre-treatment
+
+
+\subsection{Identification and Estimation}
+
+Identification of the Moderation-in-Discontinuities estimand requires additional and more stringent assumptions than the Heterogeneity-in-Discontinuities estimand. In addition, there are a number of different identification strategies with alternate sets of assumptions that could be applied, each proceeding from different statistical design/model setups and implying different estimation procedures. The following section will begin by describing a strategy to identify and estimate the Moderation-in-Discontinuities when the moderator has been randomized (or can otherwise be assumed to be unconditionally exogenous). Note that in most applications, it may be unlikely that one's moderator of interest is random. Nonetheless, this setting is an important starting point for understanding the differences (and connections) between Moderation-in-Discontinuities and Heterogeneity-in-Discontinuities. It will also serve as an illuminating reference point for the Moderation-in-Discontinuities strategy presented in the section immediately following, which does not rely on a random moderator.
+
+
+\subsubsection{Strategy with Exogenous Moderator}
+
+%This section will describe a strategy to identify and estimate the Moderation-in-Discontinuities when the moderator has been randomized (or can otherwise be assumed to be unconditionally exogenous). Note that in most applications, it may be unlikely that one's moderator of interest is random. Nonetheless, this setting is an important starting point for understanding the differences (and connections) between Moderation-in-Discontinuities and Heterogeneity-in-Discontinuities. It will also serve as an illuminating reference point for the Moderation-in-Discontinuities strategy presented in the following section, which does not rely on a random moderator.
+
+Similar to the identification of the Heterogeneity-in-Discontinuities presented above, identification of the Moderation-in-Discontinuities also follows the standard RD formulation based upon continuous conditional expectation functions. However, a slightly different version of continuity is required here, represented in the following assumption:
+
+\begin{assumption}[Full Continuity of Conditional Expectation Functions] \label{assump:full_cont}
+$$E[Y_i(t,s) | X_i(s) = x]$$
+are continuous in $x$ for all $t \in \{ 0, 1\}$ and $s \in \{ 0, 1\}$.
+\end{assumption}
+
+Note that this continuity assumption is technically more stringent than the version of continuity required for identification of Heterogeneity-in-Discontinuities represented in Assumption \ref{assump:subset_cont}. As described earlier, the Heterogeneity-in-Discontinuities' version of continuity is analogous to the continuity assumption applied in the standard RD design, but simply applying that assumption different subsets defined by observable values of $S$. In contrast, the continuity assumption required for the Moderation-in-Discontinuities is with respect to the expectation of all potential outcomes $Y(t,s)$, unconditional upon observable values of $S$. At the same time, however, it is unclear that the version of continuity required for Moderation-in-Discontinuities is actually more demanding as a practical matter, as discussed in more detail later in Section \ref{subsec:continuity}.
+
+In addition, this strategy proceeds by positing the exogeneity of the moderator (most plausible when the moderator has been explicitly randomized). Specifically, the following assumption is made:
+
+\begin{assumption}[Independence of the Moderator] \label{assump:mod_indep}
+$$(Y_i(t,s), X_i(s)) \indep S_i$$
+\end{assumption}
+
+Under these assumptions, for any $s \in \{ 0,1 \}$:
+$$E[Y_i(1,s) | X_i(s) = c] = \lim_{x \downarrow c} E[Y_i(1,s) | X_i(s) = x]$$
+$$ = \lim_{x \downarrow c} E[Y_i(1,s) | X_i(s) = x, S_i = s] = \lim_{x \downarrow c} E[Y_i | X_i = x, S_i = s]$$
+And similarly, again for any $s \in \{ 0,1 \}$:
+$$E[Y_i(0,s) | X_i(s) = c] = \lim_{x \uparrow c} E[Y_i | X_i = x, S_i = s]$$
+Hence, under these assumptions, the Moderation-in-Discontinuities estimand is identified as such:
+\begin{eqnarray}
+& & E[Y_i(1,1) - Y_i(0,1) | X(1)=c] - E[Y_i(1,0) - Y_i(0,0) | X(0)=c] \nonumber \\
+& = & \left( \lim_{x \downarrow c} E[Y_i | X_i = x, S_i = 1] - \lim_{x \uparrow c} E[Y_i | X_i = x, S_i = 1] \right) \nonumber  \\
+& - & \left( \lim_{x \downarrow c} E[Y_i | X_i = x, S_i = 0] - \lim_{x \uparrow c} E[Y_i | X_i = x, S_i = 0] \right) \label{rdd_mod_ideqn}
+\end{eqnarray}
+
+Note that the quantity that identifies the Moderation-in-Discontinuities estimand in equation \eqref{rdd_mod_ideqn} is precisely the same quantity that identifies the Heterogeneity-in-Discontinuities estimand in equation \eqref{rdd_diff_ideqn}. Hence, the implication is that, given the randomization of the moderator, the Heterogeneity-in-Discontinuities is indeed the Moderation-in-Discontinuities and can be interpreted as such.\footnote{As described earlier, this also corresponds to the use of the ``difference-in-discontinuities" approach to estimate two-period before-after RD effects---i.e. before and after some policy---and assuming time is of no consequence (cites). Such an approach is tantamount to assuming the policy ($S$) is randomly assigned, in which case the Heterogeneity-in-Discontinuities is the Moderation-in-Discontinuities; however, the plausibility of such an assumption in the case of policy change over time is a separate question.} (Of course the two are not the same in the absence of an exogenous/randomized moderator; in that case, while the Heterogeneity-in-Discontinuities estimand is identified as above, the Moderation-in-Discontinuities estimand must be identified through other means that does not equate with the identifying quantity in equations \eqref{rdd_diff_ideqn} and \eqref{rdd_mod_ideqn}.)
+
+Given that the quantity that identifies the Heterogeneity-in-Discontinuities estimand also identifies the Moderation-in-Discontinuities estimand when the moderator has been randomized, the estimation procedure can also follow that used in the Heterogeneity-in-Discontinuities context. That is, $E[Y_i | S_i, X_i]$ can again be modeled as follows:
+\begin{eqnarray}
+E[Y_i | S_i, X_i] & = & \alpha_0 + \alpha_1 \tilde{X}_i + \alpha_2 S_i + \alpha_3 \tilde{X}_i \cdot S_i + \nonumber \\
+& & \beta_0 T_i  + \beta_1 T_i \cdot \tilde{X}_i + \beta_2 T_i \cdot S_i + \beta_3 T_i \cdot \tilde{X}_i \cdot S_i  \nonumber
+\end{eqnarray}
+where $\tilde{X}_i = X_i - c$. Under this model with the additional assumption that the moderator has been randomized, $\beta_2$ now identifies the Moderation-in-Discontinuities estimand of interest. As before, estimation can be done via a local linear regression.
+
+
+\subsubsection{Strategy with Conditionally Independent Moderator}
+
+Like the previous, this strategy also follows the standard RD formulation based upon continuous conditional expectation functions. However, in contrast to the previous, this strategy relies upon \emph{conditional} independence of the moderator, along with an accompanying requirement for common support. 
+
+Specifically, in addition to Assumption \ref{assump:full_cont}, the following assumptions are made:
+
+%\begin{assumption}[Continuity of Conditional Expectation Functions]
+%$$E[Y_i(t,s) | X_i(s) = x]$$
+%are continuous in $x$ for all $t \in \{ 0, 1\}$ and $s \in \{ 0, 1\}$.
+%\end{assumption}
+
+\begin{assumption}[Moderator Conditional Independence] \label{assump:mod_cond_indep}
+$$Y_i(t,s) \indep S_i \: | \: (X_i(s), \bm{W}_i)$$
+for all $t \in \{ 0, 1\}$ and $s \in \{ 0, 1\}$.
+\end{assumption}
+
+\begin{assumption}[Moderator Common Support]\footnote{Note the possibility of weak support, such as $Pr(S_i = 1 | X_i, \bm{W}_i) < 1$, with slightly modified estimand conditional on being (un)moderated.} \label{assump:mod_supp}
+$$0 < Pr(S_i = 1 | X_i, \bm{W}_i) < 1$$
+\end{assumption}
+Under these assumptions, for any $s \in \{ 0,1 \}$:
+$$E[Y_i(1,s) | X_i(s) = c] =  E_W \big[ E[Y_i(1,s) | X_i(s) = c, \bm{W}_i] \big]$$
+$$=  E_W \big[ E[Y_i(1,s) | X_i(s) = c, \bm{W}_i, S_i = s] \big] =  E_W \big[ E[Y_i(1,s) | X_i = c, \bm{W}_i, S_i = s] \big]$$
+$$=  \lim_{x \downarrow c} E_W \big[ E[Y_i(1,s) | X_i = x, \bm{W}_i, S_i = s] \big] =  \lim_{x \downarrow c} E_W \big[ E[Y_i | X_i = x, \bm{W}_i, S_i = s] \big]$$
+And similarly, again for any $s \in \{ 0,1 \}$:
+$$E[Y_i(0,s) | X_i(s) = c] = \lim_{x \uparrow c} E_W \big[ E[Y_i | S_i = s, X_i = x, \bm{W}_i] \big]$$
+
+Given that this identification strategy rests upon the moderator conditional independence, estimation requires covariate adjustment. To achieve this, one can build upon the local linear regression framework that is, as already described, commonly used to estimate simple RD effects. Below, we detail several variants of such an estimation approach with varying degrees of flexibility and parameterization. \\
+
+\noindent \textsc{Local Linear Regression.} In specifying a regression model for $E[Y_i | S_i, X_i, \bm{W}_i]$, a starting point would be a model that allows $S$ and $W$ to each independently (but not interactively) alter the expected relationship between outcome and the running variable. Further, these relationships should also be allowed to vary on each side of the cutoff, following best practices in RD modeling more generally. These criteria imply the following model, which can then be estimated using a local linear regression (e.g. fitting this regression for data within a certain bandwidth of $X$, if using a local linear regression with a rectangular kernel):
+\begin{eqnarray}
+E[Y_i | S_i, X_i, \bm{W}_i] & = & \alpha_0 + \alpha_1 \tilde{X}_i + \alpha_2 S_i + \alpha_3 \bm{W}_i + \alpha_4 \tilde{X}_i \cdot S_i + \alpha_5 \tilde{X}_i \cdot \bm{W}_i + \label{mid_little_model} \\
+& & \beta_0 T_i  + \beta_1 T_i \cdot \tilde{X}_i + \beta_2 T_i \cdot S_i + \beta_3 T_i \cdot \bm{W}_i + \beta_4 T_i \cdot \tilde{X}_i \cdot S_i + \beta_5 T_i \cdot \tilde{X}_i \cdot \bm{W}_i  \nonumber
+\end{eqnarray}
+where $\tilde{X}_i = X_i - c$. Under this model, $\beta_2$ identifies the Moderation-in-Discontinuities estimand of interest.
+
+As can be seen, even in this baseline scenario only allowing for $S$ and $W$ to have independent influences, and hence ruling out interactions between $S$ and $W$, the estimation specification still requires many other interactions in order to properly line up with the Moderation-in-Discontinuities estimand and its identification. In contrast, prior research attempting to recover estimates of a Moderation-in-Discontinuities effect have implemented RD specifications with the inclusion of select interactions that have not be fully justified or guided by a completely formalized framework \cite[e.g.][]{bazzi2020institutional,olson2020,desai2021}. \\
+
+\noindent \textsc{Local Linear Regression with Regularization.} Given that this baseline specification already contains interactions between continuous $X$ and potentially continuous variables contained in $\bm{W}$, one might be concerned about noise and sensitivity due to over-parameterization. Indeed, past research has highlighted the statistical problems induced by the inclusion of higher-order polynomials of the running variable in a standard RD specification \cite{gelman2019high}, which suggests taking particular care in the inclusion of interactions between continuous variables in the specification above.
+
+To partially deal with these concerns, estimation of the regression model could also incorporate regularization penalties ($\ell^1$, $\ell^2$, or a combination) on the higher-order terms, with the penalty tuning parameter(s) chosen, for instance, via cross-validation. Taking such an approach, one might then feel more comfortable including even greater flexibility in the regression model specification by including additional interactions and/or polynomial terms. In particular, a natural next step would be to allow $S$ and $W$ to also operate interactively, leading to the following model:
+\begin{eqnarray}
+E[Y_i | S_i, X_i, \bm{W}_i] & = & \alpha_0 + \alpha_1 \tilde{X}_i + \alpha_2 S_i + \alpha_3 \bm{W}_i + \alpha_4 \tilde{X}_i \cdot S_i + \alpha_5 \tilde{X}_i \cdot \bm{W}_i + \label{mid_big_model} \\
+& & \alpha_6 S_i \cdot \bm{W}_i  + \alpha_7 \tilde{X}_i \cdot S_i \cdot \bm{W}_i + \nonumber \\
+& & \beta_0 T_i  + \beta_1 T_i \cdot \tilde{X}_i + \beta_2 T_i \cdot S_i + \beta_3 T_i \cdot \bm{W}_i + \beta_4 T_i \cdot \tilde{X}_i \cdot S_i + \beta_5 T_i \cdot \tilde{X}_i \cdot \bm{W}_i  + \nonumber \\
+& & \beta_6 T_i \cdot S_i \cdot \bm{W}_i  + \beta_7 T_i \cdot \tilde{X}_i \cdot S_i \cdot \bm{W}_i \nonumber
+\end{eqnarray}
+In this case, the Moderation-in-Discontinuities estimand of interest is identified by $\beta_2 + \beta_6 E[\bm{W}_i]$. \\
+
+%INCLUDE NOTE HERE: Highlight all the interactions that have to be included (even assuming no interactions among the S and W), and highlight how other approaches to this problem (e.g. Olson) don't necessarily include the right terms.
+
+%INCLUDE NOTE HERE: Somehow connect this to ``difference-in-discontinuities"
+
+%\subsubsection{Under Identification Strategy 2}
+
+
+\noindent \textsc{Local Linear Regression with a Matched Sample}. Choices such as that between model \eqref{mid_little_model} and model \eqref{mid_big_model} above highlight the tradeoff between (a) trying to best approximate the unknown complexities of the true CEFs and (b) flexible functional form mis-specifications leading to estimation problems. The employment of regularization is meant to mitigate such a tradeoff; nonetheless, one may still be worried about functional form restrictions even with regularization. Hence, an alternative would be to undertake a non-parametric approach to conditioning upon the variables contained in $\bm{W}$ and then proceeding with estimation \emph{after} that covariate adjustment is completed. Specifically, one could apply a local linear regression to matched sample.
+
+The first step for doing this would be, separately on either side of cutpoint, to match units with $S_i = 1$ to units with $S_i = 0$ on $X_i$ and $\bm{W}_i$. Then, once that is completed, the following model could then be estimated via local linear regression:
+\begin{eqnarray}
+E[Y_i | S_i, X_i] & = & \alpha_0 + \alpha_1 \tilde{X}_i + \alpha_2 S_i + \alpha_3 \tilde{X}_i \cdot S_i + \nonumber \\
+& & \beta_0 T_i  + \beta_1 T_i \cdot \tilde{X}_i + \beta_2 T_i \cdot S_i + \beta_3 T_i \cdot \tilde{X}_i \cdot S_i \nonumber
+\end{eqnarray}
+As can be seen, this is the same model used to estimate the Heterogeneity-in-Discontinuities estimand. Applied to a matched sample, however, $\beta_2$ identifies the Moderation-in-Discontinuities estimand of interest.
+
+As with the use of matching in any context, one needs to carefully consider the appropriate matching strategy given the data at hand, along with the resulting implications for what is being estimated (i.e. the target estimand to which the matched sample can then pertain). In particular, one could consider either two-way or one-way matching. Two-way or full matching  would allow for the target estimand to remain unchanged, though it puts more demands on the data and can prove challenging in the face of imbalanced data and/or asymmetric overlap issues. Hence, one-way matching could be more justifiable or feasible, though the resulting analysis would recover an estimate of a slightly more restricted estimand: either Moderation-in-Discontinuities for the moderated (i.e. for units for which $S=1$), or Moderation-in-Discontinuities for the unmoderated (i.e. for units for which $S=0$). 
+
+
+\subsubsection{Alternative Strategy with Locally Randomized Running Variable}
+
+An alternative to the standard RD formulation based upon continuous conditional expectation functions is a design-based strategy that posits the running variable to be random for a subset of units, typically defined by some interval around the cutoff $c$ \citep[see][]{cattaneo2015randomization,li2015evaluating,mattei2016regression,eckles2020noise}.
+The benefit of this ``local randomization" approach, if one feels comfortable with the plausibility of a locally randomized running variable, is the ability to eliminate functional form dependence in the estimation. The Appendix Section \ref{appen:rrv} describes this alternative strategy in more detail.
+
+
+\subsection{Remarks: Relationship between $S$ and $X$}
+
+A key question revolves around whether $S$ affects $X$ and how this affects the inference that can be drawn. First, it is important to note that $S$ should \emph{not} be able to affect $W$, as this would lead to the possibility of conditioning on a variable that is causally posterior to the moderator and hence \emph{prima facie} call into question that credibility of the moderator conditional independence assumption, as in the more general situation of conditioning on a post-treatment variable. %That opens up a can of worms we do not want to deal with involving post-treatment and mediation issues. However, things \emph{may} be a bit more flexible for whether $S$ affects $X$.
+However, the identification results above hold regardless of whether or not $S$ has a causal effect on $X$
+
+The most conceptually clear situation would be one where $S$ also does not or cannot affect $X$, which would mean $X_i(0) = X_i(1) = X_i$ and implies a trivial simplification of the results above. This would be the case with an $S$ that is randomized after $X$ is realized (e.g. in an electoral RD, if $X$ is based on previous election margin, randomizing something before the current election but after the previous election). This could also be the case even if $S$ is not randomized, but there are conceptual/substantive reasons to suspect it does not affect $X$. This would also be the case if proceeding on the basis of a locally randomized running variable.
+
+In the case where $S$ does affect $X$, it is important to further highlight the specific form of the moderator conditional independence assumption, namely that it involves conditioning on $X_i(s)$. This is critical because, whereas $X_i$ is clearly posterior to $S_i$ in this situation, $X_i(s)$ is prior to $S_i$.
+%And actually, if $S$ affects $X$, that version of the assumption makes more sense on its face because then it is not conditioning on a post-treatment (i.e. post $S$) as conditioning on $X$ alone would be. 
+Further, to the extent that a unit would select into a particular value of $S$, it makes sense that conditioning on $X(s)$ would aid in achieving the exogeneity of $S$, given that $X(s)$ helps to capture the returns from selecting into $S=s$. One might also believe that the nonrandom part of the effect of $S$ on $X$ (i.e. $X(1) - X(0)$) is a function of the variables contained in $\bm{W}$, in which case conditioning on $\bm{W}$ along with $X(s)$ also implicitly conditions on $X(s')$. 
+%(or just think of W capturing the effect without needing to think of X(s') explicitly), in which case also conditioning on both W and X(s) should make it easier to meet assumption.
+
+%\subsubsection{To Consider: Comments on Panel Structure Strategy?}
+%
+%If we wanted to, this could be the place to engage a bit more with how the panel-structure diff-in-disc approach could be taken.
+
+
+
+\section{CAUTIONS WITH RESPECT TO THE MODERATION-IN-DISCONTINUITIES}
+
+As made clear above, the steps and conditions required for identification and estimation of the Moderation-in-Discontinuities are substantially more demanding than that for the Heterogeneity-in-Discontinuities. This section discusses the key hurdles and provides advice to help applied researchers consider whether their context and data allow for a meaningful and plausible investigation of the Moderation-in-Discontinuities.
+
+
+\subsection{Conditional Independence}
+
+If the moderator has not been randomized, the assumption of conditional independence of the moderator is the core assumption upon which identification of the Moderation-in-Discontinuities rests. Just like with the standard causal identification of an average treatment effect with observational data via selection on observables, conditional independence is a strong and nonrefutable assumption. 
+
+Accordingly, researchers should approach this assumption with a sense of healthy skepticism and supplementary analyses to reason through its \emph{degree} of plausibility. That is, unless there exists some administrative or other known mechanism underpinning the moderator, which is unlikely with the common scenarios and moderators in investigations of conditional RD effects, it may be audacious to believe that conditional independence is exactly met. The idea that, in real data, one's control set actually contains every possible required variable is simply not plausible. This is the same with identification of a simple ATE with observational data. At the same time, however, important evidence and insights can still be generated even in the absence of the full control set. In particular, it is vital to consider (a) the sensitivity of the Moderation-in-Discontinuities estimate to different/additional variables in the control set, which is an empirical matter, and (b) the variables that one believes are important to the theoretical control set but are not available in the data, which is a matter of theory and subject matter expertise. By reasoning through these two dimensions, researchers can offer meaningful insights on the plausibility of and degree to which the moderating variable itself is truly responsible for a difference in RD effects.
+
+In sum, even if one is uncomfortable fully embracing the conditional independence assumption, one can still view the estimation of the Moderation-in-Discontinuities under this approach as a highly principled and structured approach for beginning one's investigation into the causal influence of the moderator. This can be combined with other types of evidence, additional analyses, and careful social scientific reason to provide a clearer (even if imperfect) picture of the causal phenomena potentially at play and to motivate future research with potentially more robust designs.
+
+
+%engaging in Moderation-in-Discontinuities analyses may still be useful to add tentative evidence, and at least give additional empirical insight on whether or not it is plausible that the moderating variable itself is truly responsible for the difference in RD effects.
+
+%Scholars would need to take the result with a grain of salt, perhaps viewing the results as tentative evidence or robustness checks, rather than full fledged findings.
+
+%Strong assumption. One of the reasons scholars like RD is that identification seems more plausible than in observational studies that rely upon conditional independence. Conditional independence is nonrefutable. There do not exist reliable diagnostics to assess it, like the diagnostics that exist for RD.
+
+
+\subsection{Common Support}
+
+In the standard causal identification of an average treatment effect via selection on observables, the common support (overlap) assumption is equally as important as (and can be viewed as a fundamental continuation of) conditional independence. Unfortunately, however, common support is often not discussed or probed as carefully in applied work---with an exception perhaps being applied work using matching and/or propensity-score-based methods, which naturally lend themselves toward diagnostics focused on overlap. 
+
+Common support is critical also for both the identification and estimation of the Moderation-in-Discontinuities, and checking for common support should be a virtually automatic first step for researchers considering an investigation of Moderation-in-Discontinuities. Further, it is important to note that the common support assumption is conditional on both $\bm{W}$ and $X$. Fortunately, common support is an assumption that can be investigated through a range of diagnostics. In the present case, it is particularly important to check for evidence of common support at the the cutoff, though it is also important to assess overlap across the full range of $X$ within the estimating bandwidth when functional form assumptions are implicit in the estimation strategy.
+
+If there is insufficient common support found with respect to either $X$ or $\bm{W}$, then it is not worthwhile to even proceed with estimating a Moderation-in-Discontinuities effect, unless one is comfortable with extrapolation based on extreme reliance on functional form assumptions. In such a case, it is simply not feasible to investigate the Moderation-in-Discontinuities, it is either not identified or otherwise not plausibly estimable with the available data.
+
+
+\subsection{Continuity} \label{subsec:continuity}
+
+%Section on diagnostics and falsification tests regarding continuity. Think through this more, but my initial thoughts are that this is not materially different or more difficult than with the standard RD context, since sorting is the primary threat.
+
+%That is, reiterate what is already stated above: ``
+
+As noted earlier, the assumption of continuity required for the Heterogeneity-in-Discontinuities estimand is a simple extension of the continuity assumption applied in the standard RD design; the only difference is that the assumption is applied conditional upon observable values of $S$. In contrast, the Moderation-in-Discontinuities estimand requires a more expansive assumption of continuity in the expectation of all potential outcomes $Y(t,s)$, unconditional upon observable values of $S$. That being said, in both cases, the most serious practical threat to continuity remains sorting across the threshold. Furthermore, this threat is due to the possibility that units are sorting across the threshold (i.e. selecting into values of $X$ around the threshold $c$) in order to affect their treatment status $T$. As in the standard RD context, it remains the case for both the Heterogeneity-in-Discontinuities and Moderation-in-Discontinuities that $T$ is defined with respect to the $X$, whereas $S$ is not (and recall that our setup also rules out the possibility of a causal effect of $X$ on $S$). 
+
+Hence, the incorporation of the moderator variable should not materially change the nature (or level of threat to) the continuity assumption for either the Heterogeneity-in-Discontinuities or Moderation-in-Discontinuities, relative to the standard RD effect estimand. Indeed, it is hard to think of realistic situations in which the continuity assumption would be met for one of these three estimands (standard RD effect, Heterogeneity-in-Discontinuities, and Moderation-in-Discontinuities) but not met for the others. As such, it makes sense for researchers to approach the assumption of continuity in the same ways they would for the standard RD design, theorizing on the usual concern of sorting across the threshold and applying standard diagnostics (e.g. \citeauthor{mccrary2008manipulation}, \citeyear{mccrary2008manipulation}; \citeauthor{cattaneo2020simple}, \citeyear{cattaneo2020simple}; \citeauthor{hartman2021equivalence}, \citeyear{hartman2021equivalence}; for an overview, see \citeauthor{cattaneo2021regression}, \citeyear{cattaneo2021regression}).
+
+
+
+%, and it is unclear that the version of continuity required for Moderation-in-Discontinuities is actually more demanding as a practical matter, even if more stringent as a formal matter."
+
+%And then discuss the employment of normal diagnostics in this setting.
+
+%This is an identification matter. As an estimation matter, however, need that overlap to manifest in observed data around the cutoff as well.
+
+
+%\subsection{Functional Form}
+%
+%One already needs to be wary of functional form built in / assumed for estimation purposes.
+%
+%Becomes even more of a concern in this case because:
+%(a) more difficult to get right or approximate the true CEFs with more in the control set
+%(b) any (inevitable) functional form mistake will result in the possibility of extrapolation that is even more severe than regular RD, because there is more in the control set
+%
+%Tradeoff between (a) and (b), in the form of interactions among things in W, and between S and W.
+%
+%Partially resolved via matching preprocessing but: (a) most effective/justifiable if matching just for one subset (moderated or unmoderated), which changes the interpretation and reduced number of observations, or (b) if full matching, less likely to have good balance and messes around with statistical uncertainty considerations.
+
+
+%\subsection{Interpretation}
+
+%Reiterate the following:
+
+%As already noted above, this setup allows for the possibility that $S$ affects $X$, which is why the expressions condition on $X(1)$ and $X(0)$. This estimand captures how the effect of the treatment on the outcome \emph{at the cutpoint $c$} would change if all units took moderator value $S=1$ vs. $S=0$. Of course, in the case where $S$ affects $X$, because different counterfactual values of the moderator also imply different values of $X$, the units that have a value of $X$ within any $\epsilon$ distance from $c$ will not necessarily be the same under different counterfactual values of $S$. Hence, it important to interpret the Moderation-in-Discontinuities as a moderation to the effect at the cutpoint (i.e. the discontinuous jump in the CEFs), not the moderation of an effect for any individual particular observation. While this may at first impression seem odd, note that in the case of the more intuitive Heterogeneity-in-Discontinuities estimand, the effect of the treatment on the outcome is being compared for entirely different sets of units altogether. Further, this is a natural extension of the localness of a normal RD effect---that is, it captures the effect of the treatment on the outcome \emph{at the cutpoint} $c$, which is not the effect for any particular observation and would not necessarily be the same under some other value of the cutpoint.\footnote{To further consider the implications as in a normal RDD, and whether or one can extrapolate any findings beyond the cutpoint $c$, one must consider how different are the slopes of the potential outcomes in expectation on the left and right for each moderator value.} In addition, note that as a special case, the definition also covers the case where there is no causal relationship between $S$ and $X$. In that case, estimand simplifies to $E[Y_i(1,1) - Y_i(0,1) | X=c] - E[Y_i(1,0) - Y_i(0,0) | X=c]$.
+
+%\subsection{Trickiness of this in particular with election RDs}
+
+%In election RDs, the unit of analysis is actually a compound thing: it's an election, but an election is comprised of two components playing very different roles: candidate/parties and voters.
+
+%W could contain both candidate characteristics and locality/constituency characteristics with an election RD.
+
+%Also issues of selection (into first election, and into second election if outcome is related to second election), which are already issues that electoral RD scholars have to deal with in simple RDs
+
+%Also issue of characterizing/deciding whether focus on individual candidates or focus on parties.
+
+%Makes it more complicated to think through the right/appropriate set in W, compared to other RDs where the unit of analysis is less complicated.
+
+%\subsection{Dan's idea about different cutpoints for each S group?}
+
+
+
+\section{APPLICATIONS}
+
+How does existing research stand with respect to the issues discussed in this paper? To address this question, we evaluated %existing ``difference-in-discontinuity' designs in recent papers 
+previous studies focused on conditional RD effects
+-- both in the electoral setting and outside of it -- in light of the framework introduced above. 
+%Where feasible, we also extend these papers by building a control set ($\bm{W}$) and fitting the estimators discussed above on the extended data set. Doing so allows us to gain confidence about whether the difference in discontinuities that these papers find can be attributed to a causal effect of the moderator. 
+
+To start, Table A.1 in Section \ref{app:lit_review} summarizes prominent examples of recent research investigating conditional RD effects across economics, education, and political science. Overall, our review of recent papers suggests the following: 
+\begin{enumerate}
+  \item Few papers are clear about the specific estimand they are interested in and/or how to interpret their estimates, with respect to the causal role of the conditioning variable.
+  %the difference-in-discontinuities estimand.
+  \item Though some papers include interactions with covariates in their estimation strategy, they do not do so in a formally justified way.
+  \item Only one of the papers we examined reports any kind of overlap analysis.
+  \item The control set $\bm{W}$ is finite and non-exhaustive, meaning that even after our checks, interpretation warrants caution.
+\end{enumerate}
+
+% [TABLE w/ papers employing diff-in-disc HERE]
+We illustrate a more detailed application of our framework using two papers, where we have been able to replicate the research design and extend it with a sufficiently rich set of controls, $\bm{W}$. We demonstrate how applied research can benefit from our contribution by distinguishing clearly between Heterogeneity-in-Discontinuities and Moderation-in-Discontinuities, and assess the level of confidence with which the conditional RD effects that these applications find can be attributed to a causal effect of the conditional variable (moderator) itself.
+
+% In the remainder of this section, we apply our Moderation-in-Discontinuities framework to two applications where we have been able to replicate the research design and extend it with a sufficiently rich set of controls, $\bm{W}$. 
+% %Where feasible, we also extend these papers by building a control set ($\bm{W}$) and fitting the estimators discussed above on the extended data set. 
+% In doing so, we. 
+
+
+% (1) few papers are clear about how to interpret the difference; (2) though some papers include interactions with covariates, none do so in a formally justified way. (3) None of the papers we examine (with the exception of Jenkins et al (2016) do any kind of overlap analysis); (4) in the vast majority of settings, the control set W is finite and non-exhaustive, meaning that even after our checks, interpretation warrants caution. 
+
+% (For us to decide: do we want to go from 'worst' to 'best', or the other way around?)
+% (Do we want an appendix section that lists all the different papers, and our thoughts on them?)
+
+\subsection{Gender Gap in Winning On Persistence}
+
+Are women less persistent in running for office when losing an election? A line of very recent work \citep{wasserman2018, bernhard2021, wasserman2021} studies this question in the context of the United States employing a Heterogeneity-in-Discontinuities design. Outside of the US, \citet{cipullo2021} uses the same design to study the gender gap in persistence in Italian mayoral candidates. In this section, we replicate and extend \citet{cipullo2021}, reporting estimates of the estimands presented earlier.\footnote{In order to replicate the paper, we collected data on Italian municipal elections ourselves and merged it with the Italian Ministry of Interior's Dataset on Elected Officeholders. Data for most election losers is recorded because most mayoral candidates end up serving as town councillors instead, and are therefore retained in the official data. While both the design and data sources closely follow Cipullo, small discrepancies may remain as we did not have access to the author's replication data.} % SENTENCE ON CONCLUSION FROM REPLICATION + EXTENSION
+
+\subsubsection{Original Design and Interpretation}
+
+\citet{cipullo2021}, following \citet{wasserman2018} and \citet{bernhard2021} in the context of U.S. local elections, studies whether the attrition effect of losing an election on the probability to run again is differentially greater for female candidates in U.S. House races and Italian mayoral races. As discussed above, there are multiple reasons why women might suffer from greater attrition -- only some of which are directly attributable to gender. Women might, for example, be subject to more negative campaign experiences; they might also, on average, be more averse to competition \citep{wasserman2018}. Alternative explanations center on variables correlated with, but distinct from gender: women might be older, run for more or less competitive offices, or attempt to enter politics with less experience. This distinction between possible mechanisms is a textbook case for our framework and underlines the importance of carefully specifying the theorised role of gender, which, in turn, has implications for which estimand is the right quantity of interest.
+
+% THEORY/TOPIC: Paper is interested in whether women are less persistent in running again when they lose elections. This is an important question because it might contribute to why women are underrepresented in politics. There are multiple explanations here, some centred on being female itself (e.g., women could have a worse time on the campaign trail and therefore are less willing to repeat it, or might be more averse to competition); while others are due to factors correlated with gender (e.g. in the context of California local elections, the gender gap attenuates for more senior offices and/or candidates with prior elective experience; but Wasserman also finds that individual-level characteristics do not explain the gap)
+
+Though not explicitly spelled out, we consider the implied estimand of the paper to be the Moderation-in-Discontinuities. \citet{cipullo2021} applies the design in order to examine the `sticky floor hypothesis', which states that underrepresented groups, such as women, face greater difficulties in being elected; a later interpretation of the key estimate of interest also infers that `gender differences in future returns from participating in an election depend crucially on the challenges that \emph{women} face [...]' (p. 23)'. Despite being interested in the Moderation-in-Discontinuities, \citet{cipullo2021} does not discuss the difference between the two estimands. It is worth contrasting this with \citet{wasserman2018} who, studying the same question in the US, is commendably explicit about the fact that male and female candidates likely differ on a number of dimensions, and therefore intends to estimate the heterogeneity in causal RD effects.\footnote{\citet{wasserman2018} proceeds to probe potential mechanisms that depend on covariates potentially correlated with gender, such as women potentially running in more competitive races. She finds that the attrition gap attenuates in elections to more senior offices, thus providing evidence that renders explanations based on fundamental behavioral differences between men and women less likely. This, underlines the interpretation of the gender difference as a Heterogeneity-in-Discontinuities.}
+
+Despite the paper's stated interest in the Moderation-in-Discontinuities, \citet{cipullo2021}'s key specification intending to capture gender differences in attrition tracks our Heterogeneity-in-Discontinuities estimator closely. The specification uses candidates' margin of victory as the running variable, and assigns the treatment to candidates who barely lost; both treatment and running variable are also interacted with a dummy for female candidates in order to capture the heterogeneity. As a departure from our vanilla estimator, \citet{cipullo2021} also uses election year fixed effects interacted with both the running variable and the treatment indicator.\footnote{Although this specification could be seen as a moderation-in-discontinuities estimator with year indicators as the only variables in the control set, such an interpretation would be far-fetched as it would require that the only difference between men and women is that they run in separate years.} The proposed specification only tracks the Moderation-in-Discontinuities if conditional independence holds otherwise, which, based on previously mentioned alternative mechanisms, is unlikely to hold. Overall, the discrepancy between the estimand of interest (MiD) and the estimator (HiD) is illustrative of many papers in the literature.
+
+% ESTIMAND: Wasserman (2018) is very clear about being interested in the moderation-in-discontinuities, because she wants to understand WHY women suffer from differentially higher attrition. Cipullo (2021) doesn't exactly say which of the two he is interested in, although the phrasing of the `sticky floor' hypothesis implies that it is *being a women* that disadvantages female candidates.
+
+% ESTIMATION APPROACH: naive heterogeneity-in-discontinuities of the form: XXX with year FE interacted with the running variable and treatment. This is probably as close to our original heterogeneity-in-discontiuities as we'd like; however, of course this does not recover the moderation-in-discontinuities that we actually care about.
+
+% \paragraph*{Original Design and Interpretation.} \citet{cipullo2021} uses a heterogeneity-in-discontinuities (NEED TO REWORK THIS LANGUAGE AND DESCRIBE IN MORE DETAIL WHAT THEY ARE TRYING TO RECOVER AND WHAT THEIR EMPIRICAL/ESTIMATION APPROACH IS. IT MAKES SENSE TO PROCEED IN THE ORDER OF THEORY/TOPIC, THEN ESTIMAND, AND FINALLY ESTIMATION APPROACH. ALSO, DON'T USE THE TERM DiD, SINCE WE'VE POINTED OUT IT IS USED IN MANY DIFFERENT WAYS) design to study the gender-conditional effect of winning an election on candidates' probability of running again. This is the same design as \citet{wasserman2018, wasserman2021,bernhard2021}. The manuscript centers on gender-specific mechanisms and does not discuss the threat to causal interpretations of the difference stemming from correlates of gender. We believe that this paper is a textbook case for our framework: while the Heterogeneity-in-Discontinuities is an important quantity in its own right, estimating the Moderation-in-Discontinuities effect can help shed light on underlying mechanisms and produce valuable insights for policymakers.
+
+\subsubsection{Applying Our Framework}
+
+As a next step, we apply the framework presented above to \citet{cipullo2021}. We assess overlap and fit moderation-in-discontinuities estimators in order to increase our confidence about capturing the intended estimand of interest.
+
+\paragraph*{Introducing Control Set.} We replicate and extend Cipullo's results by collecting our own data on Italian mayors and extending it with a viable control set. Our conditioning variables in this application comprise candidates' age, education level, whether they were born in the municipality or not, and the municipality's logged population. We acknowledge that, in the face of limited data available, this control set is far from exhaustive. Even so, it can serve as a useful first-order check on adjudicating the precise role of gender in studying differential attrition.
+
+\paragraph*{Overlap assessment.} We begin by assessing the overlap of covariates between male and female candidates in our sample. Figure \ref{fig:italy_match_sens} plots the distribution of matched propensity scores for both genders, restricted to matched pairs that fall within a given bandwidth (Appendix \ref{app:prop_before_matching} reports the distribution of propensity scores before matching). We observe high overlap and robustness to bandwidth choices. This indicates that male and female candidates in our data set have broadly similiar characteristics, which is desirable, and allows us to proceed with the estimation of Moderation-in-Discontinuities.
+
+\paragraph*{Robustness to MiD Estimators.} Next, we assess whether the gender gap changes in magnitude when we estimate the Moderation-in-Discontinuities (as opposed to the  Heterogeneity-in-Discontinuities). Figure \ref{fig:italy_match_sens} reports the estimates at different bandwidths for the vanilla heterogeneity-in-discontinuity specification along with various moderation-in-discontinuity estimators discussed earlier. We see that, overall, the magnitude of the estimate does not change significantly across specifications. In other words, even when we account for the control set, the gender difference in the effect of winning on running again persists.
+
+We emphasize that we should be careful in interpreting the gender gap as a causal effect of gender, because our control set is limited in scope. Nonetheless, applying our framework strengthens confidence in the results and can help to credibly rule out a number of mechanisms that rely on gender correlates (e.g., women being older and therefore less likely to run again). We see this application as a key example of how our framework can help applied researchers distinguish between the two estimands, and how estimation can proceed if the estimand of interest is the Moderation-in-Discontinuities.
+
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width = 0.85\textwidth]{../output/figures/italy_one_round_match_sens.pdf}
+  \caption{Assessing overlap among observations in \citet{cipullo2021}, by bandwidth. We plot the distribution of propensity scores (measuring how likely an observation is female) after matching on the full control set.}
+  \label{fig:italy_match_sens}
+\end{figure}
+
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width = 0.85\textwidth]{../output/figures/italy_one_round_bw_sens.pdf}
+  \caption{Moderation-in-Discontinuities estimates on the effect of direct primaries on incumbency advantages by gender in Italian Mayoral Elections, following \citet{cipullo2021}}
+  \label{fig:italy_match_sens}
+\end{figure}
+% \input{../output/tables/italy_one_round.tex}
+
+% \begin{figure}[htbp]
+%   \centering
+
+%   \caption{Difference in Incumbency Effect On Running Again, By Gender. Italian Mayoral Elections, following \citet*{cipullo2020}.}
+%   \label{italy_bw_sens}
+% \end{figure}
+
+\subsection{The Effect of Poverty Levels on Right-Wing Party Policies}
+
+Our second application studies whether the difference in implemented pro-poor policies between left-wing and right-wing mayors attenuates in poorer towns. \citet{desai2021} argue that `[r]ight-wing parties are only competitive in very poor areas if they implement pro-poor policies that voters most often identify with the Left [...]' (p. 2), and offer evidence in the form of a design similar to the Heterogeneity-in-Discontinuities design applied to Brazilian municipalities. We discuss the ambiguity in the intended estimand, and estimate a meaningful difference between the heterogeneity-in-discontinuities and the moderation-in-discontinuities. We believe this application is illustrative of a lack of formalization and theoretical clarity about the estimand that is, unfortunately, common across many papers studying RD effect conditionality.
+
+% We pick this application because we believe that it illustrates a lack of formalization and theoretical clarity that is common across many papers studying RD effect conditionality.
+
+\subsubsection{Original Design and Interpretation}
+
+% \paragraph*{Original Design and Interpretation.} (LIKE WITH THE PREVIOUS APPLICATION, NEED TO INCLUDE MORE DETAILS ON (IN ORDER) THEORY/TOPIC, THEN ESTIMAND, AND FINALLY ESTIMATION APPROACH. IN THIS CASE, AS IS DESCRIBED IN THE FOLLOWING PARAGRAPHS, IT SOUNDS LIKE THE AUTHORS ARE UNCLEAR ABOUT THEIR ESTIMAND OF INTEREST, AND RELATEDLY, THEIR EMPIRICAL SPECIFICATION IS NOT CLEARLY OR FORMALLY JUSITIFIED. SPECIFICALLY, THE INCLUSION OF CONTROL VARIABLES SIMPLY ADDITIVELY TRACKS WITH NEITHER A HETEROGENEITY-IN-DISCONTINUITIES DESIGN, NOR A MODERATION-IN-DISCONTINUITIES DESIGN. THIS IS A KEY ISSUE TO HIGHLIGHT UPFRONT, AND IN DOING SO, THIS APPLICATION SERVES AS A NICE ILLUSTRATION OF A LACK OF FORMALIZATION AND THEORETICAL CLARITY IN COMMON APPROACHES THESE DAYS TO RD EFFECT CONDITIONALITY. DEVELOP ALL OF THIS HERE MORE.) 
+
+\citet{desai2021} are interested whether right-wing mayors spend less on pro-poor policies than left-wing mayors, and whether the policy difference attenuates in poorer municipalities. The key theoretical argument posits that right-wing parties need to implement pro-poor policies -- defined by municipality spending on education, health, housing, and sanitation -- in high-poverty localities in order to match voters' preferences and win. As a result, there is little policy differentiation between left-wing and right-wing winners. But for such a promise to be credible, right-wing parties may also want to field candidates that are more representative of the electorate (e.g., poorer or less educated). In low-poverty towns, by contrast, there is no policy differentiation or education differentiation. The authors hypothesise that the contrast in policy differentiation is \emph{because} of poverty; their empirical hypothesis is informed by a game theoretic model in which the comparative static with respect to poverty drives the key result. But high- and low-poverty towns may differ with respect to other characteristics, such as geography, climate, or literacy. If that is the case, we may observe a policy equivalence in high-poverty areas simply because budgets are more constrained, or because a more remote location requires greater spending on sanitation basics irrespective of being targeted towards poverty, or simply because of a lack of alternative items to spend the budget on. 
+
+The paper does not clearly state which estimand it hopes to track empirically. The theoretical model in the paper implies that the quantity of interest is the Moderation-in-Discontinuities -- the moderating effect of high-poverty towns on the causal effect of electing a right-wing (vs. left-wing) mayor. On the other hand, when introducing the empirical design, the authors declare their interest in estimating the RD effect of electing a right-wing mayor in the two subsamples (high- and low-poverty), which maps onto the heterogeneity-in-discontinuities estimand. This kind of ambiguity is common across surveyed papers.
+
+A related issue concerning the estimand, following Marshall (2021), is that the design compares election winners of one kind (left-wing) with election winners of another kind (right-wing). If the goal is to estimate the effect of a right-wing mayor independent of their individual characteristics (e.g. age, education etc.), this design would be biased. Instead, we think of the `treatment' here as a compound treatment of everything that may be different between left-wing and right-wing candidates (following Hall (2015) and Marshall (2021)). For the purpose of this application, we then constrain our discussion about the moderating mechanism to town-level variables, i.e. attributes that differ between high- and low-poverty towns.
+
+The authors use a specification that is similar to, but does not fully map onto our proposed heterogeneity-in-discontinuities estimator. They interact the running variable (margin of victory for right-wing candidate) and treatment indicator (right-wing candidate won) with the conditioning variable, low-poverty; in addition, they also add election year fixed effects and a several contest- and town-level covariates as linear, addive regressors (i.e., without interactions). These additional parameters are not formally justified and leave the implemented estimator without a clear mapping to either main estimand. We also highlight that the authors report results using triangular kernels throughout, and for a limited selection of bandwidths. (We replicated the results using uniform kernels and a wide range of bandwidths in Appendix \ref{app:kernelsens}, and found that the original results are sensitive to higher bandwidths.)
+
+% THEORY/TOPIC: The authors are interested in whether right-wing mayors spend less on pro-poor policies than left-wing mayors, and whether the difference shrinks in poorer municipalities. The argument they make is that in order to get elected in poorer municipalities, (a) the right needs to implement pro-poor policies; and in order to do so credibly, they need to nominate less educated (i.e. poorer) candidates. 
+% Talk a little bit more about what the moderator is: municipal poverty (share of poor families)
+% Measuring pro-poor policy: share of the municipal budget invested in health, sanitation, education, and housing.
+% The authors claim that the contrast between high- and low-poverty municipalities is because of programmatic competition and the right's desire to win, and deploy a whole formal model where the key comparative static (q) is the share of poor voters in the electorate. They also emphasize that it is necessary for voters to care about programmatic brands for their theory to work. But we can think of other reasons why the policy difference between left-wing and right-wing candidates may differ between richer and poorer towns: poorer towns may have smaller budgets; they may receive other funding; they may be geographically different (such that some pro-poor policies don't bite)
+
+% ESTIMAND: It is not entirely clear what they have in mind. The theory strongly implies that they assign a causal interpretation to the moderator: poorer places feature less policy differentiation because they are poor. On the other hand, the framing of the empirics also suggests that they wish to estimate the causal effect of electing a right-wing mayor on two subsamples (high and low poverty). Bottom line: it is not clear which of the two they think they estimate; 
+
+
+
+% ESTIMATION APPROACH: RD specification where the running variable and treatment are interacted with the low-poverty indicator; in addition, election year fixed effects and pre-treatment covariates and candidate characteristics as additional linear regressors. In doing so, the specification doesn't conform to either the heterogeneity-in-discontinuities nor the moderation-in-discontinuities estimators; the authors provide no formal justification for their alternative specification. 
+
+
+
+
+% The authors' key empirical results stem from a Heterogeneity-in-Discontinuities design in which they compare municipalities that barely elected a right-wing mayor to those that barely elected a left-wing mayor, and estimate the difference in subsequent pro-poor spending (measured by the share of pro-poor spending policies in the town budget) separately for municipalities above ($S = 1$) and below median wealth levels ($S = 0$).\footnote{This design, in the language from \citet{marshall2019}, is a politician characteristic RD: observations on either side of the threshold are elected; the treatment determines whether the winner is right-wing (vs. left-wing). Right-wing candidates differ from left-wing candidates on a number of personal characteristic dimensions, of course. In that sense, we ought to interpret the treatment as a compound treatment of everything that is different about right-wing politicians (similar to Hall (2015)). Still, both the theory and the relevant control set are at the town-level. } Their estimates suggest that in poorer municipalities, there is no difference between left- and right-wing mayors: both spend similar shares of the local budget on redistribution towards the poor. In richer communities, however, elected right-wing candidates spend less than their left-wing counterparts on pro-poor policies. 
+% 
+% When interpreting the results, the authors do not distinguish between the distinct interpretations of our Heterogeneity-in-Discontinuities and the Moderation-in-Discontinuities estimands.\footnote{See, for example, p. 11: 'as municipalities become less poor, the policy effect becomes significant'} Moreover, the theoretical model preceding the results in the paper strongly implies that we ought to think of the contrast between low-income and high-income municipalities as the direct result of poverty.
+% ('as municipalities become less poor, the policy effect becomes significant', p. 11)
+
+% It is worth noting that the results presented in the paper do not discuss their sensitivity to different kernel estimators; robustness checks regarding the bandwidth around the threshold are restricted to factors 0.75 and 1.25 of the MSE-optimal bandwidth (0.0529) on the full sample. In our replication, the effect size and statistical significance was not robust to larger bandwidths (> 0.075), and sensitive to using a uniform, rather than a triangular, kernel. Appendix \ref{app:kernelsens} presents these results in greater detail.
+
+\subsubsection{Applying Our Framework}
+
+Next, we apply our framework in order to evaluate whether our formal estimators yield divergent results.
+
+\paragraph*{Control Set.} The authors' original data comes with an extensive set of town-level control variables, ranging from municipalities' GDP and geography to past vote shares in higher-order elections. In our replication, we focus on the following municipality-level controls as that are susceptible to feature an independent moderation effect on winners' policy decisions: the size of the past budget; the vote share the left obtained in past presidential elections; inequality (Gini); GDP per capita; population (logged), and, finally, longitude and latitude.\footnote{We also leave out year fixed effects because dealing with time as a conditioning variable is difficult. Appendix \ref{app:smaller_controlset} shows results where we retain longitude, latitude and population as the only conditioning variables, with similar results to Figure \ref{fig:brazil_mid}.} We use this control set to assess overlap and estimate moderation-in-discontinuities effects as introduced earlier in the paper.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width = 0.8\textwidth]{../output/figures/brazil_muni_prop_match.pdf}
+  \caption{Assessing overlap among observations in \citet{desai2021}, by bandwidth. We plot the distribution of propensity scores (measuring how likely an observation is in the moderated group) after matching on the full control set (including election year as a continuous covariate). }
+  \label{fig:brazil_match}
+\end{figure}
+
+% We also include an additional robustness check where the conditioning set ONLY includes longitude, latitude, and population size. We get very similar results.
+
+\paragraph*{Overlap Assessment.} Figure \ref{fig:brazil_match} reports the distribution of propensity scores for high-poverty (unmoderated) and low-poverty (moderated) municipalities after matching with replacement (results for matching without replacement and pre-matching are reported in Appendix \ref{app:
+}). Even when allowing for matching with replacement, we do not find good overlap. This result alone threatens the ability to interpret RD effect conditionality as the causal effect of the moderator, as it suggests that wealthy and poor municipalities differ significantly along the dimensions captured by our control set. The example highlights the importance of the overlap check to assess the plausibility of alternative moderating variables that may account for the contrast.
+
+\paragraph*{Robustness to MiD Estimators.} Despite finding little overlap in the earlier check, we proceed with fitting our estimators for the purpose of illustrating our framework. We caution, however, that applied researchers ought not to interpret MiD estimates as credible if the overlap is as sparse as in this case. Figure \ref{fig:brazil_mid} presents our estimates. Our heterogeneity-in-differences estimate matches the original paper's results close to the authors' preferred bandwidths (0.052), though our confidence intervals are larger due to the omission of linearly added control variables and year fixed effects, as well as the use of a uniform kernel. In wealthier towns, electing a right-wing mayor (as opposed to electing a left-wing mayor) decreases the share of pro-poor spending in the local budget by a greater magnitude. As we move towards wider bandwidths, however, the heterogeneity-in-discontinuities estimates attenuate towards zero.
+
+In the vanilla MiD, the sign of the coefficient of interest flips compared to previous results: the effect of a right-wing mayor on pro-poor spending \emph{grows} in richer towns. Across all bandwidths, however, these estimates are statistically insignificant. When matching without replacement, we get results that are substantively similar to the original Heterogeneity-in-Discontinuities estimand; this should not be surprising given the poor overlap. Finally, when matching with replacement, the estimates hover around zero for most bandwidths; for the very small bandwidth of 0.025, the moderation effect grows very large in magnitude and positive.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width = 0.8\textwidth]{../output/figures/brazil_muni_mid.pdf}
+  \caption{Moderation-in-Discontinuities estimates on the moderation effect of town poverty on the effect of electing a right-wing mayor on pro-poor policies, following \citet*{desai2021}.}
+  \label{fig:brazil_mid}
+\end{figure}
+ 
+Our analysis points to the following conclusions. First, the application highlights the importance of carefully and formally distinguishing between the two estimands of interest. Second, we stress the importance of assessing observations' overlap with respect to the moderator in order to justify any credible interpretation of estimates as moderation-in-discontinuities. Third, even aside from overlap concerns, the moderation-in-discontinuities estimates may be fundamentally different from the heterogeneity-in-discontinuities ones, casting doubt on clear causal interpretations of the moderation `effect'. In this particular application, the results suggest we cannot rule out the possibility that a factor correlated with town wealth (e.g., geography) may be responsible for the observed heterogeneity.
+
+% \subsection{Summary}
+
+% Overall, our applications illustrates well why we recommend researchers should be cautious about interpreting Heterogeneity-in-Discontinuities estimates: where overlap is insufficient and/or Moderation-in-Discontinuities estimates differ markedly from previous results, factors other than the theorized moderator may account for the documented difference in conditional treatment effects. Our framework offers a principled and formalized approach to address such concerns and diagnose potential problems.
+
+
+% OLSON EXAMPLE -----
+
+% \subsection{The Effect of General Primaries on Incumbency Advantage}
+
+% Another application of our Moderation-in-Discontinuities framework, following \citet{olson2020}, investigates the difference in incumbency advantages as a result of introducing direct primaries in US House elections. As before, we follow our framework by measuring overlap and fitting our Moderation-in-Discontinuities moderator. We caution that the original design makes strong causal claims without necessary formalization, and find that the two groups have no overlap.
+
+% \paragraph*{Original Design and Interpretation.} The original design estimates the Heterogeneity-in-Discontinuities on the outcome (whether the candidate is elected in $t + 1$) that is demeaned with respect to unit and year (akin to year and unit FEs). It intends to identify the causal effect of the direct primary introduction using a setup that leverages the panel structure of the data, but falls short of a formal discussion of the identification assumptions necessary to do so. We caution that, mirroring the discussion earlier in the paper, identifying the moderation effect in a setting where the treatment is staggered over time is particularly challenging. 
+
+% Despite these challenges, Olson's interpretation of the estimates is explicitly causal: `The models strongly suggest that direct primary adoption causes an increase in the incumbency advantage' (p. 15 of manuscript).
+
+% \begin{figure}[htbp]
+%   \centering
+%   \includegraphics[width = 0.8\textwidth]{../output/figures/primary_match_sens.pdf}
+%   \caption{Assessing overlap among observations in \citet{olson2020}, by bandwidth. We plot the distribution of propensity scores (measuring how likely an observation is in the direct primary group) after matching on the full control set (including election year as a continuous covariate). }
+%   \label{primary_match_sens}
+% \end{figure}
+
+
+% \paragraph*{Control Variables.} To Olson's credit, the paper reports results from a specification in which two additional control variables are interacted with the running variable and treatment: civil service regime type and ballot type. These estimates in the paper feature attenuated magnitudes and are statistically insignificant. We add additional covariates (used by the author as simple controls, rather than interactions) to the control set: logged population, per cent urban population, and per cent black population. Lastly, we also include the election year as a variable in the control set; given the staggered nature of the moderator adoption, [why do we think this is justified...?]
+
+% \begin{figure}[htbp]
+%   \centering
+%   \includegraphics[width = 0.8\textwidth]{../output/figures/primary_bw_sens.pdf}
+%   \caption{Moderation-in-Discontinuities estimates on the effect of direct primaries on incumbency advantages in the early 20th century U.S., following \citet*{olson2020}.}
+%   \label{primary_bw_sens}
+% \end{figure}
+  
+
+% \paragraph*{Overlap assessment.}Figure \ref{primary_match_sens} demonstrates the balance of propensity scores after matching (without replacement) on the control set, at different bandwidths. We observe that there is little overlap between elections held under the direct primary regime and those without. This alone suggests that a causal interpretation of the Heterogeneity-in-Discontinuities is unwarranted. When matching \emph{with} replacement, the overlap improves somewhat, albeit not sufficiently to warrant satisfying the identification assumption.
+
+% We caution that the analysis should stop here (as far as a causal estimate of the effect of primary introduction is sought). For the purpose of illustrating the Moderation-in-Discontinuities framework further, we nonetheless proceed with presenting our estimates.
+% % NOTE: GIVEN HOW POOR THE OVERLAP IS, THE ANALYSIS SHOULD STOP HERE (I.E. DON'T EVEN SHOW THE MID ESTIMATORS), WHICH IS CONSISTENT WITH OUR ADVICE ABOVE THAT OVERLAP IS THE FIRST ASSESSMENT, AND IF THERE ISN'T SUFFICIENT OVERLAP, THEN THE MID IS DOOMED AND NOT WORTH INVESTIGATING.
+
+% \paragraph*{Robustness to MiD Estimators.} Figure \ref{fig:primary_bw_sens} reports the vanilla Heterogeneity-in-Discontinuities estimate along with a number of different Moderation-in-Discontinuities estimates, evaluated at different bandwidths. First, we emulate the paper's specification and only include the original covariates in the control set. We note that the estimates drop in magnitude across all bandwidths, and become statistically insigificant except at $h = 0.1$ and $h = 0.075$. We obtain a similar result when we expand the control set to include log population, urban population, and the share of black population. 
+
+% We incorporate the election year in two different ways into the control set: as a continuous variable (row 4) and as a dummy indicator for every election year (row 5). In both cases, the confidence intervals grow very wide; in the case of modelling election years more flexibly, the point estimates also drop close to zero and turn negative. This illustrates how the assumptions we make about time in the Moderation-in-Discontinuities framework can have huge repercussion on the estimates.
+
+% Finally, we also include Moderation-in-Discontinuities estimates from our matched datasets. When we match without replacement (row 6), we obtain estimates that are very similar to the original Heterogeneity-in-Discontinuities estimator. This is an artefact of there being many more treated units than control units: it is simply not possible to obtain close matches, and so the advantage from matching is reduced. When we do allow for matching with replacement (row 7), the estimates attenuate and exhibit a high degree of sensitivity to the bandwidth choice.
+
+% Our Moderation-in-Discontinuities estimates point to the following conclusions. First, we highlight the need to assess observations' overlap to justify any interpretation of estimates as moderatione ffects. Second, the sensitivity of estimates to the inclusion of year dummies shows how precarious the conditional independence assumption is: it is enough for one key variable to be omitted from the control set to distort results.  Last, designs that involve panel observations over time with within-unit changes in the moderator are difficult to identify, and can be very sensitive to modelling and identification assumptions. 
+
+
+% \subsection{Add Third Application}
+
+% Potential: Effect of being admitted to elite school different by minority status?
+
+
+\section{DISCUSSION AND CONCLUSIONS}
+
+In this paper, we introduce and discuss an important distinction between two quantities of interest when assessing effect conditionality in regression discontinuity designs. We distinguish between the Heterogeneity-in-Discontinuities estimand, which maps onto the local average treatment effect conditional on a given characteristic (e.g, the effect of winning an election for women in the sample), and the Moderation-in-Discontinuities, which recovers the moderation effect of the defining characteristic that causes the treatment effect to change (the effect of winning an election for women \emph{because} they are women). Separating the two estimands is not just important for conceptual reasons, but can help researchers and policymakers draw more precise conclusions from their findings.
+
+We introduce a formalized framework to describe the two estimands in greater detail and offer multiple strategies to recover the Moderation-in-Discontinuities under conditional independence assumptions. In light of existing applied research often being ambiguous about the estimand of interest, we offer practical advice and apply our framework to two recent papers. Our results illustrate the need to formalize and discuss the estimand of interest when targeting RD effect conditionality; when interested in Moderation-in-Discontinuities, researchers should also heed the importance of checking overlap assumptions and the use of appropriate estimators that track the estimand.
+
+% We introduce and discuss the important distinction between two separate quantities of interest when assessing RD effect conditionality: heterogeneity-in-discontinuities and moderation-in-discontinuities. Even though we think this distinction is vital and bears implications for what we learn from results, we also find that applied researchers often do not make, let alone formalise this distinction. As a result, authors' empirical strategy does not map onto the implied estimand. 
+
+% To address this problem, we have proposed a new framework that distinguishes between the two estimands using potential outcomes notation. We introduce several new estimators intending to capture the Moderation-in-Discontinuities under a conditional independence (selection-on-observables) assumption. We finally apply our framework to two recent papers and illustrate (a) the need to formalize the intended estimand of interest; (b) the importance of checking overlap assumptions; (c) the use of appropriate estimators that track the estimand.
+
+Our work comes with an important caveat. We stress that in many settings, the conditional independence assumption may not be credible, or gathering an appropriate control set may not be feasible. At other times, our Moderation-in-Discontinuities estimators may be too demanding in terms of statistical power. In those cases, a credible estimate of the Moderation-in-Discontinuities may not be possible, and researchers should discuss this possibility openly rather than returning to the Heterogeneity-in-Discontinuities. Despite these challenges, our frameework introduces new methodological vocabulary, an important conceptual distinction along with useful estimation strategies that can benefit researchers across many social science settings where RD effect conditionality is of interest.
+
+% Caveats / Implications: We stress that in many cases, conditional independence assumption may not be credible or gathering an appropriate control set may not be feasible. Often times, our estimators may simply be too demanding in terms of power. In these instances, researchers should be appropriately cautious and report results with according caveats. Still, we believe our framework introduces new vocabulary and a distinction between moderation mechanisms that can be crucial for policymakers and researchers alike.
+
+\clearpage
+
+
+\addtolength{\baselineskip}{-0.1\baselineskip}
+\bibliographystyle{apalike}
+\bibliography{references}
+
+\clearpage
+
+\appendix
+\setcounter{section}{0}
+\renewcommand{\thesection}{\Alph{section}}
+\renewcommand{\thesubsection}{\Alph{section}.\arabic{subsection}}
+
+\section{ADDITIONAL METHODS}
+
+\subsection{Locally Randomized Running Variable and Conditionally Independent Moderator} \label{appen:rrv}
+
+An alternative to the standard RD formulation based upon continuous conditional expectation functions is a design-based strategy that posits the running variable to be random for a subset of units, typically defined by some interval around the cutoff $c$ \citep[see][]{cattaneo2015randomization,li2015evaluating,mattei2016regression,eckles2020noise}.
+The benefit of this ``local randomization" approach, if one feels comfortable with the plausibility of a locally randomized running variable, is the ability to eliminate functional form dependence in the estimation. Applying this approach to the Moderation-in-Discontinuities would proceed with the following local randomization assumption, adapted from \cite{mattei2016regression}:
+
+\begin{assumption}[Local Randomization of Running Variable]\footnote{In addition, the local randomization approach to regression discontinuities requires two additional enabling assumptions. The first (which \cite{mattei2016regression} refer to as ``local overlap") is the existence of the subset $\mathcal{U}_c$ defined such that for each $i \in \mathcal{U}_c$, $Pr(X_i \leq c) > \epsilon$ and $Pr(X_i > c) > \epsilon$ for some sufficiently large $\epsilon > 0$. This assumption implies that each unit in the subset has a non-zero probability of assignment to either of the treatment conditions. The second additional assumption is a modification of the classic Stable Unit Treatment Value Assumption (SUTVA) attributable to \cite{rubin1980randomization}. This modified assumption (which \cite{mattei2016regression} refer to as ``local RD-SUTVA") states that for each $i \in \mathcal{U}_c$, consider two treatment statuses $T_i' = \bm{1}(X_i' \leq c)$ and $T_i'' = \bm{1}(X_i'' \leq c)$, with possibly $X_i' \neq X_i''$; if $T_i' = T_i''$, then $Y_i(\bm{X}') = Y_i(\bm{X}'')$, where $Y_i(\bm{X})$ refers to potential outcomes defined as a function of the vector of running variable values $\bm{X}$ for the full subset. This assumption implies that there is no interference between units and that potential outcomes depend upon the running variable solely through the treatment status, and hence allows for $Y_i(\bm{X})$ to be simplified as $Y_i(t)$ for each unit $i \in \mathcal{U}_c$. Different variants of these sets of assumptions have also been presented in other related work \citep{cattaneo2015randomization,li2015evaluating,eckles2020noise}.} \label{assump:local_rand}
+
+\noindent For all $i \in \mathcal{U}_c$, where $\mathcal{U}_c$ denotes a subset of units,
+$$Pr(X_i | Y_i(t,s), S_i, \bm{W}_i) = Pr(X_i)$$
+for all $t \in \{ 0, 1\}$ and $s \in \{ 0, 1\}$.
+%$$(Y_i(t,s), S_i, \bm{W}_i) \indep X_i \: | \: \bm{1}(\{ X_i \in \mathcal{I} \})$$
+%for all $t \in \{ 0, 1\}$ and $s \in \{ 0, 1\}$, and some interval $\mathcal{I}$ with $c \in \mathcal{I}$.
+\end{assumption}
+
+Note that as a part of this assumption, it is implied that among the units belonging to $\mathcal{U}_c$, there is no relationship between $S$ and $X$, and hence $X_i(0) = X_i(1) = X_i$. In addition to local randomization of the running variable, the following assumptions are also necessary:
+
+\begin{assumption}[Local Moderator Conditional Independence] \label{assump:local_mod_cond_indep}
+$$Y_i(t,s) \indep S_i \: | \: \bm{W}_i$$
+for all $i \in \mathcal{U}_c$ and for $t \in \{ 0, 1\}$ and $s \in \{ 0, 1\}$.
+\end{assumption}
+
+\begin{assumption}[Local Moderator Common Support] \label{assump:local_mod_supp}
+$$0 < Pr(S_i = 1 |  \bm{W}_i) < 1$$
+for all $i \in \mathcal{U}_c$.
+\end{assumption}
+Note that Assumption \ref{assump:local_rand} combined with Assumption \ref{assump:local_mod_supp} implies a local version of $0 < Pr(S_i = 1 |  X_i, \bm{W}_i) < 1$, i.e. common support conditional on both $\bm{W}$ and $X$, as before.
+
+As mentioned above, the benefit of proceeding based on the assumption of a locally randomized running variable, if it can be deemed plausible, is the ability to eliminate functional form dependence in the estimation. Specifically, the Moderation-in-Discontinuities need not be estimated on the basis of paramerizing the expected value of $Y$ conditional on $S$, $X$, and $\bm{W}$. Instead, the amount of parameterization can be limited, even allowing for entirely nonparametric estimation. 
+
+Specifically, one can proceed with the standard approach where $\mathcal{U}_c$ is defined as the subset of units whose running variable values fall within some (symmetric) interval around the cutoff $c$. For this subset, one can then adapt the nonparametric framework presented by \cite{bansak2021estimating} for estimating causal moderation effects given randomization of a treatment and non-randomization of a moderator. In the present context, this would involve first splitting the data into two subsets---one in which $i \in \mathcal{U}_c$ and $X_i \leq c$, and one in which $i \in \mathcal{U}_c$ and $X_i > c$---and then estimating separately for each of those subsets the causal effect of $S$ on $Y$ via some covariate adjustment strategy conditioning on $\bm{W}$, which could include nonparametric methods like matching. The difference between these two within-subset estimates would then comprise the Moderation-in-Discontinuities estimate \cite[see][for more details]{bansak2021estimating}.
+
+\section{EXISTING LITERATURE}
+
+\subsection{Literature Review}
+\label{app:lit_review}
+
+Table \ref{tab:lit_summary} summarizes recent studies using Heterogeneity-in-Discontinuities designs.
+
+\begin{sidewaystable}
+  \centering
+  \footnotesize
+  \begin{tabular}{llllll}
+    \toprule
+    Authors & Journal & Treatment & Outcome & Heterogeneity Set & Notes \\
+    \cmidrule(lr){1-6}
+    \citet{pop2013}& AER & Better School & Student Test Scores & Intial School Performance & \\
+    \citet{bronzini2014incentives} & AEJ:EP & Subsidies & Investment & Firm Size & \\
+    \citet{card2016} & AER & High-Performance School & Student Test Scores & Minority Status & \\
+    \citet{grembi2016fiscal} & AEJ:Applied & Fiscal Rules & Fiscal Outcomes & Time & (diff. framework) \\
+    \citet{eggers2017} & JOP & Being Elected & Winning Again & Party Competition & \\
+    \citet{de2018} & JOP & Being Elected & Winning Again & On-Off-Cycle & \\
+    \citet{bazzi2020institutional} & QJE & Land Expropriation & Islamist Strength & Expropriation Intensity & \\
+    \citet{bohlken2018} & AJPS & Being Elected & Project Expenditure & Governing Party & \\
+    \citet{micozzi2021valuable} & PSRM & Being Elected & Future Career Outcomes & Party Type & \\
+    \citet{olson2020} & Being Elected & Winning Again & Nomination Process & \\
+    \citet{barrow2020} & AEJ:Applied & Selective School & Test Scores & Socioeconomic status & \\
+    \citet{sells2020building} & JOP & Being Elected & Party Membership & Party Type & \\
+    \citet{wasserman2018} & ReEconStat & Being Elected & Running Again & Gender &  \\
+    \citet{wasserman2021} & AEA Proceedings & Being Elected & Running Again & Gender & \\
+    \citet{bernhard2021} & PNAS & Being Elected & Running Again & Gender  & \\
+    \citet{desai2021} & AJPS & Right-Wing Elected & Pro-Poor Spending & Town Wealth & \\
+    \citet{brown2019} & WP & Being Elected (State) & Being Elected (Congress) & Gender & \\
+    \citet{cipullo2021} & WP & Being Elected & Running Again & Gender & \\
+    McCrain et al (2021) & WP & Being Elected (State) & Being Elected (Congress) & Professionalisation & \\
+    \bottomrule
+  \end{tabular}
+  \caption{Summary of recent papers using heterogeneity-in-discontinuity designs}
+  \label{tab:lit_summary}
+\end{sidewaystable}
+
+\clearpage
+
+\section{ADDITIONAL ROBUSTNESS CHECKS}
+
+\subsection{Propensity Score Distributions Before Matching}
+\label{app:prop_before_matching}
+
+In this Appendix, we report the distribution of propensity scores \emph{before} any matching for both of our applications. The results are consistent with the general conclusions from the two applications: in the case of \citet{cipullo2021}, the overlap is already pretty good before any matching, whereas in the case of \citet{desai2021}, wealthy and poor municipalities offer a stark difference. We also report the overlap for the case of \citet{desai2021} after matching without replacement. Unsurprisingly, this method does not improve overlap very much, since matching without replacement does not allow us to find high-quality matches for most observations.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width = 0.6\textwidth]{../output/figures/italy_prop_prematch.pdf}
+  \caption{Assessing overlap among observations before matching in \citet{desai2021} using propensity scores (measuring how likely an observation is in the moderated group)}
+  \label{fig:overlap_italy_pre}
+\end{figure}
+
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width = 0.6\textwidth]{../output/figures/brazil_muni_prop_prematch.pdf}
+  \caption{Assessing overlap among observations before matching in \citet{desai2021} using propensity scores (measuring how likely an observation is in the moderated group)}
+  \label{fig:overlap_brazil_pre}
+\end{figure}
+
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width = 0.6\textwidth]{../output/figures/brazil_muni_prop_match_nr.pdf}
+  \caption{Assessing overlap among \emph{matched} observations (without replacement) in \citet{desai2021} using propensity scores (measuring how likely an observation is in the moderated group)}
+  \label{fig:overlap_brazil_post_norepl}
+\end{figure}
+
+
+\clearpage
+
+\subsection{Desai and Frey (2021): Sensitivity to Kernel Checks and Bandwidth}
+\label{app:kernelsens}
+
+Throughout our applications, we use uniform kernels around the threshold in estimating the Heterogeneity-in-Discontinuities and Moderation-in-Discontinuities. In the original paper, \citet{desai2021} use triangular kernels as default estimation procedure. In Figure \ref{fig:kernelsense}, we report our estimates from the vanilla Heterogeneity-in-Discontinuities estimation specification (with covariates and year fixed effects) for both kernel estimators across a wide range of the bandwidth.
+
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width = 0.8\textwidth]{../output/figures/brazil_bw_kernelsens.pdf}
+  \caption{Assessing overlap among matched observations (without replacement) in \citet{desai2021} using propensity scores (measuring how likely an observation is in the moderated group)}
+  \label{fig:kernelsens}
+\end{figure}
+
+
+\clearpage
+
+\subsection{Desai and Frey (2021): Robustness to Smaller Control Set}
+\label{app:smaller_controlset}
+
+Finally, we also report our results from the Moderation-in-Discontinuities estimators when using a control set that is limited to longitude, latitude, and population. We observe results that are very similar to our main results in the paper, highlighting the role that these three variables play in distinguishing between the Heterogeneity-in-Discontinuities and the Moderation-in-Discontinuities.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width = 0.8\textwidth]{../output/figures/brazil_limited_muni_prop_match.pdf}
+  \caption{Assessing overlap among matched observations (with replacement) in \citet{desai2021} using propensity scores (measuring how likely an observation is in the moderated group) and a limited control set}
+  \label{fig:kernelsens_limited}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width = 0.8\textwidth]{../output/figures/brazil_limited_muni_mid.pdf}
+  \caption{Moderation-in-Discontinuities estimates on the moderation effect of town poverty on the effect of electing a right-wing mayor on pro-poor policies, following \citet*{desai2021} and using a limited control set.}
+  \label{fig:mid_brazil_limited}
+\end{figure}
+
+\end{document}
