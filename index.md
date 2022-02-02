@@ -20,7 +20,7 @@ You can find my CV [here](./files/CV.pdf).
 
 2. [The Emergence of Party-Based Political Careers in the UK, 1801-1918](https://tobiasnowacki.github.io/files/careers.pdf)  <br />
     <span style="font-size:10.5px"> with Gary Cox. <br />
-    *Conditionally Accepted, Journal of Politics*. [[code + data]](https://github.com/tobiasnowacki/uk-careers)</span>
+    *Forthcoming, Journal of Politics*. [[code + data]](https://github.com/tobiasnowacki/uk-careers)</span>
 
 
 ### Working Papers
