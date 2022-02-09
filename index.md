@@ -38,7 +38,7 @@ You can find my CV [here](./files/CV.pdf).
 6. [Effect Heterogeneity and Causal Attribution in Regression Discontinuty Designs: Introducing the Moderation-in-Discontinuities Framework](https://tobiasnowacki.github.io/files/rdd_diff.pdf) <br />
     <span style="font-size:10.5px"> with Kirk Bansak. <br /> </span> 
 
-6. [Are Dead People Voting By Mail? Evidence From Washington State Administrative Records.](http://stanford.edu/~yoderj/Wu_et_al_Dead_Voting.pdf) <br/>
+6. [Are Dead People Voting By Mail? Evidence From Washington State Administrative Records.](https://tobiasnowacki.github.io/files/dead_voting.pdf) <br/>
     <span style="font-size:10.5px"> with Jennifer A. Wu, Chenoa Yorgason, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, and Andrew B. Hall. </span>
 
 
