@@ -52,7 +52,11 @@ You can find my CV [here](./files/CV.pdf).
 
 ## Teaching
 
-<!-- [Teaching Materials](another-page.md) -->
+[Teaching Materials](another-page.md)
+
+**Stanford (Lectures)**
+
+* 450X: Programming for Political Scientists (2019-20).
 
 **Stanford (TA for Graduate Classes)**
 
@@ -60,7 +64,6 @@ You can find my CV [here](./files/CV.pdf).
 * 450A: Political Methodology I: Regression. (2020-21, 2021-22)
 * 450B: Political Methodology II: Causal Inference. (2020-21)
 * 450C: Political Methodology III: Model-based Inference. (2019-20)
-* 450X: Programming for Political Scientists (2019-20).
 
 **Stanford (TA for Undergraduate Classes)**
 
