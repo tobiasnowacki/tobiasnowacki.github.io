@@ -27,7 +27,7 @@ You can find my CV [here](./files/CV.pdf).
 
 {:start="3"}
 3. [The Gender Gap in Political Careers Under Proportional Representation.](https://tobiasnowacki.github.io/files/pr_gendergap_jmp.pdf) <br/>
-    <span style="font-size:10.5px"> with Andy Eggers. <br />
+    <span style="font-size:10.5px">
     *Invited to Revise and Resubmit, Journal of Politics*. </span>
 
 4. [Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://tobiasnowacki.github.io/files/strategicvoting.pdf) <br/>
