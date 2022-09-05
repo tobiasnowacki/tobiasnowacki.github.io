@@ -15,7 +15,7 @@ You can find my CV [here](./files/CV.pdf).
 ### Peer-Reviewed Publications
 
 1. [How Did Absentee Voting Affect the 2020 U.S. Election?](https://www.science.org/doi/10.1126/sciadv.abk1755) <br/>
-    <span style="font-size:10.5px"> with Jesse Yoder, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, Jennifer A. Wu, Chenoa Yorgason, and Andrew B. Hall. <br /> 
+    <span style="font-size:10.5px"> with Jesse Yoder, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, Jennifer A. Wu, Chenoa Yorgason, and Andrew B. Hall. <br />
     *Accepted, Science Advances*. [[code + data]](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/YG4R14) </span>
 
 2. [The Emergence of Party-Based Political Careers in the UK, 1801-1918](https://tobiasnowacki.github.io/files/careers.pdf)  <br />
@@ -26,7 +26,9 @@ You can find my CV [here](./files/CV.pdf).
 ### Working Papers
 
 {:start="3"}
-3. [The Gender Gap in Political Careers Under Proportional Representation.](https://tobiasnowacki.github.io/files/pr_gendergap_jmp.pdf)
+3. [The Gender Gap in Political Careers Under Proportional Representation.](https://tobiasnowacki.github.io/files/pr_gendergap_jmp.pdf) <br/>
+    <span style="font-size:10.5px"> with Andy Eggers. <br />
+    *Invited to Revise and Resubmit, Journal of Politics*. </span>
 
 4. [Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://tobiasnowacki.github.io/files/strategicvoting.pdf) <br/>
     <span style="font-size:10.5px"> with Andy Eggers. <br />
@@ -36,7 +38,7 @@ You can find my CV [here](./files/CV.pdf).
     <span style="font-size:10.5px"> with Daniel M. Thompson. <br /> </span>
 
 6. [Effect Heterogeneity and Causal Attribution in Regression Discontinuty Designs: Introducing the Moderation-in-Discontinuities Framework](https://tobiasnowacki.github.io/files/rdd_diff.pdf) <br />
-    <span style="font-size:10.5px"> with Kirk Bansak. <br /> </span> 
+    <span style="font-size:10.5px"> with Kirk Bansak. <br /> </span>
 
 6. [Are Dead People Voting By Mail? Evidence From Washington State Administrative Records.](https://tobiasnowacki.github.io/files/dead_voting.pdf) <br/>
     <span style="font-size:10.5px"> with Jennifer A. Wu, Chenoa Yorgason, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, and Andrew B. Hall. </span>
