@@ -2,9 +2,9 @@
 layout: default
 ---
 
-I am a PhD candidate in [Political Science](https://politicalscience.stanford.edu/academics/graduate-program) at Stanford University. I am broadly interested in the political economy of elections. In particular, my research investigates how electoral institutions shape legislative behaviour, political party organisation, and accountability towards voters. I work with [Gary Cox](https://gwcox.sites.stanford.edu/), [Jens Hainmueller](https://web.stanford.edu/~jhain/), [Andy Hall](andrewbenjaminhall.com), and [Andy Eggers](http://andy.egge.rs).
+I am a Senior Data Scientist at Deliveroo, using state-of-the-art causal inference and statistical methods to support business decisions, product rollouts and improve consumer decisions. Previously, I worked as an Applied Intern at Uber. I specialise in estimating treatment effects and other metrics in experiments and developing alternative models where straightforward A/B experimentation is not possible.
 
-I am a Graduate Student Affiliate at the [Democracy and Polarization Lab](https://stanforddpl.org/).
+I hold a PhD in [Political Science](https://politicalscience.stanford.edu/academics/graduate-program) from Stanford University. In my research, I am broadly interested in the political economy of elections. In particular, my research investigates how electoral institutions shape legislative behaviour, political party organisation, and accountability towards voters. To that end, I use and develop new quantitative and causal inference methods. I work(ed) with [Gary Cox](https://gwcox.sites.stanford.edu/), [Jens Hainmueller](https://web.stanford.edu/~jhain/), [Andy Hall](andrewbenjaminhall.com), and [Andy Eggers](http://andy.egge.rs). I am also a Graduate Student Affiliate at the [Democracy and Polarization Lab](https://stanforddpl.org/).
 
 Prior to coming to Stanford, I was a DPhil Student at Oxford University (Nuffield College). I hold a BA in Philosophy, Politics, and Economics (PPE) from Warwick University, and a MSc in Politics Research from Oxford University (St. Cross College).
 
@@ -16,7 +16,7 @@ You can find my CV [here](./files/CV.pdf).
 
 1. [Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://tobiasnowacki.github.io/files/strategicvoting.pdf) <br/>
     <span style="font-size:10.5px"> with Andy Eggers. <br />
-    *Conditionally Accepted, Journal of Politics*. </span>
+    *Accepted, Journal of Politics*. </span>
 
 2. [The Emergence of Party-Based Political Careers in the UK, 1801-1918](https://tobiasnowacki.github.io/files/careers.pdf)  <br />
     <span style="font-size:10.5px"> with Gary Cox. <br />
