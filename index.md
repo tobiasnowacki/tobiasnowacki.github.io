@@ -8,7 +8,7 @@ I hold a PhD in [Political Science](https://politicalscience.stanford.edu/academ
 
 Prior to coming to Stanford, I was a DPhil Student at Oxford University (Nuffield College). I hold a BA in Philosophy, Politics, and Economics (PPE) from Warwick University, and a MSc in Politics Research from Oxford University (St. Cross College).
 
-You can find my CV [here](./files/CV.pdf).
+You can find my CV [here](./files/CV_redacted.pdf).
 
 ## Research
 
