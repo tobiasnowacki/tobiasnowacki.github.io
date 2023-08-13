@@ -2,9 +2,9 @@
 layout: default
 ---
 
-I am a Senior Data Scientist at Deliveroo, using state-of-the-art causal inference and statistical methods to support business decisions, product rollouts and improve consumer decisions. Previously, I worked as an Applied Intern at Uber. I specialise in estimating treatment effects and other metrics in experiments and developing alternative models where straightforward A/B experimentation is not possible.
+I am a Senior Data Scientist at Deliveroo, using state-of-the-art causal inference and statistical methods to support business decisions, product rollouts and improve consumer experiences. Previously, I worked as an Applied Scientist PhD Intern at Uber. I specialise in estimating treatment effects and other metrics in experiments and developing alternative models where straightforward A/B experimentation is not possible.
 
-I hold a PhD in [Political Science](https://politicalscience.stanford.edu/academics/graduate-program) from Stanford University. In my research, I am broadly interested in the political economy of elections. In particular, my research investigates how electoral institutions shape legislative behaviour, political party organisation, and accountability towards voters. To that end, I use and develop new quantitative and causal inference methods. I work(ed) with [Gary Cox](https://gwcox.sites.stanford.edu/), [Jens Hainmueller](https://web.stanford.edu/~jhain/), [Andy Hall](andrewbenjaminhall.com), and [Andy Eggers](http://andy.egge.rs). I am also a Graduate Student Affiliate at the [Democracy and Polarization Lab](https://stanforddpl.org/).
+I hold a PhD in [Political Science](https://politicalscience.stanford.edu/academics/graduate-program) from Stanford University. In my research, I am broadly interested in the political economy of elections. In particular, my work investigates how electoral institutions shape legislative behaviour, political party organisation, and accountability towards voters. To that end, I use and develop new quantitative and causal inference methods. I work(ed) with [Gary Cox](https://gwcox.sites.stanford.edu/), [Jens Hainmueller](https://web.stanford.edu/~jhain/), [Andy Hall](andrewbenjaminhall.com), and [Andy Eggers](http://andy.egge.rs). During my time at Stanford, I was also a Graduate Student Affiliate at the [Democracy and Polarization Lab](https://stanforddpl.org/).
 
 Prior to coming to Stanford, I was a DPhil Student at Oxford University (Nuffield College). I hold a BA in Philosophy, Politics, and Economics (PPE) from Warwick University, and a MSc in Politics Research from Oxford University (St. Cross College).
 
@@ -14,25 +14,26 @@ You can find my CV [here](./files/CV.pdf).
 
 ### Peer-Reviewed Publications
 
-1. [Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://tobiasnowacki.github.io/files/strategicvoting.pdf) <br/>
-    <span style="font-size:10.5px"> with Andy Eggers. <br />
-    *Accepted, Journal of Politics*. </span>
+1. [The Gender Gap in Political Careers Under Proportional Representation.](https://tobiasnowacki.github.io/files/pr_gendergap_jmp.pdf) <br/>
+    <span style="font-size:10.5px">
+    *Conditionally Accepted, Journal of Politics*. </span>
 
-2. [The Emergence of Party-Based Political Careers in the UK, 1801-1918](https://tobiasnowacki.github.io/files/careers.pdf)  <br />
+2. [Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://tobiasnowacki.github.io/files/strategicvoting.pdf) <br/>
+    <span style="font-size:10.5px"> with Andy Eggers. <br />
+    *Forthcoming, Journal of Politics*. </span>
+
+3. [The Emergence of Party-Based Political Careers in the UK, 1801-1918](https://tobiasnowacki.github.io/files/careers.pdf)  <br />
     <span style="font-size:10.5px"> with Gary Cox. <br />
     *2023, Journal of Politics 85(1)*. [[code + data]](https://github.com/tobiasnowacki/uk-careers)</span>
 
-3. [How Did Absentee Voting Affect the 2020 U.S. Election?](https://www.science.org/doi/10.1126/sciadv.abk1755) <br/>
+4. [How Did Absentee Voting Affect the 2020 U.S. Election?](https://www.science.org/doi/10.1126/sciadv.abk1755) <br/>
     <span style="font-size:10.5px"> with Jesse Yoder, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, Jennifer A. Wu, Chenoa Yorgason, and Andrew B. Hall. <br />
     *2021, Science Advances 7(52)*. [[code + data]](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/YG4R14) </span>
 
 
 ### Working Papers
 
-{:start="3"}
-4. [The Gender Gap in Political Careers Under Proportional Representation.](https://tobiasnowacki.github.io/files/pr_gendergap_jmp.pdf) <br/>
-    <span style="font-size:10.5px">
-    *Invited to Revise and Resubmit, Journal of Politics*. </span>
+{:start="5"}
 
 5. [How Much Do Elections Increase Police Responsiveness? Evidence From Elected Police Commissioners.](https://tobiasnowacki.com/files/commissioners.pdf) <br/>
     <span style="font-size:10.5px"> with Daniel M. Thompson. <br /> </span>
