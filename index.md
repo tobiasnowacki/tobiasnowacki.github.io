@@ -18,11 +18,11 @@ You can find my CV [here](./files/CV_redacted.pdf).
 
 1. [The Gender Gap in Political Careers Under Proportional Representation.](https://tobiasnowacki.github.io/files/pr_gendergap_jmp.pdf) <br/>
     <span style="font-size:10.5px">
-    *Conditionally Accepted, Journal of Politics*. </span>
+    *Conditionally Accepted, Journal of Politics*.  [[code + data]](https://github.com/tobiasnowacki/pr-gendergap-jop)< </span>
 
 2. [Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://tobiasnowacki.github.io/files/strategicvoting.pdf) <br/>
     <span style="font-size:10.5px"> with Andy Eggers. <br />
-    *Forthcoming, Journal of Politics*. </span>
+    *Forthcoming, Journal of Politics*.  [[code + data]](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/HR14IN)</span>
 
 3. [The Emergence of Party-Based Political Careers in the UK, 1801-1918](https://tobiasnowacki.github.io/files/careers.pdf)  <br />
     <span style="font-size:10.5px"> with Gary Cox. <br />
