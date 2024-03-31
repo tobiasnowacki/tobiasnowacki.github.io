@@ -4,11 +4,11 @@ layout: default
 
 I hold a PhD in [Political Science](https://politicalscience.stanford.edu/academics/graduate-program) from Stanford University. My research sits at the intersection of political economy and comparative politics and studies how elections shape representation. In particular, I examine how electoral rules and institutions affect political careers, party organization and voter behaviour. To study these questions, I apply and extend computational and causal inference methods to newly collected data on elections and local governments across Europe.
 
+I currently work as a Senior Data Scientist at Netflix, where I use state-of-the-art causal inference and statistical methods to support business decisions, consumer insights, product rollouts and improve consumer experiences. Previously, I worked as a Senior Data Scientist at Deliveroo and Applied Scientist PhD Intern at Uber. All views and opinions expressed on this website are my own.
+
 My work has been published in the *Journal of Politics* and *Science Advances*. I work(ed) with [Gary Cox](https://gwcox.sites.stanford.edu/), [Jens Hainmueller](https://web.stanford.edu/~jhain/), [Andy Hall](andrewbenjaminhall.com), and [Andy Eggers](http://andy.egge.rs). During my time at Stanford, I was also a Graduate Student Affiliate at the [Democracy and Polarization Lab](https://stanforddpl.org/) and repeatedly served as TA for classes in quantitative methodology and comparative politics.
 
-I currently work as a Senior Data Scientist at Deliveroo, where I use state-of-the-art causal inference and statistical methods to support business decisions, product rollouts and improve consumer experiences. Previously, I worked as an Applied Scientist PhD Intern at Uber. I specialise in estimating treatment effects and other quantities in experiments and developing alternative methods where straightforward A/B experimentation is not possible or underpowered.
-
-Prior to coming to Stanford, I was a DPhil Student at Oxford University (Nuffield College). I hold a first-class honours BA in Philosophy, Politics, and Economics (PPE) from Warwick University, and a MSc in Politics Research (with distinction) from the University of Oxford (St. Cross College).
+Prior to Stanford, I was a DPhil Student at Oxford University (Nuffield College). I hold a first-class honours BA in Philosophy, Politics, and Economics (PPE) from Warwick University, and a MSc in Politics Research (with distinction) from the University of Oxford (St. Cross College).
 
 You can find my CV [here](./files/CV_redacted.pdf).
 
