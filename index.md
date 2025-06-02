@@ -2,7 +2,7 @@
 layout: default
 ---
 
-I hold a PhD in [Political Science](https://politicalscience.stanford.edu/academics/graduate-program) from Stanford University. My research sits at the intersection of political economy and comparative politics and studies how elections shape representation. In particular, I examine how electoral rules and institutions affect political careers, party organization and voter behaviour. To study these questions, I apply and extend computational and causal inference methods to newly collected data on elections and local governments across Europe.
+I hold a PhD in [Political Science](https://politicalscience.stanford.edu/academics/graduate-program) from Stanford University. My research and work use modern causal inference, algorithmic and data science solutions to study questions about human behaviour. In my data science roles, I solve business problems around human behaviour and engagement in marketplaces and recommendation systems; my academic research applies and extends quantitative methodology to questions in political economy. 
 
 I currently work as a Senior Data Scientist at Netflix, where I use state-of-the-art causal inference and statistical methods to support business decisions, consumer insights, product rollouts and improve consumer experiences. Previously, I worked as a Senior Data Scientist at Deliveroo and Applied Scientist PhD Intern at Uber. All views and opinions expressed on this website are my own.
 
