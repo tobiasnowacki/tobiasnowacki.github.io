@@ -18,11 +18,15 @@ You can find my CV [here](./files/CV_redacted.pdf).
 
 1. [The Gender Gap in Political Careers Under Proportional Representation.](https://tobiasnowacki.github.io/files/pr_gendergap_jmp.pdf) <br/>
     <span style="font-size:10.5px">
-    *Conditionally Accepted, Journal of Politics*.  [[code + data]](https://github.com/tobiasnowacki/pr-gendergap-jop) </span>
+    *Forthcoming, Journal of Politics*.  [[code + data]](https://github.com/tobiasnowacki/pr-gendergap-jop) </span>
+
+7. [Are Dead People Voting By Mail? Evidence From Washington State Administrative Records.](https://tobiasnowacki.github.io/files/dead_voting.pdf) <br/>
+    <span style="font-size:10.5px"> with Jennifer A. Wu, Chenoa Yorgason, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, and Andrew B. Hall. <br /> 
+    *Forthcoming, Election Law Journal*.</span>
 
 2. [Susceptibility to Strategic Voting: A Comparison of Plurality and Instant-Runoff Elections.](https://tobiasnowacki.github.io/files/strategicvoting.pdf) <br/>
     <span style="font-size:10.5px"> with Andy Eggers. <br />
-    *Forthcoming, Journal of Politics*.  [[code + data]](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/HR14IN)</span>
+    *2024, Journal of Politics 86(2)*.  [[code + data]](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/HR14IN)</span>
 
 3. [The Emergence of Party-Based Political Careers in the UK, 1801-1918](https://tobiasnowacki.github.io/files/careers.pdf)  <br />
     <span style="font-size:10.5px"> with Gary Cox. <br />
@@ -30,7 +34,7 @@ You can find my CV [here](./files/CV_redacted.pdf).
 
 4. [How Did Absentee Voting Affect the 2020 U.S. Election?](https://www.science.org/doi/10.1126/sciadv.abk1755) <br/>
     <span style="font-size:10.5px"> with Jesse Yoder, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, Jennifer A. Wu, Chenoa Yorgason, and Andrew B. Hall. <br />
-    *2021, Science Advances 7(52)*. [[code + data]](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/YG4R14) </span>
+    *2021, Science Advances 7(52)*. [[code + data]](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/YG4R14) [WSJ coverage](https://www.wsj.com/politics/policy/mail-ballots-not-a-clear-boost-for-turnout-or-biden-11614940202)</span>
 
 
 ### Working Papers
@@ -43,8 +47,7 @@ You can find my CV [here](./files/CV_redacted.pdf).
 6. [Effect Heterogeneity and Causal Attribution in Regression Discontinuity Designs: Introducing the Moderation-in-Discontinuities Framework](https://osf.io/preprints/socarxiv/vj34m/) <br />
     <span style="font-size:10.5px"> with Kirk Bansak. [old WP version](https://tobiasnowacki.github.io/files/rdd_diff.pdf) <br /> </span>
 
-7. [Are Dead People Voting By Mail? Evidence From Washington State Administrative Records.](https://tobiasnowacki.github.io/files/dead_voting.pdf) <br/>
-    <span style="font-size:10.5px"> with Jennifer A. Wu, Chenoa Yorgason, Cassandra Handan-Nader, Andrew Myers, Daniel M. Thompson, and Andrew B. Hall. </span>
+
 
 
 ### In Progress
